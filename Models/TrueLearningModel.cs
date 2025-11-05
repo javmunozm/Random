@@ -27,31 +27,25 @@ namespace DataProcessor.Models
     }
 
     /// <summary>
-    /// TrueLearningModel - Phase 2.1 CONSERVATIVE (2025-11-05)
+    /// TrueLearningModel - Phase 1 RESTORED (2025-11-05)
     ///
     /// The ONLY active machine learning model in the system. All other models (LSTM, Ensemble,
     /// Adaptive, Superior, Dynamic, Evolutionary, etc.) are DEPRECATED per CLAUDE.md.
     ///
-    /// Phase 1 Features (2025-10-03):
+    /// Phase 1 Features (PROVEN 71.4% BASELINE):
     /// - Multi-event learning (analyzes ALL 7 events per series)
     /// - Importance-weighted learning (1.15x to 1.40x boosts)
     /// - Pair affinity tracking (learns number co-occurrences)
     /// - Critical number boosting (5+ event appearances)
     /// - Enhanced candidate pool (10000 candidates)
+    /// - Always learns (no accuracy threshold)
     ///
-    /// Phase 2.1 Features (2025-11-05) - Conservative Adjustments:
-    /// - Temporal decay weighting (recent 20: 1.5x, recent 50: 1.2x) - SOFTENED from 2.0x/1.5x
-    /// - Trend detection (rising: 1.15x, falling: 0.85x) - SOFTENED from 1.3x/0.7x
-    /// - Widened sum range (165-210) - WIDENED from 170-200
-    /// - Gap preference (bonus only, no penalties) - REMOVED harsh penalties
-    /// - Even/odd balancing (5-9 range, reduced bonus) - WIDENED from 6-8
-    /// - Enhanced pair/triplet multipliers (based on 33.5% co-occurrence data)
-    /// - Critical number early detection (3x boost for 3+ in first 4 events)
-    ///
-    /// Phase 2 Regression Fix:
-    /// - Phase 2.0 showed -4.4% regression (66.96% vs 71.4%)
-    /// - Phase 2.1 softens aggressive parameters to recover performance
-    /// - Target: Match or exceed Phase 1 baseline (71.4%)
+    /// Phase 2 Analysis (2025-11-05):
+    /// - Phase 2.0: 66.96% (-4.4% regression)
+    /// - Phase 2.1: 64.29% (-7.1% regression, worse than 2.0)
+    /// - Root cause: Multiplicative interference, trend noise, ineffective flat bonuses
+    /// - Solution: Full revert to Phase 1 proven baseline
+    /// - See: PHASE2_ROOT_CAUSE_ANALYSIS.md for detailed analysis
     /// </summary>
     public class TrueLearningModel
     {
@@ -98,31 +92,6 @@ namespace DataProcessor.Models
         private const double PATTERN_WEIGHT_DISTRIBUTION = 0.2;
         private const double PATTERN_WEIGHT_HIGH_NUMBERS = 0.2;
 
-        // PHASE 2.1: Softened sum range (165-210 from 170-200, was too narrow)
-        private const int SUM_RANGE_MIN = 165;  // Widened from 170 (-5)
-        private const int SUM_RANGE_MAX = 210;  // Widened from 200 (+10)
-        private const int SUM_RANGE_OPTIMAL_MIN = 175; // Shifted from 180
-        private const int SUM_RANGE_OPTIMAL_MAX = 195; // Shifted from 189
-
-        // PHASE 2.1: Softened temporal decay (1.5x/1.2x from 2.0x/1.5x, was too aggressive)
-        private const double TEMPORAL_WEIGHT_RECENT_20 = 1.5;   // Reduced from 2.0x
-        private const double TEMPORAL_WEIGHT_RECENT_50 = 1.2;   // Reduced from 1.5x
-        private const double TEMPORAL_WEIGHT_BASE = 1.0;
-
-        // PHASE 2.1: Softened trend detection (1.15x/0.85x from 1.3x/0.7x, was too aggressive)
-        private const double TREND_UP_MULTIPLIER = 1.15;        // Reduced from 1.3x
-        private const double TREND_DOWN_MULTIPLIER = 0.85;      // Softened from 0.7x
-        private const int TREND_ANALYSIS_WINDOW = 20;
-
-        // PHASE 2.1: Softened gap preference (bonus only, removed penalty)
-        private const double GAP_1_BONUS = 1.0;                 // Reduced from 2.0
-        private const double GAP_2_BONUS = 0.5;                 // Reduced from 1.0
-        private const double GAP_4_PLUS_PENALTY = 0.0;          // REMOVED penalty (was 0.5)
-
-        // PHASE 2.1: Widened even/odd range (5-9 from 6-8, reduced bonus)
-        private const int EVEN_COUNT_TARGET_MIN = 5;            // Widened from 6
-        private const int EVEN_COUNT_TARGET_MAX = 9;            // Widened from 8
-        private const double EVEN_BALANCE_BONUS = 2.0;          // Reduced from 5.0
 
         private readonly LearningWeights weights;
         private readonly List<SeriesPattern> trainingData;
@@ -148,11 +117,6 @@ namespace DataProcessor.Models
         private HashSet<int> hybridColdNumbers = new();
         private HashSet<int> hybridHotNumbers = new();
         private Dictionary<int, int> recentFrequencyMap = new();
-
-        // PHASE 2: Trend detection - track number trends (rising/falling)
-        private Dictionary<int, double> numberTrends = new();          // +1.0 = rising, -1.0 = falling
-        private Dictionary<int, int> oldFrequencyMap = new();          // Frequency in older series
-        private Dictionary<int, int> recentTrendFrequencyMap = new(); // Frequency in recent series
 
         public TrueLearningModel()
         {
@@ -209,96 +173,6 @@ namespace DataProcessor.Models
                 {
                     if (!recentFrequencyMap.ContainsKey(i))
                         recentFrequencyMap[i] = 0;
-                }
-            }
-
-            // PHASE 2: Trend detection - compare recent vs old frequency patterns
-            if (trainingData.Count >= TREND_ANALYSIS_WINDOW * 2)
-            {
-                recentTrendFrequencyMap.Clear();
-                oldFrequencyMap.Clear();
-                numberTrends.Clear();
-
-                var sortedData = trainingData.OrderByDescending(s => s.SeriesId).ToList();
-                var recentWindow = sortedData.Take(TREND_ANALYSIS_WINDOW);
-                var oldWindow = sortedData.Skip(TREND_ANALYSIS_WINDOW).Take(TREND_ANALYSIS_WINDOW);
-
-                // Count frequencies in each window
-                foreach (var series in recentWindow)
-                {
-                    foreach (var combo in series.Combinations)
-                    {
-                        foreach (var num in combo)
-                        {
-                            recentTrendFrequencyMap[num] = recentTrendFrequencyMap.GetValueOrDefault(num) + 1;
-                        }
-                    }
-                }
-
-                foreach (var series in oldWindow)
-                {
-                    foreach (var combo in series.Combinations)
-                    {
-                        foreach (var num in combo)
-                        {
-                            oldFrequencyMap[num] = oldFrequencyMap.GetValueOrDefault(num) + 1;
-                        }
-                    }
-                }
-
-                // Calculate trends (positive = rising, negative = falling)
-                for (int i = MIN_NUMBER; i <= MAX_NUMBER; i++)
-                {
-                    var recentFreq = recentTrendFrequencyMap.GetValueOrDefault(i);
-                    var oldFreq = oldFrequencyMap.GetValueOrDefault(i);
-                    var diff = recentFreq - oldFreq;
-
-                    // Significant trend detection (threshold: 5+ difference)
-                    if (diff >= 5)
-                        numberTrends[i] = 1.0; // Rising
-                    else if (diff <= -5)
-                        numberTrends[i] = -1.0; // Falling
-                    else
-                        numberTrends[i] = 0.0; // Stable
-                }
-            }
-
-            // PHASE 2: Enhanced temporal decay weighting
-            temporalWeights.Clear();
-            if (trainingData.Count >= 20)
-            {
-                var sortedData = trainingData.OrderByDescending(s => s.SeriesId).ToList();
-
-                for (int i = MIN_NUMBER; i <= MAX_NUMBER; i++)
-                {
-                    double weight = TEMPORAL_WEIGHT_BASE;
-                    int count = 0;
-
-                    // Recent 20 series get 2.0x weight
-                    foreach (var series in sortedData.Take(20))
-                    {
-                        if (series.Combinations.Any(c => c.Contains(i)))
-                        {
-                            weight += (TEMPORAL_WEIGHT_RECENT_20 - TEMPORAL_WEIGHT_BASE);
-                            count++;
-                            break;
-                        }
-                    }
-
-                    // Next 30 series get 1.5x weight
-                    if (count == 0 && sortedData.Count >= 50)
-                    {
-                        foreach (var series in sortedData.Skip(20).Take(30))
-                        {
-                            if (series.Combinations.Any(c => c.Contains(i)))
-                            {
-                                weight += (TEMPORAL_WEIGHT_RECENT_50 - TEMPORAL_WEIGHT_BASE);
-                                break;
-                            }
-                        }
-                    }
-
-                    temporalWeights[i] = weight;
                 }
             }
 
@@ -561,15 +435,6 @@ namespace DataProcessor.Models
                     if (temporalWeights.ContainsKey(i))
                         weight *= temporalWeights[i];
 
-                    // PHASE 2: Apply trend multipliers (boost rising, penalize falling)
-                    if (numberTrends.ContainsKey(i))
-                    {
-                        if (numberTrends[i] > 0)
-                            weight *= TREND_UP_MULTIPLIER; // Rising trend
-                        else if (numberTrends[i] < 0)
-                            weight *= TREND_DOWN_MULTIPLIER; // Falling trend
-                    }
-
                     totalWeight += weight;
                 }
             }
@@ -595,15 +460,6 @@ namespace DataProcessor.Models
 
                     if (temporalWeights.ContainsKey(i))
                         weight *= temporalWeights[i];
-
-                    // PHASE 2: Apply trend multipliers
-                    if (numberTrends.ContainsKey(i))
-                    {
-                        if (numberTrends[i] > 0)
-                            weight *= TREND_UP_MULTIPLIER;
-                        else if (numberTrends[i] < 0)
-                            weight *= TREND_DOWN_MULTIPLIER;
-                    }
 
                     currentWeight += weight;
                     if (currentWeight >= randomValue)
@@ -633,41 +489,11 @@ namespace DataProcessor.Models
 
             score += consecutiveCount * weights.PatternWeights["consecutive"];
 
-            // PHASE 2: Optimized sum range scoring (170-200 from data analysis)
-            if (sum >= SUM_RANGE_MIN && sum <= SUM_RANGE_MAX)
-            {
+            // Sum range scoring (Phase 1 original)
+            if (sum >= 160 && sum <= 240)
                 score += weights.PatternWeights["sum_range"];
 
-                // Extra bonus for optimal range 180-189 (23.1% of events)
-                if (sum >= SUM_RANGE_OPTIMAL_MIN && sum <= SUM_RANGE_OPTIMAL_MAX)
-                    score += weights.PatternWeights["sum_range"] * 0.5; // 50% bonus
-            }
-
             score += distribution * weights.PatternWeights["distribution"];
-
-            // PHASE 2: Gap preference scoring (favor consecutive numbers)
-            var gaps = new List<int>();
-            for (int i = 0; i < combination.Count - 1; i++)
-            {
-                gaps.Add(combination[i + 1] - combination[i]);
-            }
-
-            double gapScore = 0.0;
-            foreach (var gap in gaps)
-            {
-                if (gap == 1)
-                    gapScore += GAP_1_BONUS; // 55% of gaps are 1
-                else if (gap == 2)
-                    gapScore += GAP_2_BONUS; // 26% of gaps are 2
-                else if (gap >= 4)
-                    gapScore -= GAP_4_PLUS_PENALTY; // Large gaps are rare
-            }
-            score += gapScore;
-
-            // PHASE 2: Even/odd balancing (target 6-8 even numbers)
-            var evenCount = combination.Count(n => n % 2 == 0);
-            if (evenCount >= EVEN_COUNT_TARGET_MIN && evenCount <= EVEN_COUNT_TARGET_MAX)
-                score += EVEN_BALANCE_BONUS; // 74% of events have 6-8 even numbers
 
             // Balanced range scoring
             var lowNumberCount = combination.Count(n => n <= 10);
