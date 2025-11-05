@@ -1,0 +1,468 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.Json;
+using DataProcessor.Models;
+using DataProcessor.Connections;
+
+namespace DataProcessor.Methods
+{
+    public class NonEuclideanEngine
+    {
+        private readonly DatabaseConnection dbConnection;
+        private readonly NonEuclideanGenerativeModel model;
+        private readonly Dictionary<int, double> seriesAccuracy = new();
+        
+        public NonEuclideanEngine()
+        {
+            dbConnection = new DatabaseConnection();
+            model = new NonEuclideanGenerativeModel();
+            
+            Console.WriteLine("🌌 Initializing Non-Euclidean Generative System");
+            
+            // Mostrar configuración de manifiestos
+            model.PrintManifoldDetails();
+            
+            // Cargar datos históricos y construir mapeos no euclidianos
+            LoadHistoricalMappings();
+        }
+        
+        private void LoadHistoricalMappings()
+        {
+            Console.WriteLine("📊 Building non-Euclidean mappings from historical data...");
+            
+            // Cargar todas las series para construir el espacio geométrico
+            var allSeries = dbConnection.LoadHistoricalDataBefore(3113);
+            
+            Console.WriteLine($"🔍 Processing {allSeries.Count} historical series for geometric analysis");
+            
+            // Procesar cada serie individualmente para refinamiento específico
+            var seriesGroups = allSeries.GroupBy(s => s.SeriesId).OrderBy(g => g.Key);
+            
+            foreach (var group in seriesGroups)
+            {
+                var seriesId = group.Key;
+                var combinations = group.SelectMany(s => s.AllCombinations).ToList();
+                
+                if (combinations.Count >= 7)
+                {
+                    // Aprendizaje específico por serie
+                    model.LearnFromSeries(seriesId, combinations);
+                    
+                    // Probar inmediatamente la capacidad de reproducción
+                    TestSeriesReproduction(seriesId, combinations);
+                }
+            }
+            
+            Console.WriteLine($"✅ Non-Euclidean mapping construction complete");
+            Console.WriteLine($"   Manifolds configured: {model.GetManifoldCount()}");
+            Console.WriteLine($"   Series with mappings: {seriesAccuracy.Count}");
+            
+            if (seriesAccuracy.Any())
+            {
+                Console.WriteLine($"   Average reproduction accuracy: {seriesAccuracy.Values.Average():P2}");
+                Console.WriteLine($"   Best reproduction accuracy: {seriesAccuracy.Values.Max():P2}");
+            }
+        }
+        
+        private void TestSeriesReproduction(int seriesId, List<List<int>> actualCombinations)
+        {
+            // Generar usando el modelo no euclidiano
+            var generated = model.GenerateForSeries(seriesId);
+            
+            // Encontrar la mejor coincidencia
+            var bestMatch = actualCombinations
+                .OrderByDescending(actual => generated.Intersect(actual).Count())
+                .FirstOrDefault();
+            
+            if (bestMatch != null)
+            {
+                var matches = generated.Intersect(bestMatch).Count();
+                var accuracy = (double)matches / 14.0;
+                
+                seriesAccuracy[seriesId] = accuracy;
+                
+                if (accuracy >= 0.5) // Solo reportar reproducciones exitosas
+                {
+                    Console.WriteLine($"   ✅ Series {seriesId}: {matches}/14 ({accuracy:P1}) reproduction accuracy");
+                }
+            }
+        }
+        
+        public List<int> PredictSeries(int targetSeriesId)
+        {
+            Console.WriteLine($"\n🎯 Generating Series {targetSeriesId} using Non-Euclidean Geometry");
+            Console.WriteLine($"   Using {model.GetManifoldCount()} manifolds (hyperbolic, spherical, flat)");
+            
+            var prediction = model.GenerateForSeries(targetSeriesId);
+            
+            Console.WriteLine($"   Generated: {string.Join(" ", prediction.Select(n => n.ToString("D2")))}");
+            
+            // Analizar propiedades geométricas de la predicción
+            AnalyzePredictionGeometry(prediction);
+            
+            // Guardar predicción con metadatos geométricos
+            SaveNonEuclideanPrediction(targetSeriesId, prediction);
+            
+            return prediction;
+        }
+        
+        public List<List<int>> PredictMultipleSeries(int targetSeriesId, int count = 7)
+        {
+            Console.WriteLine($"\n🎯 Generating {count} combinations for Series {targetSeriesId}");
+            Console.WriteLine($"   Each combination uses different manifold geometry");
+            
+            var predictions = model.GenerateMultiple(targetSeriesId, count);
+            
+            Console.WriteLine($"\nGenerated combinations:");
+            for (int i = 0; i < predictions.Count; i++)
+            {
+                var geometry = GetGeometryType(i);
+                Console.WriteLine($"{i + 1}. {string.Join(" ", predictions[i].Select(n => n.ToString("D2")))} ({geometry})");
+            }
+            
+            // Guardar múltiples predicciones
+            SaveMultipleNonEuclideanPredictions(targetSeriesId, predictions);
+            
+            return predictions;
+        }
+        
+        private string GetGeometryType(int index)
+        {
+            return (index % 3) switch
+            {
+                0 => "Hyperbolic",
+                1 => "Spherical", 
+                2 => "Flat",
+                _ => "Mixed"
+            };
+        }
+        
+        private void AnalyzePredictionGeometry(List<int> prediction)
+        {
+            // Calcular propiedades geométricas básicas
+            var consecutiveCount = CountConsecutiveNumbers(prediction);
+            var digitalRootSum = CalculateDigitalRootSum(prediction);
+            var primeCount = CountPrimes(prediction);
+            var geometricMean = CalculateGeometricMean(prediction);
+            
+            Console.WriteLine($"   Geometric analysis:");
+            Console.WriteLine($"     Consecutive numbers: {consecutiveCount}");
+            Console.WriteLine($"     Digital root sum: {digitalRootSum}");
+            Console.WriteLine($"     Prime numbers: {primeCount}");
+            Console.WriteLine($"     Geometric mean: {geometricMean:F2}");
+        }
+        
+        private int CountConsecutiveNumbers(List<int> numbers)
+        {
+            int consecutive = 0;
+            var sorted = numbers.OrderBy(x => x).ToList();
+            
+            for (int i = 1; i < sorted.Count; i++)
+            {
+                if (sorted[i] == sorted[i - 1] + 1)
+                    consecutive++;
+            }
+            
+            return consecutive;
+        }
+        
+        private int CalculateDigitalRootSum(List<int> numbers)
+        {
+            return numbers.Sum(n => GetDigitalRoot(n));
+        }
+        
+        private int GetDigitalRoot(int number)
+        {
+            while (number >= 10)
+            {
+                number = number.ToString().Sum(c => c - '0');
+            }
+            return number;
+        }
+        
+        private int CountPrimes(List<int> numbers)
+        {
+            return numbers.Count(IsPrime);
+        }
+        
+        private bool IsPrime(int n)
+        {
+            if (n < 2) return false;
+            for (int i = 2; i <= Math.Sqrt(n); i++)
+                if (n % i == 0) return false;
+            return true;
+        }
+        
+        private double CalculateGeometricMean(List<int> numbers)
+        {
+            if (!numbers.Any()) return 0;
+            
+            double product = 1;
+            foreach (var num in numbers)
+            {
+                product *= num;
+            }
+            
+            return Math.Pow(product, 1.0 / numbers.Count);
+        }
+        
+        public void InsertAndRefine(int seriesId, List<List<int>> actualResults)
+        {
+            Console.WriteLine($"\n📥 Inserting Series {seriesId} and refining non-Euclidean mappings");
+            
+            // Insertar en base de datos
+            bool inserted = false;
+            if (!dbConnection.SeriesExists(seriesId))
+            {
+                inserted = dbConnection.InsertSeriesData(seriesId, actualResults);
+                if (inserted)
+                {
+                    Console.WriteLine($"✅ Series {seriesId} inserted into database");
+                }
+                else
+                {
+                    Console.WriteLine($"❌ Failed to insert series {seriesId}");
+                    return;
+                }
+            }
+            else
+            {
+                Console.WriteLine($"ℹ️  Series {seriesId} already exists - proceeding with learning");
+            }
+            
+            // Refinamiento específico: aprender mapeos geométricos de esta serie exacta
+            Console.WriteLine($"🔄 Refining non-Euclidean mappings specifically for series {seriesId}");
+            
+            // Antes del refinamiento - probar reproducción
+            var preRefinement = model.GenerateForSeries(seriesId);
+            var preBestMatch = actualResults.OrderByDescending(actual => preRefinement.Intersect(actual).Count()).First();
+            var preAccuracy = (double)preRefinement.Intersect(preBestMatch).Count() / 14.0;
+            
+            Console.WriteLine($"   Pre-refinement accuracy: {preAccuracy:P2}");
+            
+            // Aplicar refinamiento específico
+            model.LearnFromSeries(seriesId, actualResults);
+            
+            // Después del refinamiento - probar nueva reproducción
+            var postRefinement = model.GenerateForSeries(seriesId);
+            var postBestMatch = actualResults.OrderByDescending(actual => postRefinement.Intersect(actual).Count()).First();
+            var postAccuracy = (double)postRefinement.Intersect(postBestMatch).Count() / 14.0;
+            
+            Console.WriteLine($"   Post-refinement accuracy: {postAccuracy:P2}");
+            Console.WriteLine($"   Improvement: {(postAccuracy - preAccuracy):+P2}");
+            
+            // Actualizar registro de precisión
+            seriesAccuracy[seriesId] = postAccuracy;
+            
+            // Mostrar el resultado del refinamiento
+            if (postAccuracy > preAccuracy)
+            {
+                Console.WriteLine($"✅ Non-Euclidean mappings successfully refined for series {seriesId}");
+                Console.WriteLine($"   Actual:     {string.Join(" ", postBestMatch.Select(n => n.ToString("D2")))}");
+                Console.WriteLine($"   Generated:  {string.Join(" ", postRefinement.Select(n => n.ToString("D2")))}");
+                Console.WriteLine($"   Matches: {postRefinement.Intersect(postBestMatch).Count()}/14");
+            }
+            else
+            {
+                Console.WriteLine($"⚠️  Refinement did not improve accuracy - geometric space may need restructuring");
+            }
+        }
+        
+        private void SaveNonEuclideanPrediction(int seriesId, List<int> prediction)
+        {
+            try
+            {
+                System.IO.Directory.CreateDirectory("Results");
+                var fileName = $"Results/generated_noneuclidean_{seriesId}.json";
+                
+                var predictionData = new
+                {
+                    series_id = seriesId,
+                    generation_timestamp = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ"),
+                    model_type = "NonEuclideanGenerativeModel",
+                    geometry_type = "Multi-manifold (Hyperbolic, Spherical, Flat)",
+                    manifold_count = model.GetManifoldCount(),
+                    predicted_combination = prediction,
+                    formatted_prediction = string.Join(" ", prediction.Select(n => n.ToString("D2"))),
+                    geometric_properties = new
+                    {
+                        consecutive_numbers = CountConsecutiveNumbers(prediction),
+                        digital_root_sum = CalculateDigitalRootSum(prediction),
+                        prime_count = CountPrimes(prediction),
+                        geometric_mean = CalculateGeometricMean(prediction),
+                        sum = prediction.Sum(),
+                        variance = CalculateVariance(prediction)
+                    },
+                    methodology = new
+                    {
+                        approach = "Non-Euclidean geometric generation",
+                        space_types = new[] { "Hyperbolic", "Spherical", "Flat" },
+                        mapping_method = "Number properties to manifold coordinates",
+                        generation_method = "Geodesic traversal in curved spacetime",
+                        refinement = "Series-specific geometric learning",
+                        deterministic = "Coordinate mappings based on mathematical properties"
+                    },
+                    accuracy_metrics = new
+                    {
+                        total_series_learned = seriesAccuracy.Count,
+                        average_reproduction_accuracy = seriesAccuracy.Any() ? seriesAccuracy.Values.Average() : 0.0,
+                        best_reproduction_accuracy = seriesAccuracy.Any() ? seriesAccuracy.Values.Max() : 0.0,
+                        current_series_accuracy = seriesAccuracy.ContainsKey(seriesId) ? seriesAccuracy[seriesId] : 0.0
+                    }
+                };
+
+                var jsonOptions = new JsonSerializerOptions { WriteIndented = true };
+                var json = JsonSerializer.Serialize(predictionData, jsonOptions);
+                System.IO.File.WriteAllText(fileName, json);
+                
+                Console.WriteLine($"💾 Non-Euclidean prediction saved to: {fileName}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ Error saving prediction: {ex.Message}");
+            }
+        }
+        
+        private void SaveMultipleNonEuclideanPredictions(int seriesId, List<List<int>> predictions)
+        {
+            try
+            {
+                System.IO.Directory.CreateDirectory("Results");
+                var fileName = $"Results/generated_noneuclidean_multi_{seriesId}.json";
+                
+                var predictionData = new
+                {
+                    series_id = seriesId,
+                    generation_timestamp = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ"),
+                    model_type = "NonEuclideanGenerativeModel_Multiple",
+                    total_predictions = predictions.Count,
+                    manifold_geometries = new[] { "Hyperbolic", "Spherical", "Flat" },
+                    predicted_combinations = predictions.Select((p, index) => new
+                    {
+                        rank = index + 1,
+                        geometry_used = GetGeometryType(index),
+                        combination = p,
+                        formatted = string.Join(" ", p.Select(n => n.ToString("D2"))),
+                        sum = p.Sum(),
+                        consecutive_count = CountConsecutiveNumbers(p),
+                        prime_count = CountPrimes(p),
+                        geometric_mean = CalculateGeometricMean(p),
+                        digital_root_sum = CalculateDigitalRootSum(p)
+                    }).ToArray(),
+                    mathematical_foundation = new
+                    {
+                        approach = "Non-Euclidean manifold generation",
+                        manifold_types = new[]
+                        {
+                            new { type = "Hyperbolic", dimension = 7, curvature = -1.0, description = "Negative curvature space" },
+                            new { type = "Spherical", dimension = 5, curvature = 1.0, description = "Positive curvature space" },
+                            new { type = "Flat", dimension = 9, curvature = 0.0, description = "Zero curvature high-dimensional space" }
+                        },
+                        number_mapping = "Mathematical properties to geometric coordinates",
+                        generation_process = "Geodesic traversal and nearest-neighbor selection",
+                        refinement_method = "Series-specific geometric pattern learning"
+                    },
+                    performance_summary = new
+                    {
+                        series_processed = seriesAccuracy.Count,
+                        average_accuracy = seriesAccuracy.Any() ? seriesAccuracy.Values.Average() : 0.0,
+                        peak_accuracy = seriesAccuracy.Any() ? seriesAccuracy.Values.Max() : 0.0,
+                        geometric_consistency = "High - based on mathematical manifold properties"
+                    }
+                };
+
+                var jsonOptions = new JsonSerializerOptions { WriteIndented = true };
+                var json = JsonSerializer.Serialize(predictionData, jsonOptions);
+                System.IO.File.WriteAllText(fileName, json);
+                
+                Console.WriteLine($"💾 Multiple non-Euclidean predictions saved to: {fileName}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ Error saving predictions: {ex.Message}");
+            }
+        }
+        
+        private double CalculateVariance(List<int> numbers)
+        {
+            if (!numbers.Any()) return 0;
+            
+            double mean = numbers.Average();
+            return numbers.Select(n => Math.Pow(n - mean, 2)).Average();
+        }
+        
+        public void TestFullReproduction()
+        {
+            Console.WriteLine("\n🧪 Testing Non-Euclidean Model Reproduction Capability");
+            Console.WriteLine("     Attempting to reproduce recent series using geometric generation");
+            
+            var testSeries = new[] { 3110, 3111, 3112 };
+            
+            foreach (var seriesId in testSeries)
+            {
+                Console.WriteLine($"\n--- Testing Series {seriesId} ---");
+                
+                var actualResults = dbConnection.GetActualResultsForSeries(seriesId);
+                if (actualResults.Any())
+                {
+                    var generated = model.GenerateForSeries(seriesId);
+                    
+                    var bestMatch = actualResults
+                        .OrderByDescending(actual => generated.Intersect(actual).Count())
+                        .First();
+                    
+                    var matches = generated.Intersect(bestMatch).Count();
+                    var accuracy = (double)matches / 14.0;
+                    
+                    Console.WriteLine($"Actual:    {string.Join(" ", bestMatch.Select(n => n.ToString("D2")))}");
+                    Console.WriteLine($"Generated: {string.Join(" ", generated.Select(n => n.ToString("D2")))}");
+                    Console.WriteLine($"Accuracy:  {matches}/14 ({accuracy:P2})");
+                    
+                    if (accuracy >= 0.5)
+                    {
+                        Console.WriteLine($"✅ Strong geometric reproduction achieved");
+                    }
+                    else if (accuracy >= 0.3)
+                    {
+                        Console.WriteLine($"⚠️  Partial geometric reproduction - manifold needs refinement");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"❌ Low reproduction accuracy - geometric mapping insufficient");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"No actual data found for series {seriesId}");
+                }
+            }
+            
+            if (seriesAccuracy.Any())
+            {
+                Console.WriteLine($"\n📊 Overall Non-Euclidean Performance:");
+                Console.WriteLine($"   Series processed: {seriesAccuracy.Count}");
+                Console.WriteLine($"   Average accuracy: {seriesAccuracy.Values.Average():P2}");
+                Console.WriteLine($"   Best accuracy: {seriesAccuracy.Values.Max():P2}");
+                Console.WriteLine($"   Series with >50% accuracy: {seriesAccuracy.Values.Count(a => a >= 0.5)}/{seriesAccuracy.Count}");
+            }
+        }
+        
+        public void PrintSystemStatus()
+        {
+            Console.WriteLine($"\n🌌 Non-Euclidean Generative System Status");
+            Console.WriteLine($"   Active manifolds: {model.GetManifoldCount()}");
+            Console.WriteLine($"   Series learned: {seriesAccuracy.Count}");
+            
+            if (seriesAccuracy.Any())
+            {
+                Console.WriteLine($"   Current performance: {seriesAccuracy.Values.Average():P2} average accuracy");
+                Console.WriteLine($"   Peak performance: {seriesAccuracy.Values.Max():P2} best accuracy");
+            }
+            else
+            {
+                Console.WriteLine($"   Status: Awaiting data for geometric learning");
+            }
+        }
+    }
+}

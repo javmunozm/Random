@@ -1,0 +1,87 @@
+{
+  "series_id": 3120,
+  "generation_timestamp": "2025-09-10T19:15:37Z",
+  "model_type": "Optimized Ensemble V2 (LSTM \u002B Statistical)",
+  "best_prediction": {
+    "numbers": [
+      2,
+      3,
+      5,
+      9,
+      10,
+      12,
+      17,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25
+    ],
+    "formatted": "02 03 05 09 10 12 17 19 20 21 22 23 24 25",
+    "score": 0.9500000000000001,
+    "feature_scores": {
+      "consecutive": 8,
+      "sum": 212,
+      "variance": 61.265306122448976,
+      "spread": 23,
+      "median": 18,
+      "distribution_balance": 0.6666666666666666
+    }
+  },
+  "ensemble_details": {
+    "total_models": 13,
+    "lstm_configurations": 4,
+    "statistical_models": 3,
+    "total_predictions_evaluated": 13
+  },
+  "all_predictions": [
+    {
+      "numbers": "02 03 05 09 10 12 17 19 20 21 22 23 24 25",
+      "score": 0.9500000000000001
+    },
+    {
+      "numbers": "02 03 05 09 10 12 17 19 20 21 22 23 24 25",
+      "score": 0.9500000000000001
+    },
+    {
+      "numbers": "02 03 05 09 10 12 17 19 20 21 22 23 24 25",
+      "score": 0.9500000000000001
+    },
+    {
+      "numbers": "02 03 04 06 08 09 10 11 13 16 17 21 22 25",
+      "score": 0.8952609819488887
+    },
+    {
+      "numbers": "01 02 03 05 06 08 12 13 14 17 19 22 24 25",
+      "score": 0.8098986177113872
+    },
+    {
+      "numbers": "01 03 04 05 08 09 14 17 20 21 22 23 24 25",
+      "score": 0.8
+    },
+    {
+      "numbers": "01 03 04 05 08 09 14 17 20 21 22 23 24 25",
+      "score": 0.8
+    },
+    {
+      "numbers": "01 03 04 05 08 09 14 17 20 21 22 23 24 25",
+      "score": 0.8
+    },
+    {
+      "numbers": "02 06 07 10 13 14 16 17 20 21 22 23 24 25",
+      "score": 0.7500000000000001
+    },
+    {
+      "numbers": "02 06 07 10 13 14 16 17 20 21 22 23 24 25",
+      "score": 0.7500000000000001
+    }
+  ],
+  "performance_improvements": {
+    "multiple_lstm_configs": "4 different LSTM architectures tested",
+    "statistical_ensemble": "3 TrueLearning models with top predictions",
+    "advanced_scoring": "Multi-criteria evaluation system",
+    "feature_engineering": "Enhanced pattern recognition"
+  }
+}

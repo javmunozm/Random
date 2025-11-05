@@ -1,0 +1,35 @@
+{
+  "series_id": 3113,
+  "generation_timestamp": "2025-08-23T00:20:14Z",
+  "model_type": "GenerativeFunctionModel",
+  "functions_count": 143,
+  "best_accuracy": 0.8571428571428571,
+  "predicted_combination": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    23,
+    24,
+    25
+  ],
+  "formatted_prediction": "01 02 03 04 05 06 07 08 09 10 11 23 24 25",
+  "methodology": {
+    "approach": "Mathematical generative functions of order N",
+    "description": "Uses polynomial equations to generate exact number sequences",
+    "learning_type": "Function coefficient optimization with gradient descent",
+    "deterministic": "Functions are derived from historical data patterns"
+  },
+  "function_details": {
+    "total_functions": 143,
+    "max_accuracy": 0.8571428571428571,
+    "learning_source": "Historical series data with coefficient optimization"
+  }
+}

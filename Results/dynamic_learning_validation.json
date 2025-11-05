@@ -1,0 +1,106 @@
+{
+  "validation_timestamp": "2025-09-24 13:21:57",
+  "model_type": "Dynamic Learning Model (No Hard-coding)",
+  "training_method": "Gradient-based loss minimization",
+  "series_tested": 4,
+  "overall_avg_accuracy": 56.88775510204081,
+  "overall_best_accuracy": 71.42857142857143,
+  "results": [
+    {
+      "series_id": 3120,
+      "prediction": [
+        1,
+        2,
+        3,
+        7,
+        8,
+        11,
+        15,
+        16,
+        19,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "best_match": 9,
+      "avg_match": 8.0,
+      "best_accuracy": 64.28571428571429,
+      "avg_accuracy": 57.14285714285714
+    },
+    {
+      "series_id": 3121,
+      "prediction": [
+        1,
+        2,
+        3,
+        7,
+        8,
+        11,
+        15,
+        16,
+        19,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "best_match": 9,
+      "avg_match": 7.142857142857143,
+      "best_accuracy": 64.28571428571429,
+      "avg_accuracy": 51.02040816326531
+    },
+    {
+      "series_id": 3124,
+      "prediction": [
+        1,
+        2,
+        3,
+        7,
+        8,
+        11,
+        15,
+        16,
+        19,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "best_match": 11,
+      "avg_match": 8.857142857142858,
+      "best_accuracy": 78.57142857142857,
+      "avg_accuracy": 63.26530612244898
+    },
+    {
+      "series_id": 3126,
+      "prediction": [
+        1,
+        2,
+        3,
+        7,
+        8,
+        11,
+        15,
+        16,
+        19,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "best_match": 11,
+      "avg_match": 7.857142857142857,
+      "best_accuracy": 78.57142857142857,
+      "avg_accuracy": 56.12244897959183
+    }
+  ],
+  "validation_points": {
+    "number_15_recovery": "4/4",
+    "number_2_consistency": "4/4"
+  }
+}

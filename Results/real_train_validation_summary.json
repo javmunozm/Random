@@ -1,0 +1,53 @@
+{
+  "validation_range": "3136-3143",
+  "validation_series_count": 8,
+  "overall_best_average": 0.7142857142857143,
+  "overall_average": 0.5739795918367346,
+  "series_results": [
+    {
+      "series_id": 3136,
+      "best_accuracy": 0.7142857142857143,
+      "avg_accuracy": 0.5306122448979591
+    },
+    {
+      "series_id": 3137,
+      "best_accuracy": 0.7142857142857143,
+      "avg_accuracy": 0.6326530612244897
+    },
+    {
+      "series_id": 3138,
+      "best_accuracy": 0.7142857142857143,
+      "avg_accuracy": 0.5714285714285714
+    },
+    {
+      "series_id": 3139,
+      "best_accuracy": 0.7142857142857143,
+      "avg_accuracy": 0.5918367346938774
+    },
+    {
+      "series_id": 3140,
+      "best_accuracy": 0.7142857142857143,
+      "avg_accuracy": 0.5510204081632653
+    },
+    {
+      "series_id": 3141,
+      "best_accuracy": 0.6428571428571429,
+      "avg_accuracy": 0.5306122448979591
+    },
+    {
+      "series_id": 3142,
+      "best_accuracy": 0.7142857142857143,
+      "avg_accuracy": 0.6122448979591837
+    },
+    {
+      "series_id": 3143,
+      "best_accuracy": 0.7857142857142857,
+      "avg_accuracy": 0.5714285714285714
+    }
+  ],
+  "improvement_analysis": {
+    "first_three_avg": 0.5782312925170067,
+    "last_three_avg": 0.5714285714285714,
+    "improvement": -0.006802721088435271
+  }
+}

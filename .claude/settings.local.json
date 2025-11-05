@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dotnet build:*)",
+      "Bash(dotnet run:*)",
+      "Bash(QuerySeries.exe)",
+      "Bash(tempGetSeries3118.exe)",
+      "Bash(dotnet add package:*)",
+      "Bash(dotnet clean:*)",
+      "Bash(csc:*)",
+      "Bash(python:*)",
+      "Bash(findstr:*)",
+      "Bash(cat:*)"
+    ],
+    "deny": [],
+    "ask": [],
+    "defaultMode": "acceptEdits"
+  }
+}

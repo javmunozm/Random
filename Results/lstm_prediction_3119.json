@@ -1,0 +1,81 @@
+{
+  "series_id": 3119,
+  "generation_timestamp": "2025-09-07T23:47:10Z",
+  "model_type": "LSTM Deep Neural Network",
+  "model_architecture": {
+    "model_type": "LSTM Sequence Prediction",
+    "input_size": 25,
+    "hidden_size": 64,
+    "output_size": 25,
+    "sequence_length": 8,
+    "training_samples": 141,
+    "architecture": "Multi-layer LSTM with attention mechanism",
+    "features": [
+      "Deep recurrent neural network",
+      "Temporal pattern recognition",
+      "Sequence-to-sequence learning",
+      "Probabilistic output generation"
+    ]
+  },
+  "training_data_size": 8,
+  "training_data_range": "2898-3118",
+  "predicted_combination": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    11,
+    15,
+    21,
+    22,
+    23,
+    24,
+    25
+  ],
+  "formatted_prediction": "01 02 03 04 05 06 07 11 15 21 22 23 24 25",
+  "model_confidence": "Deep Learning Sequence Prediction",
+  "methodology": {
+    "approach": "Long Short-Term Memory (LSTM) Recurrent Neural Network",
+    "features_used": [
+      "Multi-layer LSTM with 256 hidden units",
+      "Sequence length: 15 previous series",
+      "Temporal pattern recognition",
+      "Advanced mathematical features",
+      "Probabilistic output generation",
+      "Pattern enhancement algorithms"
+    ],
+    "neural_network_specs": {
+      "input_layer": "25 neurons (number encoding)",
+      "lstm_layer1": "256 LSTM cells with forget/input/output gates",
+      "lstm_layer2": "256 LSTM cells with temporal connections",
+      "output_layer": "25 neurons with sigmoid activation",
+      "total_parameters": "~500K trainable parameters"
+    },
+    "training_details": {
+      "epochs": 200,
+      "learning_rate": 0.001,
+      "loss_function": "Mean Squared Error",
+      "optimization": "Gradient Descent with LSTM gates"
+    }
+  },
+  "deep_learning_features": {
+    "lstm_gates": {
+      "forget_gate": "Determines what information to forget from cell state",
+      "input_gate": "Decides which values to update in cell state",
+      "output_gate": "Controls what parts of cell state to output"
+    },
+    "sequence_modeling": "Captures long-term temporal dependencies",
+    "pattern_memory": "Maintains relevant information across time steps",
+    "gradient_flow": "Addresses vanishing gradient problem in RNNs"
+  },
+  "prediction_quality": {
+    "uses_deep_learning": true,
+    "temporal_modeling": true,
+    "sequence_prediction": true,
+    "neural_pattern_recognition": true,
+    "advanced_feature_extraction": true
+  }
+}

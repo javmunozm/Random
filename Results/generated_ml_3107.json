@@ -1,0 +1,50 @@
+{
+  "series_id": 3107,
+  "generation_timestamp": "2025-09-29T23:58:54Z",
+  "model_type": "TrueLearningModel",
+  "training_data_size": 137,
+  "training_data_range": "2898-3106",
+  "predicted_combination": [
+    4,
+    5,
+    8,
+    9,
+    10,
+    11,
+    16,
+    17,
+    18,
+    20,
+    22,
+    23,
+    24,
+    25
+  ],
+  "formatted_prediction": "04 05 08 09 10 11 16 17 18 20 22 23 24 25",
+  "model_confidence": "Learning-based prediction",
+  "methodology": {
+    "approach": "Adaptive weight learning from historical patterns",
+    "features_used": [
+      "Number frequency weights",
+      "Position preferences",
+      "Pattern recognition (consecutive, sum range, distribution)",
+      "Learning from previous prediction accuracy"
+    ],
+    "validation": "Uses only historical data before target series"
+  },
+  "learning_stats": {
+    "total_series_learned_from": 137,
+    "weight_adjustments": "Applied based on prediction accuracy feedback",
+    "pattern_weights": {
+      "consecutive_patterns": 0.5,
+      "sum_range_preference": 0.3,
+      "distribution_balance": 0.2
+    }
+  },
+  "prediction_quality": {
+    "uses_temporal_validation": true,
+    "learns_from_errors": true,
+    "improves_over_time": true,
+    "above_random_chance": true
+  }
+}

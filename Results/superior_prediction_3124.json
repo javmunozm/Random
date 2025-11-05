@@ -1,0 +1,120 @@
+{
+  "series_id": 3124,
+  "generation_timestamp": "2025-10-03T14:28:25Z",
+  "model_type": "Superior Prediction Engine - Advanced Multi-Method",
+  "best_prediction": {
+    "numbers": [
+      1,
+      4,
+      5,
+      6,
+      7,
+      8,
+      12,
+      13,
+      14,
+      17,
+      18,
+      20,
+      22,
+      24
+    ],
+    "formatted": "01 04 05 06 07 08 12 13 14 17 18 20 22 24",
+    "method": "Distribution Convergence Analysis",
+    "score": 0.5575518992862074,
+    "features": {
+      "sum": 171,
+      "variance": 48.882653061224495,
+      "consecutive": 7,
+      "distribution_quality": 0.9231163463866358,
+      "statistical_optimality": 0.5516895072347247,
+      "uniqueness_factor": 0.5357142857142857
+    }
+  },
+  "existing_predictions_to_surpass": {
+    "prediction_1": "02 03 04 05 06 08 09 10 12 13 16 18 21 23",
+    "prediction_2": "02 03 05 09 10 12 17 19 20 21 22 23 24 25",
+    "overlap_analysis": "Generated opposing patterns with enhanced uniqueness"
+  },
+  "methodology": {
+    "pattern_analysis": "Advanced trend and cyclical pattern recognition",
+    "temporal_modeling": "Weighted history and momentum analysis",
+    "statistical_optimization": "Convergence and distribution optimization",
+    "frequency_evolution": "Emerging pattern and adjustment analysis",
+    "distribution_balancing": "Perfect balance and entropy maximization",
+    "hybrid_synthesis": "Multi-method combination and opposing analysis"
+  },
+  "all_methods_tested": [
+    {
+      "method": "Distribution Convergence Analysis",
+      "numbers": "01 04 05 06 07 08 12 13 14 17 18 20 22 24",
+      "score": 0.5575518992862074
+    },
+    {
+      "method": "Perfect Distribution Balance",
+      "numbers": "01 02 04 06 08 10 12 13 15 16 17 19 23 25",
+      "score": 0.5555195631866359
+    },
+    {
+      "method": "Maximum Entropy Distribution",
+      "numbers": "01 03 04 06 07 08 11 13 14 17 18 19 22 23",
+      "score": 0.5483227517659454
+    },
+    {
+      "method": "Statistical Convergence Optimization",
+      "numbers": "02 04 05 07 08 09 13 14 15 18 19 21 23 24",
+      "score": 0.5459168515688618
+    },
+    {
+      "method": "Weighted Temporal Analysis",
+      "numbers": "02 03 04 05 08 09 10 11 13 15 18 20 21 22",
+      "score": 0.4806827278001753
+    },
+    {
+      "method": "Frequency Hot Zone Analysis",
+      "numbers": "03 04 05 06 09 10 11 12 13 15 17 18 19 23",
+      "score": 0.44125964569823367
+    },
+    {
+      "method": "Momentum Pattern Analysis",
+      "numbers": "03 04 05 06 09 10 11 12 13 15 17 18 19 23",
+      "score": 0.44125964569823367
+    },
+    {
+      "method": "Emerging Frequency Analysis",
+      "numbers": "03 04 05 06 09 10 11 12 13 15 17 18 19 23",
+      "score": 0.44125964569823367
+    },
+    {
+      "method": "Cyclical Pattern Recognition",
+      "numbers": "04 06 07 08 09 10 12 15 16 17 19 21 22 23",
+      "score": 0.40979463631089075
+    },
+    {
+      "method": "Frequency Adjustment Analysis",
+      "numbers": "04 06 07 08 09 10 12 15 16 17 19 21 22 23",
+      "score": 0.40979463631089075
+    },
+    {
+      "method": "Trend Continuation Analysis",
+      "numbers": "02 03 04 05 06 08 09 10 11 13 15 18 20 22",
+      "score": 0.39080222600664366
+    },
+    {
+      "method": "Opposing Pattern Analysis",
+      "numbers": "01 04 06 07 08 11 13 14 15 16 17 18 19 20",
+      "score": 0.38394634217324597
+    },
+    {
+      "method": "Multi-Method Synthesis",
+      "numbers": "03 04 05 06 08 09 10 11 12 13 15 17 18 22",
+      "score": 0.37556374200066905
+    }
+  ],
+  "performance_advantages": {
+    "comprehensive_analysis": "13 different prediction methods",
+    "advanced_scoring": "Multi-criteria evaluation with 5 components",
+    "uniqueness_optimization": "Specifically designed to surpass existing predictions",
+    "statistical_optimality": "Targets optimal historical patterns"
+  }
+}
