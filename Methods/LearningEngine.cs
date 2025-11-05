@@ -18,6 +18,137 @@ namespace DataProcessor.Methods
             model = new TrueLearningModel();
         }
 
+        /// <summary>
+        /// Generic method to insert actual results for any series through interactive input
+        /// </summary>
+        public void InsertActualResults(int seriesId)
+        {
+            Console.WriteLine($"\n=== Insert Actual Results for Series {seriesId} ===");
+            Console.WriteLine("Please enter 7 events, each with 14 numbers (space-separated, 1-25)");
+            Console.WriteLine("Example: 01 02 03 06 07 08 11 12 13 16 18 21 22 25\n");
+
+            var eventCombinations = new List<List<int>>();
+
+            for (int eventNum = 1; eventNum <= 7; eventNum++)
+            {
+                while (true)
+                {
+                    Console.Write($"Event {eventNum}: ");
+                    string input = Console.ReadLine()?.Trim() ?? "";
+
+                    if (string.IsNullOrWhiteSpace(input))
+                    {
+                        Console.WriteLine("❌ Input cannot be empty. Please try again.");
+                        continue;
+                    }
+
+                    // Parse input
+                    var parts = input.Split(new[] { ' ', ',', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+
+                    if (parts.Length != 14)
+                    {
+                        Console.WriteLine($"❌ Expected 14 numbers, got {parts.Length}. Please try again.");
+                        continue;
+                    }
+
+                    // Convert to integers and validate
+                    var numbers = new List<int>();
+                    bool validInput = true;
+
+                    foreach (var part in parts)
+                    {
+                        if (int.TryParse(part, out int num))
+                        {
+                            if (num < 1 || num > 25)
+                            {
+                                Console.WriteLine($"❌ Number {num} is out of range (1-25). Please try again.");
+                                validInput = false;
+                                break;
+                            }
+                            numbers.Add(num);
+                        }
+                        else
+                        {
+                            Console.WriteLine($"❌ Invalid number '{part}'. Please try again.");
+                            validInput = false;
+                            break;
+                        }
+                    }
+
+                    if (!validInput)
+                        continue;
+
+                    // Check for duplicates
+                    if (numbers.Distinct().Count() != numbers.Count)
+                    {
+                        Console.WriteLine("❌ Duplicate numbers detected. Please try again.");
+                        continue;
+                    }
+
+                    // Sort the numbers
+                    numbers.Sort();
+
+                    // Success - add to event combinations
+                    eventCombinations.Add(numbers);
+                    Console.WriteLine($"✓ Event {eventNum} recorded: {string.Join(" ", numbers.Select(n => n.ToString("D2")))}");
+                    break;
+                }
+            }
+
+            // Confirm before inserting
+            Console.WriteLine("\n=== Summary ===");
+            for (int i = 0; i < eventCombinations.Count; i++)
+            {
+                Console.WriteLine($"Event {i + 1}: {string.Join(" ", eventCombinations[i].Select(n => n.ToString("D2")))}");
+            }
+
+            Console.Write("\nProceed with insertion? (y/n): ");
+            string confirm = Console.ReadLine()?.Trim().ToLower() ?? "";
+
+            if (confirm != "y" && confirm != "yes")
+            {
+                Console.WriteLine("❌ Insertion cancelled.");
+                return;
+            }
+
+            // Check if series already exists
+            if (dbConnection.SeriesExists(seriesId))
+            {
+                Console.WriteLine($"\n⚠️  Series {seriesId} already exists in database.");
+                Console.Write("Delete and replace? (y/n): ");
+                string deleteConfirm = Console.ReadLine()?.Trim().ToLower() ?? "";
+
+                if (deleteConfirm == "y" || deleteConfirm == "yes")
+                {
+                    Console.WriteLine($"Deleting existing series {seriesId}...");
+                    if (!dbConnection.DeleteSeriesData(seriesId))
+                    {
+                        Console.WriteLine($"❌ Failed to delete existing series {seriesId}");
+                        return;
+                    }
+                    Console.WriteLine("✓ Deleted successfully");
+                }
+                else
+                {
+                    Console.WriteLine("❌ Insertion cancelled.");
+                    return;
+                }
+            }
+
+            // Insert the data
+            Console.WriteLine($"\nInserting series {seriesId}...");
+            if (dbConnection.InsertSeriesData(seriesId, eventCombinations))
+            {
+                Console.WriteLine($"✅ Series {seriesId} inserted successfully!");
+                Console.WriteLine($"Total events inserted: {eventCombinations.Count}");
+                Console.WriteLine($"Total numbers inserted: {eventCombinations.Count * 14}");
+            }
+            else
+            {
+                Console.WriteLine($"❌ Failed to insert series {seriesId}");
+            }
+        }
+
         public PredictionResult PredictAndValidate(int targetSeriesId)
         {
             Console.WriteLine($"\n=== Predicting Series {targetSeriesId} ===");

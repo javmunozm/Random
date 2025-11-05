@@ -106,14 +106,13 @@ namespace DataProcessor
                                 break;
                             }
 
-                            Console.WriteLine($"=== Inserting Actual Results for Series {insertSeriesId} ===");
                             var engine = new LearningEngine();
-                            engine.Insert3111ActualResults(insertSeriesId);
+                            engine.InsertActualResults(insertSeriesId);
                         }
                         else
                         {
                             Console.WriteLine("Usage: dotnet run insert <series_id>");
-                            Console.WriteLine("Example: dotnet run insert 3133");
+                            Console.WriteLine("Example: dotnet run insert 3144");
                         }
                         break;
 
