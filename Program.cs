@@ -454,6 +454,23 @@ namespace DataProcessor
                         Console.WriteLine();
                         break;
 
+                    case "export-data":
+                        if (args.Length >= 3 && int.TryParse(args[1], out int startSeries) && int.TryParse(args[2], out int endSeries))
+                        {
+                            Console.WriteLine($"=== Exporting Database Data ===");
+                            Console.WriteLine($"Range: Series {startSeries} to {endSeries}");
+                            Console.WriteLine();
+
+                            var dbConn = new DatabaseConnection();
+                            dbConn.ExportDataToJson(startSeries, endSeries);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Usage: dotnet run --project DataProcessor.csproj export-data <start_series> <end_series>");
+                            Console.WriteLine("Example: dotnet run --project DataProcessor.csproj export-data 2898 3143");
+                        }
+                        break;
+
                     case "help":
                     case "--help":
                     case "-h":
@@ -482,19 +499,21 @@ namespace DataProcessor
             Console.WriteLine("=== TRUE LEARNING MODEL - ACTIVE COMMANDS ===");
             Console.WriteLine();
             Console.WriteLine("PRIMARY COMMANDS:");
-            Console.WriteLine("  dotnet run                        - ✅ DEFAULT: Run real-train (recommended)");
-            Console.WriteLine("  dotnet run real-train             - OPTIMIZED: Bulk train + 8 iterative validations");
-            Console.WriteLine("  dotnet run predict <series_id>    - Quick prediction using TrueLearningModel");
-            Console.WriteLine("  dotnet run insert <series_id>     - Insert actual results for series");
-            Console.WriteLine("  dotnet run status                 - Show latest database entry and critical numbers");
-            Console.WriteLine("  dotnet run evolve                 - Evolutionary training with checkpoints");
+            Console.WriteLine("  dotnet run --project DataProcessor.csproj                        - ✅ DEFAULT: Run real-train (recommended)");
+            Console.WriteLine("  dotnet run --project DataProcessor.csproj real-train             - OPTIMIZED: Bulk train + 8 iterative validations");
+            Console.WriteLine("  dotnet run --project DataProcessor.csproj predict <series_id>    - Quick prediction using TrueLearningModel");
+            Console.WriteLine("  dotnet run --project DataProcessor.csproj insert <series_id>     - Insert actual results for series");
+            Console.WriteLine("  dotnet run --project DataProcessor.csproj status                 - Show latest database entry and critical numbers");
+            Console.WriteLine("  dotnet run --project DataProcessor.csproj evolve                 - Evolutionary training with checkpoints");
+            Console.WriteLine("  dotnet run --project DataProcessor.csproj export-data <start> <end> - Export database data to JSON");
             Console.WriteLine();
             Console.WriteLine("EXAMPLES:");
-            Console.WriteLine("  dotnet run                        - ✅ Run full training cycle (DEFAULT)");
-            Console.WriteLine("  dotnet run insert 3140            - Insert actual results after draw");
-            Console.WriteLine("  dotnet run                        - Generate next prediction with updated data");
-            Console.WriteLine("  dotnet run predict 3140           - Quick prediction (less accurate)");
-            Console.WriteLine("  dotnet run status                 - Check latest series in database");
+            Console.WriteLine("  dotnet run --project DataProcessor.csproj                        - ✅ Run full training cycle (DEFAULT)");
+            Console.WriteLine("  dotnet run --project DataProcessor.csproj insert 3140            - Insert actual results after draw");
+            Console.WriteLine("  dotnet run --project DataProcessor.csproj                        - Generate next prediction with updated data");
+            Console.WriteLine("  dotnet run --project DataProcessor.csproj predict 3140           - Quick prediction (less accurate)");
+            Console.WriteLine("  dotnet run --project DataProcessor.csproj status                 - Check latest series in database");
+            Console.WriteLine("  dotnet run --project DataProcessor.csproj export-data 2898 3143  - Export all data to JSON");
             Console.WriteLine();
             Console.WriteLine("SYSTEM STATUS:");
             Console.WriteLine("  Model: TrueLearningModel (Phase 1 ENHANCED + OPTIMIZED)");
@@ -502,6 +521,7 @@ namespace DataProcessor
             Console.WriteLine("  Training: Bulk (163 series) + Iterative (8 validations) [OPTIMIZED]");
             Console.WriteLine("  Candidate Pool: 5000 (optimized)");
             Console.WriteLine();
+            Console.WriteLine("NOTE: Use --project DataProcessor.csproj to avoid multiple project error");
             Console.WriteLine("For more information, see CLAUDE.md");
         }
     }

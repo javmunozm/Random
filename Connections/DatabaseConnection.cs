@@ -255,6 +255,105 @@ namespace DataProcessor.Connections
                 return false;
             }
         }
+
+        public void ExportDataToJson(int startSeriesId, int endSeriesId)
+        {
+            try
+            {
+                Console.WriteLine($"Connecting to database...");
+                using var connection = new SqlConnection(connectionString);
+                connection.Open();
+                Console.WriteLine("✓ Connected to database");
+
+                var exportData = new List<object>();
+                int seriesCount = 0;
+                int totalEvents = 0;
+
+                for (int seriesId = startSeriesId; seriesId <= endSeriesId; seriesId++)
+                {
+                    var query = @"
+                        SELECT e.Id as SeriesId,
+                               el.Element1, el.Element2, el.Element3, el.Element4, el.Element5, el.Element6, el.Element7,
+                               el.Element8, el.Element9, el.Element10, el.Element11, el.Element12, el.Element13, el.Element14
+                        FROM dbo.event e
+                        INNER JOIN dbo.elements el ON e.Id = el.IdEvents
+                        WHERE e.Id = @SeriesId
+                        ORDER BY el.Id";
+
+                    using var command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@SeriesId", seriesId);
+
+                    using var reader = command.ExecuteReader();
+                    var events = new List<List<int>>();
+
+                    while (reader.Read())
+                    {
+                        var combination = new List<int>();
+                        for (int i = 1; i <= 14; i++)
+                        {
+                            combination.Add(Convert.ToInt32(reader[$"Element{i}"]));
+                        }
+                        events.Add(combination);
+                        totalEvents++;
+                    }
+
+                    if (events.Count > 0)
+                    {
+                        exportData.Add(new
+                        {
+                            series_id = seriesId,
+                            event_count = events.Count,
+                            events = events.Select((e, idx) => new
+                            {
+                                event_number = idx + 1,
+                                numbers = e,
+                                formatted = string.Join(" ", e.Select(n => n.ToString("D2")))
+                            }).ToArray()
+                        });
+                        seriesCount++;
+                        Console.WriteLine($"✓ Exported Series {seriesId} ({events.Count} events)");
+                    }
+                }
+
+                // Save to JSON file
+                var fileName = $"Results/database_export_{startSeriesId}_{endSeriesId}_{DateTime.Now:yyyyMMdd_HHmmss}.json";
+                System.IO.Directory.CreateDirectory("Results");
+
+                var json = System.Text.Json.JsonSerializer.Serialize(new
+                {
+                    export_timestamp = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ"),
+                    series_range = new
+                    {
+                        start = startSeriesId,
+                        end = endSeriesId
+                    },
+                    statistics = new
+                    {
+                        total_series = seriesCount,
+                        total_events = totalEvents,
+                        total_numbers = totalEvents * 14
+                    },
+                    data = exportData
+                }, new System.Text.Json.JsonSerializerOptions
+                {
+                    WriteIndented = true
+                });
+
+                System.IO.File.WriteAllText(fileName, json);
+
+                Console.WriteLine();
+                Console.WriteLine($"✅ Export completed successfully!");
+                Console.WriteLine($"📁 File: {fileName}");
+                Console.WriteLine($"📊 Series: {seriesCount}");
+                Console.WriteLine($"📊 Events: {totalEvents}");
+                Console.WriteLine($"📊 Numbers: {totalEvents * 14}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ Error exporting data: {ex.Message}");
+                Console.WriteLine($"Stack trace: {ex.StackTrace}");
+            }
+        }
     }
 
     public class SeriesData
