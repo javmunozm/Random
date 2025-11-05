@@ -27,7 +27,7 @@ namespace DataProcessor.Models
     }
 
     /// <summary>
-    /// TrueLearningModel - Phase 2 UPGRADED (2025-11-05)
+    /// TrueLearningModel - Phase 2.1 CONSERVATIVE (2025-11-05)
     ///
     /// The ONLY active machine learning model in the system. All other models (LSTM, Ensemble,
     /// Adaptive, Superior, Dynamic, Evolutionary, etc.) are DEPRECATED per CLAUDE.md.
@@ -39,19 +39,19 @@ namespace DataProcessor.Models
     /// - Critical number boosting (5+ event appearances)
     /// - Enhanced candidate pool (10000 candidates)
     ///
-    /// Phase 2 Features (2025-11-05) - Data-Driven Upgrades:
-    /// - Temporal decay weighting (recent 20 series: 2.0x, recent 50: 1.5x)
-    /// - Trend detection (boost rising numbers, penalize falling)
-    /// - Optimized sum range (170-200 from analysis of 174 series)
-    /// - Gap preference scoring (favor consecutive numbers - 55% are gap-1)
-    /// - Even/odd balancing (target 6-8 even numbers - 74% of events)
+    /// Phase 2.1 Features (2025-11-05) - Conservative Adjustments:
+    /// - Temporal decay weighting (recent 20: 1.5x, recent 50: 1.2x) - SOFTENED from 2.0x/1.5x
+    /// - Trend detection (rising: 1.15x, falling: 0.85x) - SOFTENED from 1.3x/0.7x
+    /// - Widened sum range (165-210) - WIDENED from 170-200
+    /// - Gap preference (bonus only, no penalties) - REMOVED harsh penalties
+    /// - Even/odd balancing (5-9 range, reduced bonus) - WIDENED from 6-8
     /// - Enhanced pair/triplet multipliers (based on 33.5% co-occurrence data)
     /// - Critical number early detection (3x boost for 3+ in first 4 events)
     ///
-    /// Current Performance (2025-10-06):
-    /// - Average: 69.0% best match accuracy
-    /// - Peak: 78.6% (only 3 numbers away from perfect 14/14 match!)
-    /// - Expected Phase 2: 72-75% average, 82-85% peak
+    /// Phase 2 Regression Fix:
+    /// - Phase 2.0 showed -4.4% regression (66.96% vs 71.4%)
+    /// - Phase 2.1 softens aggressive parameters to recover performance
+    /// - Target: Match or exceed Phase 1 baseline (71.4%)
     /// </summary>
     public class TrueLearningModel
     {
@@ -98,31 +98,31 @@ namespace DataProcessor.Models
         private const double PATTERN_WEIGHT_DISTRIBUTION = 0.2;
         private const double PATTERN_WEIGHT_HIGH_NUMBERS = 0.2;
 
-        // PHASE 2: Optimized sum range (from 174-series analysis: 170-200 = 57.6% of events)
-        private const int SUM_RANGE_MIN = 170;
-        private const int SUM_RANGE_MAX = 200;
-        private const int SUM_RANGE_OPTIMAL_MIN = 180; // Peak range 180-189 (23.1%)
-        private const int SUM_RANGE_OPTIMAL_MAX = 189;
+        // PHASE 2.1: Softened sum range (165-210 from 170-200, was too narrow)
+        private const int SUM_RANGE_MIN = 165;  // Widened from 170 (-5)
+        private const int SUM_RANGE_MAX = 210;  // Widened from 200 (+10)
+        private const int SUM_RANGE_OPTIMAL_MIN = 175; // Shifted from 180
+        private const int SUM_RANGE_OPTIMAL_MAX = 195; // Shifted from 189
 
-        // PHASE 2: Temporal decay weights (data-driven)
-        private const double TEMPORAL_WEIGHT_RECENT_20 = 2.0;   // Last 20 series
-        private const double TEMPORAL_WEIGHT_RECENT_50 = 1.5;   // Last 50 series
-        private const double TEMPORAL_WEIGHT_BASE = 1.0;        // Older data
+        // PHASE 2.1: Softened temporal decay (1.5x/1.2x from 2.0x/1.5x, was too aggressive)
+        private const double TEMPORAL_WEIGHT_RECENT_20 = 1.5;   // Reduced from 2.0x
+        private const double TEMPORAL_WEIGHT_RECENT_50 = 1.2;   // Reduced from 1.5x
+        private const double TEMPORAL_WEIGHT_BASE = 1.0;
 
-        // PHASE 2: Trend detection multipliers
-        private const double TREND_UP_MULTIPLIER = 1.3;         // Boost rising numbers
-        private const double TREND_DOWN_MULTIPLIER = 0.7;       // Penalize falling numbers
-        private const int TREND_ANALYSIS_WINDOW = 20;           // Compare last 20 vs previous 20
+        // PHASE 2.1: Softened trend detection (1.15x/0.85x from 1.3x/0.7x, was too aggressive)
+        private const double TREND_UP_MULTIPLIER = 1.15;        // Reduced from 1.3x
+        private const double TREND_DOWN_MULTIPLIER = 0.85;      // Softened from 0.7x
+        private const int TREND_ANALYSIS_WINDOW = 20;
 
-        // PHASE 2: Gap preference (55% of gaps are 1, 26% are 2)
-        private const double GAP_1_BONUS = 2.0;                 // Consecutive numbers
-        private const double GAP_2_BONUS = 1.0;                 // Close numbers
-        private const double GAP_4_PLUS_PENALTY = 0.5;          // Rare gaps
+        // PHASE 2.1: Softened gap preference (bonus only, removed penalty)
+        private const double GAP_1_BONUS = 1.0;                 // Reduced from 2.0
+        private const double GAP_2_BONUS = 0.5;                 // Reduced from 1.0
+        private const double GAP_4_PLUS_PENALTY = 0.0;          // REMOVED penalty (was 0.5)
 
-        // PHASE 2: Even/odd balancing (74% have 6-8 even numbers)
-        private const int EVEN_COUNT_TARGET_MIN = 6;
-        private const int EVEN_COUNT_TARGET_MAX = 8;
-        private const double EVEN_BALANCE_BONUS = 5.0;
+        // PHASE 2.1: Widened even/odd range (5-9 from 6-8, reduced bonus)
+        private const int EVEN_COUNT_TARGET_MIN = 5;            // Widened from 6
+        private const int EVEN_COUNT_TARGET_MAX = 9;            // Widened from 8
+        private const double EVEN_BALANCE_BONUS = 2.0;          // Reduced from 5.0
 
         private readonly LearningWeights weights;
         private readonly List<SeriesPattern> trainingData;
