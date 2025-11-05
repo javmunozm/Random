@@ -1,0 +1,527 @@
+{
+  "test_name": "position_based_learning",
+  "hypothesis": "Numbers prefer certain positions in the sorted array",
+  "baseline": 0.73214,
+  "result": {
+    "average": 0.7321428571428572,
+    "peak": 0.7857142857142857,
+    "min": 0.7142857142857143,
+    "series_details": [
+      {
+        "series_id": 3137,
+        "best_match": 10,
+        "accuracy": 0.7142857142857143
+      },
+      {
+        "series_id": 3138,
+        "best_match": 10,
+        "accuracy": 0.7142857142857143
+      },
+      {
+        "series_id": 3139,
+        "best_match": 10,
+        "accuracy": 0.7142857142857143
+      },
+      {
+        "series_id": 3140,
+        "best_match": 10,
+        "accuracy": 0.7142857142857143
+      },
+      {
+        "series_id": 3141,
+        "best_match": 10,
+        "accuracy": 0.7142857142857143
+      },
+      {
+        "series_id": 3142,
+        "best_match": 11,
+        "accuracy": 0.7857142857142857
+      },
+      {
+        "series_id": 3143,
+        "best_match": 11,
+        "accuracy": 0.7857142857142857
+      },
+      {
+        "series_id": 3144,
+        "best_match": 10,
+        "accuracy": 0.7142857142857143
+      }
+    ],
+    "position_analysis": {
+      "1": {
+        "total_appearances": 705,
+        "top_positions": [
+          {
+            "position": 0,
+            "count": 705,
+            "percentage": 100.0
+          }
+        ]
+      },
+      "2": {
+        "total_appearances": 690,
+        "top_positions": [
+          {
+            "position": 1,
+            "count": 374,
+            "percentage": 54.20289855072464
+          },
+          {
+            "position": 0,
+            "count": 316,
+            "percentage": 45.79710144927536
+          }
+        ]
+      },
+      "3": {
+        "total_appearances": 693,
+        "top_positions": [
+          {
+            "position": 1,
+            "count": 371,
+            "percentage": 53.535353535353536
+          },
+          {
+            "position": 2,
+            "count": 200,
+            "percentage": 28.86002886002886
+          },
+          {
+            "position": 0,
+            "count": 122,
+            "percentage": 17.604617604617605
+          }
+        ]
+      },
+      "4": {
+        "total_appearances": 670,
+        "top_positions": [
+          {
+            "position": 2,
+            "count": 283,
+            "percentage": 42.23880597014925
+          },
+          {
+            "position": 1,
+            "count": 244,
+            "percentage": 36.417910447761194
+          },
+          {
+            "position": 3,
+            "count": 92,
+            "percentage": 13.73134328358209
+          }
+        ]
+      },
+      "5": {
+        "total_appearances": 691,
+        "top_positions": [
+          {
+            "position": 2,
+            "count": 299,
+            "percentage": 43.27062228654125
+          },
+          {
+            "position": 3,
+            "count": 201,
+            "percentage": 29.088277858176554
+          },
+          {
+            "position": 1,
+            "count": 130,
+            "percentage": 18.813314037626625
+          }
+        ]
+      },
+      "6": {
+        "total_appearances": 688,
+        "top_positions": [
+          {
+            "position": 3,
+            "count": 271,
+            "percentage": 39.38953488372093
+          },
+          {
+            "position": 2,
+            "count": 211,
+            "percentage": 30.668604651162788
+          },
+          {
+            "position": 4,
+            "count": 118,
+            "percentage": 17.151162790697676
+          }
+        ]
+      },
+      "7": {
+        "total_appearances": 612,
+        "top_positions": [
+          {
+            "position": 3,
+            "count": 229,
+            "percentage": 37.41830065359477
+          },
+          {
+            "position": 4,
+            "count": 185,
+            "percentage": 30.22875816993464
+          },
+          {
+            "position": 2,
+            "count": 106,
+            "percentage": 17.320261437908496
+          }
+        ]
+      },
+      "8": {
+        "total_appearances": 696,
+        "top_positions": [
+          {
+            "position": 4,
+            "count": 263,
+            "percentage": 37.787356321839084
+          },
+          {
+            "position": 3,
+            "count": 185,
+            "percentage": 26.580459770114945
+          },
+          {
+            "position": 5,
+            "count": 138,
+            "percentage": 19.82758620689655
+          }
+        ]
+      },
+      "9": {
+        "total_appearances": 713,
+        "top_positions": [
+          {
+            "position": 4,
+            "count": 231,
+            "percentage": 32.398316970546986
+          },
+          {
+            "position": 5,
+            "count": 214,
+            "percentage": 30.014025245441793
+          },
+          {
+            "position": 3,
+            "count": 123,
+            "percentage": 17.251051893408135
+          }
+        ]
+      },
+      "10": {
+        "total_appearances": 720,
+        "top_positions": [
+          {
+            "position": 5,
+            "count": 234,
+            "percentage": 32.5
+          },
+          {
+            "position": 4,
+            "count": 180,
+            "percentage": 25.0
+          },
+          {
+            "position": 6,
+            "count": 162,
+            "percentage": 22.5
+          }
+        ]
+      },
+      "11": {
+        "total_appearances": 658,
+        "top_positions": [
+          {
+            "position": 5,
+            "count": 213,
+            "percentage": 32.37082066869301
+          },
+          {
+            "position": 6,
+            "count": 196,
+            "percentage": 29.78723404255319
+          },
+          {
+            "position": 7,
+            "count": 97,
+            "percentage": 14.74164133738602
+          }
+        ]
+      },
+      "12": {
+        "total_appearances": 685,
+        "top_positions": [
+          {
+            "position": 6,
+            "count": 218,
+            "percentage": 31.824817518248178
+          },
+          {
+            "position": 5,
+            "count": 154,
+            "percentage": 22.48175182481752
+          },
+          {
+            "position": 7,
+            "count": 150,
+            "percentage": 21.897810218978105
+          }
+        ]
+      },
+      "13": {
+        "total_appearances": 702,
+        "top_positions": [
+          {
+            "position": 7,
+            "count": 215,
+            "percentage": 30.626780626780626
+          },
+          {
+            "position": 6,
+            "count": 205,
+            "percentage": 29.2022792022792
+          },
+          {
+            "position": 5,
+            "count": 107,
+            "percentage": 15.242165242165242
+          }
+        ]
+      },
+      "14": {
+        "total_appearances": 663,
+        "top_positions": [
+          {
+            "position": 7,
+            "count": 206,
+            "percentage": 31.070889894419306
+          },
+          {
+            "position": 6,
+            "count": 164,
+            "percentage": 24.73604826546003
+          },
+          {
+            "position": 8,
+            "count": 153,
+            "percentage": 23.076923076923077
+          }
+        ]
+      },
+      "15": {
+        "total_appearances": 647,
+        "top_positions": [
+          {
+            "position": 8,
+            "count": 203,
+            "percentage": 31.375579598145286
+          },
+          {
+            "position": 7,
+            "count": 193,
+            "percentage": 29.82998454404946
+          },
+          {
+            "position": 9,
+            "count": 107,
+            "percentage": 16.537867078825347
+          }
+        ]
+      },
+      "16": {
+        "total_appearances": 672,
+        "top_positions": [
+          {
+            "position": 8,
+            "count": 233,
+            "percentage": 34.672619047619044
+          },
+          {
+            "position": 9,
+            "count": 159,
+            "percentage": 23.660714285714285
+          },
+          {
+            "position": 7,
+            "count": 144,
+            "percentage": 21.428571428571427
+          }
+        ]
+      },
+      "17": {
+        "total_appearances": 676,
+        "top_positions": [
+          {
+            "position": 9,
+            "count": 207,
+            "percentage": 30.62130177514793
+          },
+          {
+            "position": 8,
+            "count": 189,
+            "percentage": 27.958579881656803
+          },
+          {
+            "position": 10,
+            "count": 128,
+            "percentage": 18.93491124260355
+          }
+        ]
+      },
+      "18": {
+        "total_appearances": 667,
+        "top_positions": [
+          {
+            "position": 9,
+            "count": 231,
+            "percentage": 34.63268365817092
+          },
+          {
+            "position": 10,
+            "count": 163,
+            "percentage": 24.43778110944528
+          },
+          {
+            "position": 8,
+            "count": 130,
+            "percentage": 19.490254872563717
+          }
+        ]
+      },
+      "19": {
+        "total_appearances": 708,
+        "top_positions": [
+          {
+            "position": 10,
+            "count": 240,
+            "percentage": 33.89830508474576
+          },
+          {
+            "position": 9,
+            "count": 217,
+            "percentage": 30.64971751412429
+          },
+          {
+            "position": 11,
+            "count": 122,
+            "percentage": 17.231638418079097
+          }
+        ]
+      },
+      "20": {
+        "total_appearances": 700,
+        "top_positions": [
+          {
+            "position": 10,
+            "count": 256,
+            "percentage": 36.57142857142857
+          },
+          {
+            "position": 11,
+            "count": 193,
+            "percentage": 27.57142857142857
+          },
+          {
+            "position": 9,
+            "count": 149,
+            "percentage": 21.285714285714285
+          }
+        ]
+      },
+      "21": {
+        "total_appearances": 696,
+        "top_positions": [
+          {
+            "position": 11,
+            "count": 262,
+            "percentage": 37.64367816091954
+          },
+          {
+            "position": 10,
+            "count": 224,
+            "percentage": 32.18390804597701
+          },
+          {
+            "position": 12,
+            "count": 131,
+            "percentage": 18.82183908045977
+          }
+        ]
+      },
+      "22": {
+        "total_appearances": 692,
+        "top_positions": [
+          {
+            "position": 11,
+            "count": 316,
+            "percentage": 45.664739884393065
+          },
+          {
+            "position": 12,
+            "count": 214,
+            "percentage": 30.924855491329478
+          },
+          {
+            "position": 10,
+            "count": 105,
+            "percentage": 15.173410404624278
+          }
+        ]
+      },
+      "23": {
+        "total_appearances": 703,
+        "top_positions": [
+          {
+            "position": 12,
+            "count": 366,
+            "percentage": 52.06258890469416
+          },
+          {
+            "position": 11,
+            "count": 208,
+            "percentage": 29.58748221906117
+          },
+          {
+            "position": 13,
+            "count": 129,
+            "percentage": 18.349928876244665
+          }
+        ]
+      },
+      "24": {
+        "total_appearances": 698,
+        "top_positions": [
+          {
+            "position": 12,
+            "count": 399,
+            "percentage": 57.163323782234954
+          },
+          {
+            "position": 13,
+            "count": 299,
+            "percentage": 42.83667621776504
+          }
+        ]
+      },
+      "25": {
+        "total_appearances": 705,
+        "top_positions": [
+          {
+            "position": 13,
+            "count": 705,
+            "percentage": 100.0
+          }
+        ]
+      }
+    }
+  },
+  "improvement": 2.8571428571932955e-06,
+  "improvement_pct": 0.0003902454253548906,
+  "verdict": "improvement"
+}
