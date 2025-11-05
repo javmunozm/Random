@@ -1,53 +1,53 @@
 {
-  "validation_range": "3136-3143",
+  "validation_range": "3137-3144",
   "validation_series_count": 8,
-  "overall_best_average": 0.7142857142857143,
-  "overall_average": 0.5739795918367346,
+  "overall_best_average": 0.6696428571428572,
+  "overall_average": 0.5612244897959183,
   "series_results": [
-    {
-      "series_id": 3136,
-      "best_accuracy": 0.7142857142857143,
-      "avg_accuracy": 0.5306122448979591
-    },
     {
       "series_id": 3137,
       "best_accuracy": 0.7142857142857143,
-      "avg_accuracy": 0.6326530612244897
+      "avg_accuracy": 0.5612244897959184
     },
     {
       "series_id": 3138,
-      "best_accuracy": 0.7142857142857143,
+      "best_accuracy": 0.6428571428571429,
       "avg_accuracy": 0.5714285714285714
     },
     {
       "series_id": 3139,
       "best_accuracy": 0.7142857142857143,
-      "avg_accuracy": 0.5918367346938774
+      "avg_accuracy": 0.5816326530612245
     },
     {
       "series_id": 3140,
-      "best_accuracy": 0.7142857142857143,
-      "avg_accuracy": 0.5510204081632653
+      "best_accuracy": 0.6428571428571429,
+      "avg_accuracy": 0.5612244897959183
     },
     {
       "series_id": 3141,
       "best_accuracy": 0.6428571428571429,
-      "avg_accuracy": 0.5306122448979591
+      "avg_accuracy": 0.5408163265306123
     },
     {
       "series_id": 3142,
-      "best_accuracy": 0.7142857142857143,
-      "avg_accuracy": 0.6122448979591837
+      "best_accuracy": 0.6428571428571429,
+      "avg_accuracy": 0.5816326530612245
     },
     {
       "series_id": 3143,
-      "best_accuracy": 0.7857142857142857,
-      "avg_accuracy": 0.5714285714285714
+      "best_accuracy": 0.6428571428571429,
+      "avg_accuracy": 0.5612244897959183
+    },
+    {
+      "series_id": 3144,
+      "best_accuracy": 0.7142857142857143,
+      "avg_accuracy": 0.5306122448979591
     }
   ],
   "improvement_analysis": {
-    "first_three_avg": 0.5782312925170067,
-    "last_three_avg": 0.5714285714285714,
-    "improvement": -0.006802721088435271
+    "first_three_avg": 0.5714285714285715,
+    "last_three_avg": 0.5578231292517006,
+    "improvement": -0.013605442176870874
   }
 }
