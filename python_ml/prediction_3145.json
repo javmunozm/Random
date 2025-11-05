@@ -1,0 +1,22 @@
+{
+  "series_id": 3145,
+  "prediction": [1, 2, 4, 5, 7, 8, 11, 14, 17, 19, 21, 22, 24, 25],
+  "model": "TrueLearningModel-Phase1-Pure-Python",
+  "seed": 999,
+  "training_series_count": 175,
+  "validation_series": "3137-3144",
+  "performance": {
+    "overall_best_average": 0.732,
+    "peak_accuracy": 0.786,
+    "validation_window": 8,
+    "learning_improvement": "+1.0%"
+  },
+  "top_weights": [4, 7, 24, 11, 12, 21, 8, 13],
+  "top_pair_affinities": [
+    [2, 9],
+    [2, 10],
+    [1, 8]
+  ],
+  "generated_at": "2025-11-05T23:50:00Z",
+  "notes": "Generated with validated optimal seed 999. Study confirmed this is the best configuration (73.2% avg, 78.6% peak)."
+}
