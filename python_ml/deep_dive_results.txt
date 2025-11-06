@@ -1,0 +1,114 @@
+================================================================================
+DEEP-DIVE ANALYSIS: WHY DID WE MISS #09, #12, #16?
+================================================================================
+
+================================================================================
+PART 1: HISTORICAL FREQUENCY ANALYSIS
+================================================================================
+
+Historical data: 175 series, 1225 events
+
+Missed Critical Numbers - Historical Frequency:
+  #09: 713/1225 events (58.2%) - 4.07 per series
+  #12: 685/1225 events (55.9%) - 3.91 per series
+  #16: 672/1225 events (54.9%) - 3.84 per series
+
+Predicted Numbers - Historical Frequency (for comparison):
+  #01: 705/1225 events (57.6%) - 4.03 per series
+  #02: 690/1225 events (56.3%) - 3.94 per series
+  #04: 670/1225 events (54.7%) - 3.83 per series
+  #05: 691/1225 events (56.4%) - 3.95 per series
+  #07: 612/1225 events (50.0%) - 3.50 per series
+  #08: 696/1225 events (56.8%) - 3.98 per series
+  #11: 658/1225 events (53.7%) - 3.76 per series
+  #14: 663/1225 events (54.1%) - 3.79 per series
+  #17: 676/1225 events (55.2%) - 3.86 per series
+  #19: 708/1225 events (57.8%) - 4.05 per series
+  #21: 696/1225 events (56.8%) - 3.98 per series
+  #22: 692/1225 events (56.5%) - 3.95 per series
+  #24: 698/1225 events (57.0%) - 3.99 per series
+  #25: 705/1225 events (57.6%) - 4.03 per series
+
+ALL NUMBERS ranked by historical frequency (top 25):
+   1. #10:  720 events (58.8%) ✗ 
+   2. #09:  713 events (58.2%) ✗ ← MISSED CRITICAL
+   3. #19:  708 events (57.8%) ✓ 
+   4. #01:  705 events (57.6%) ✓ 
+   5. #25:  705 events (57.6%) ✓ 
+   6. #23:  703 events (57.4%) ✗ 
+   7. #13:  702 events (57.3%) ✗ 
+   8. #20:  700 events (57.1%) ✗ 
+   9. #24:  698 events (57.0%) ✓ 
+  10. #08:  696 events (56.8%) ✓ 
+  11. #21:  696 events (56.8%) ✓ 
+  12. #03:  693 events (56.6%) ✗ 
+  13. #22:  692 events (56.5%) ✓ 
+  14. #05:  691 events (56.4%) ✓ 
+  15. #02:  690 events (56.3%) ✓ 
+  16. #06:  688 events (56.2%) ✗ 
+  17. #12:  685 events (55.9%) ✗ ← MISSED CRITICAL
+  18. #17:  676 events (55.2%) ✓ 
+  19. #16:  672 events (54.9%) ✗ ← MISSED CRITICAL
+  20. #04:  670 events (54.7%) ✓ 
+  21. #18:  667 events (54.4%) ✗ 
+  22. #14:  663 events (54.1%) ✓ 
+  23. #11:  658 events (53.7%) ✓ 
+  24. #15:  647 events (52.8%) ✗ 
+  25. #07:  612 events (50.0%) ✓ 
+
+================================================================================
+PART 2: RECENT PATTERN ANALYSIS (Last 20 series)
+================================================================================
+
+Recent data: 20 series (3125-3144), 140 events
+
+Missed Critical Numbers - Recent Frequency:
+  #09: 79/140 events (56.4%)
+        Historical avg: 4.07 per series
+        Recent avg:     3.95 per series
+        Change:         -0.12 per series 
+
+  #12: 80/140 events (57.1%)
+        Historical avg: 3.91 per series
+        Recent avg:     4.00 per series
+        Change:         +0.09 per series 
+
+  #16: 86/140 events (61.4%)
+        Historical avg: 3.84 per series
+        Recent avg:     4.30 per series
+        Change:         +0.46 per series 
+
+================================================================================
+PART 3: MODEL WEIGHT ANALYSIS
+================================================================================
+
+After bulk training (167 series):
+
+Missed Critical Numbers - Model Weights BEFORE iterative validation:
+  #09: freq_weight=23.3500, pos_weight=1.0000
+  #12: freq_weight=22.7000, pos_weight=1.0000
+  #16: freq_weight=21.9000, pos_weight=1.0000
+
+Predicted Numbers - Model Weights BEFORE iterative validation:
+  #01: freq_weight=23.3000, pos_weight=1.0000
+  #02: freq_weight=22.7000, pos_weight=1.0000
+  #04: freq_weight=22.1000, pos_weight=1.0000
+  #05: freq_weight=23.1000, pos_weight=1.0000
+  #07: freq_weight=19.4000, pos_weight=1.0000
+  #08: freq_weight=22.9000, pos_weight=1.0000
+  #11: freq_weight=21.5500, pos_weight=1.0000
+  #14: freq_weight=22.3000, pos_weight=1.0000
+  #17: freq_weight=21.5000, pos_weight=1.0000
+  #19: freq_weight=23.7500, pos_weight=1.0000
+  #21: freq_weight=22.7500, pos_weight=1.0000
+  #22: freq_weight=22.8000, pos_weight=1.0000
+  #24: freq_weight=23.5500, pos_weight=1.0000
+  #25: freq_weight=23.7000, pos_weight=1.0000
+
+Performing iterative validation (8 series: 3137-3144)...
+
+Traceback (most recent call last):
+  File "/home/user/Random/python_ml/deep_dive_analysis.py", line 202, in <module>
+    candidates = model._generate_candidates(num_candidates=10000)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: TrueLearningModel._generate_candidates() got an unexpected keyword argument 'num_candidates'
