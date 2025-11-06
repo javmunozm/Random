@@ -1,0 +1,260 @@
+{
+  "test_name": "cross_series_momentum",
+  "hypothesis": "Recent patterns have momentum",
+  "baseline": 0.73214,
+  "standard_result": {
+    "momentum_window": 3,
+    "momentum_threshold": 2,
+    "average": 0.6339285714285714,
+    "peak": 0.7142857142857143,
+    "min": 0.5714285714285714,
+    "series_details": [
+      {
+        "series_id": 3137,
+        "best_match": 10,
+        "accuracy": 0.7142857142857143
+      },
+      {
+        "series_id": 3138,
+        "best_match": 9,
+        "accuracy": 0.6428571428571429
+      },
+      {
+        "series_id": 3139,
+        "best_match": 9,
+        "accuracy": 0.6428571428571429
+      },
+      {
+        "series_id": 3140,
+        "best_match": 9,
+        "accuracy": 0.6428571428571429
+      },
+      {
+        "series_id": 3141,
+        "best_match": 9,
+        "accuracy": 0.6428571428571429
+      },
+      {
+        "series_id": 3142,
+        "best_match": 8,
+        "accuracy": 0.5714285714285714
+      },
+      {
+        "series_id": 3143,
+        "best_match": 9,
+        "accuracy": 0.6428571428571429
+      },
+      {
+        "series_id": 3144,
+        "best_match": 8,
+        "accuracy": 0.5714285714285714
+      }
+    ]
+  },
+  "all_configs": [
+    {
+      "momentum_window": 2,
+      "momentum_threshold": 2,
+      "average": 0.6339285714285714,
+      "peak": 0.7142857142857143,
+      "min": 0.5714285714285714,
+      "series_details": [
+        {
+          "series_id": 3137,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3138,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3139,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3140,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3141,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3142,
+          "best_match": 8,
+          "accuracy": 0.5714285714285714
+        },
+        {
+          "series_id": 3143,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3144,
+          "best_match": 8,
+          "accuracy": 0.5714285714285714
+        }
+      ]
+    },
+    {
+      "momentum_window": 3,
+      "momentum_threshold": 2,
+      "average": 0.6339285714285714,
+      "peak": 0.7142857142857143,
+      "min": 0.5714285714285714,
+      "series_details": [
+        {
+          "series_id": 3137,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3138,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3139,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3140,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3141,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3142,
+          "best_match": 8,
+          "accuracy": 0.5714285714285714
+        },
+        {
+          "series_id": 3143,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3144,
+          "best_match": 8,
+          "accuracy": 0.5714285714285714
+        }
+      ]
+    },
+    {
+      "momentum_window": 3,
+      "momentum_threshold": 3,
+      "average": 0.6339285714285714,
+      "peak": 0.7142857142857143,
+      "min": 0.5714285714285714,
+      "series_details": [
+        {
+          "series_id": 3137,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3138,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3139,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3140,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3141,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3142,
+          "best_match": 8,
+          "accuracy": 0.5714285714285714
+        },
+        {
+          "series_id": 3143,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3144,
+          "best_match": 8,
+          "accuracy": 0.5714285714285714
+        }
+      ]
+    },
+    {
+      "momentum_window": 5,
+      "momentum_threshold": 3,
+      "average": 0.6339285714285714,
+      "peak": 0.7142857142857143,
+      "min": 0.5714285714285714,
+      "series_details": [
+        {
+          "series_id": 3137,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3138,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3139,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3140,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3141,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3142,
+          "best_match": 8,
+          "accuracy": 0.5714285714285714
+        },
+        {
+          "series_id": 3143,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3144,
+          "best_match": 8,
+          "accuracy": 0.5714285714285714
+        }
+      ]
+    }
+  ],
+  "best_config": {
+    "window": 2,
+    "threshold": 2
+  },
+  "best_performance": 0.6339285714285714,
+  "improvement": -0.09821142857142862,
+  "improvement_pct": -13.414296250912205,
+  "verdict": "regression"
+}

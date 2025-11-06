@@ -1,0 +1,1047 @@
+{
+  "test_name": "walk_forward_validation",
+  "purpose": "Validate performance consistency across time periods",
+  "baseline_window": "3137-3144",
+  "baseline_performance": 0.73214,
+  "num_windows_tested": 20,
+  "summary": {
+    "mean_average": 0.6790178571428573,
+    "stdev_average": 0.020375725261056868,
+    "best_average": 0.7232142857142858,
+    "worst_average": 0.6339285714285715,
+    "range": 0.0892857142857143
+  },
+  "best_window": {
+    "start": 3100,
+    "end": 3107,
+    "average": 0.7232142857142858
+  },
+  "worst_window": {
+    "start": 3068,
+    "end": 3075,
+    "average": 0.6339285714285715
+  },
+  "recent_window_analysis": null,
+  "all_windows": [
+    {
+      "window_start": 2980,
+      "window_end": 2987,
+      "training_end": 2979,
+      "training_series_count": 82,
+      "average": 0.6785714285714286,
+      "peak": 0.7857142857142857,
+      "min": 0.5714285714285714,
+      "series_details": [
+        {
+          "series_id": 2980,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 2981,
+          "best_match": 8,
+          "accuracy": 0.5714285714285714
+        },
+        {
+          "series_id": 2982,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 2983,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 2984,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 2985,
+          "best_match": 11,
+          "accuracy": 0.7857142857142857
+        },
+        {
+          "series_id": 2986,
+          "best_match": 11,
+          "accuracy": 0.7857142857142857
+        },
+        {
+          "series_id": 2987,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        }
+      ]
+    },
+    {
+      "window_start": 2988,
+      "window_end": 2995,
+      "training_end": 2987,
+      "training_series_count": 90,
+      "average": 0.6696428571428572,
+      "peak": 0.7142857142857143,
+      "min": 0.5714285714285714,
+      "series_details": [
+        {
+          "series_id": 2988,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 2989,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 2990,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 2991,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 2992,
+          "best_match": 8,
+          "accuracy": 0.5714285714285714
+        },
+        {
+          "series_id": 2993,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 2994,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 2995,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        }
+      ]
+    },
+    {
+      "window_start": 2996,
+      "window_end": 3003,
+      "training_end": 2995,
+      "training_series_count": 98,
+      "average": 0.6696428571428572,
+      "peak": 0.7857142857142857,
+      "min": 0.5714285714285714,
+      "series_details": [
+        {
+          "series_id": 2996,
+          "best_match": 11,
+          "accuracy": 0.7857142857142857
+        },
+        {
+          "series_id": 2997,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 2998,
+          "best_match": 8,
+          "accuracy": 0.5714285714285714
+        },
+        {
+          "series_id": 2999,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3000,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3001,
+          "best_match": 8,
+          "accuracy": 0.5714285714285714
+        },
+        {
+          "series_id": 3002,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3003,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        }
+      ]
+    },
+    {
+      "window_start": 3004,
+      "window_end": 3011,
+      "training_end": 3003,
+      "training_series_count": 106,
+      "average": 0.6875,
+      "peak": 0.8571428571428571,
+      "min": 0.5714285714285714,
+      "series_details": [
+        {
+          "series_id": 3004,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3005,
+          "best_match": 12,
+          "accuracy": 0.8571428571428571
+        },
+        {
+          "series_id": 3006,
+          "best_match": 8,
+          "accuracy": 0.5714285714285714
+        },
+        {
+          "series_id": 3007,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3008,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3009,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3010,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3011,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        }
+      ]
+    },
+    {
+      "window_start": 3012,
+      "window_end": 3019,
+      "training_end": 3011,
+      "training_series_count": 114,
+      "average": 0.6785714285714286,
+      "peak": 0.8571428571428571,
+      "min": 0.5714285714285714,
+      "series_details": [
+        {
+          "series_id": 3012,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3013,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3014,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3015,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3016,
+          "best_match": 8,
+          "accuracy": 0.5714285714285714
+        },
+        {
+          "series_id": 3017,
+          "best_match": 12,
+          "accuracy": 0.8571428571428571
+        },
+        {
+          "series_id": 3018,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3019,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        }
+      ]
+    },
+    {
+      "window_start": 3020,
+      "window_end": 3027,
+      "training_end": 3019,
+      "training_series_count": 122,
+      "average": 0.6875,
+      "peak": 0.7857142857142857,
+      "min": 0.5714285714285714,
+      "series_details": [
+        {
+          "series_id": 3020,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3021,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3022,
+          "best_match": 11,
+          "accuracy": 0.7857142857142857
+        },
+        {
+          "series_id": 3023,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3024,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3025,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3026,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3027,
+          "best_match": 8,
+          "accuracy": 0.5714285714285714
+        }
+      ]
+    },
+    {
+      "window_start": 3028,
+      "window_end": 3035,
+      "training_end": 3027,
+      "training_series_count": 130,
+      "average": 0.6607142857142858,
+      "peak": 0.7142857142857143,
+      "min": 0.5714285714285714,
+      "series_details": [
+        {
+          "series_id": 3028,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3029,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3030,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3031,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3032,
+          "best_match": 8,
+          "accuracy": 0.5714285714285714
+        },
+        {
+          "series_id": 3033,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3034,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3035,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        }
+      ]
+    },
+    {
+      "window_start": 3036,
+      "window_end": 3043,
+      "training_end": 3035,
+      "training_series_count": 138,
+      "average": 0.7053571428571429,
+      "peak": 0.7857142857142857,
+      "min": 0.6428571428571429,
+      "series_details": [
+        {
+          "series_id": 3036,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3037,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3038,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3039,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3040,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3041,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3042,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3043,
+          "best_match": 11,
+          "accuracy": 0.7857142857142857
+        }
+      ]
+    },
+    {
+      "window_start": 3044,
+      "window_end": 3051,
+      "training_end": 3043,
+      "training_series_count": 146,
+      "average": 0.7053571428571429,
+      "peak": 0.7857142857142857,
+      "min": 0.6428571428571429,
+      "series_details": [
+        {
+          "series_id": 3044,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3045,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3046,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3047,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3048,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3049,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3050,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3051,
+          "best_match": 11,
+          "accuracy": 0.7857142857142857
+        }
+      ]
+    },
+    {
+      "window_start": 3052,
+      "window_end": 3059,
+      "training_end": 3051,
+      "training_series_count": 154,
+      "average": 0.6875000000000001,
+      "peak": 0.7857142857142857,
+      "min": 0.5714285714285714,
+      "series_details": [
+        {
+          "series_id": 3052,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3053,
+          "best_match": 8,
+          "accuracy": 0.5714285714285714
+        },
+        {
+          "series_id": 3054,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3055,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3056,
+          "best_match": 11,
+          "accuracy": 0.7857142857142857
+        },
+        {
+          "series_id": 3057,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3058,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3059,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        }
+      ]
+    },
+    {
+      "window_start": 3060,
+      "window_end": 3067,
+      "training_end": 3059,
+      "training_series_count": 162,
+      "average": 0.6696428571428573,
+      "peak": 0.7857142857142857,
+      "min": 0.5714285714285714,
+      "series_details": [
+        {
+          "series_id": 3060,
+          "best_match": 11,
+          "accuracy": 0.7857142857142857
+        },
+        {
+          "series_id": 3061,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3062,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3063,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3064,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3065,
+          "best_match": 8,
+          "accuracy": 0.5714285714285714
+        },
+        {
+          "series_id": 3066,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3067,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        }
+      ]
+    },
+    {
+      "window_start": 3068,
+      "window_end": 3075,
+      "training_end": 3067,
+      "training_series_count": 170,
+      "average": 0.6339285714285715,
+      "peak": 0.7142857142857143,
+      "min": 0.5714285714285714,
+      "series_details": [
+        {
+          "series_id": 3068,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3069,
+          "best_match": 8,
+          "accuracy": 0.5714285714285714
+        },
+        {
+          "series_id": 3070,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3071,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3072,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3073,
+          "best_match": 8,
+          "accuracy": 0.5714285714285714
+        },
+        {
+          "series_id": 3074,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3075,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        }
+      ]
+    },
+    {
+      "window_start": 3076,
+      "window_end": 3083,
+      "training_end": 3075,
+      "training_series_count": 178,
+      "average": 0.6964285714285715,
+      "peak": 0.7142857142857143,
+      "min": 0.6428571428571429,
+      "series_details": [
+        {
+          "series_id": 3076,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3077,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3078,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3079,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3080,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3081,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3082,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3083,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        }
+      ]
+    },
+    {
+      "window_start": 3084,
+      "window_end": 3091,
+      "training_end": 3083,
+      "training_series_count": 186,
+      "average": 0.6517857142857144,
+      "peak": 0.7142857142857143,
+      "min": 0.6428571428571429,
+      "series_details": [
+        {
+          "series_id": 3084,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3085,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3086,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3087,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3088,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3089,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3090,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3091,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        }
+      ]
+    },
+    {
+      "window_start": 3092,
+      "window_end": 3099,
+      "training_end": 3091,
+      "training_series_count": 194,
+      "average": 0.6875000000000001,
+      "peak": 0.7857142857142857,
+      "min": 0.5714285714285714,
+      "series_details": [
+        {
+          "series_id": 3092,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3093,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3094,
+          "best_match": 8,
+          "accuracy": 0.5714285714285714
+        },
+        {
+          "series_id": 3095,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3096,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3097,
+          "best_match": 11,
+          "accuracy": 0.7857142857142857
+        },
+        {
+          "series_id": 3098,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3099,
+          "best_match": 11,
+          "accuracy": 0.7857142857142857
+        }
+      ]
+    },
+    {
+      "window_start": 3100,
+      "window_end": 3107,
+      "training_end": 3099,
+      "training_series_count": 202,
+      "average": 0.7232142857142858,
+      "peak": 0.7857142857142857,
+      "min": 0.6428571428571429,
+      "series_details": [
+        {
+          "series_id": 3100,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3101,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3102,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3103,
+          "best_match": 11,
+          "accuracy": 0.7857142857142857
+        },
+        {
+          "series_id": 3104,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3105,
+          "best_match": 11,
+          "accuracy": 0.7857142857142857
+        },
+        {
+          "series_id": 3106,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3107,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        }
+      ]
+    },
+    {
+      "window_start": 3108,
+      "window_end": 3115,
+      "training_end": 3107,
+      "training_series_count": 210,
+      "average": 0.6696428571428571,
+      "peak": 0.7142857142857143,
+      "min": 0.5714285714285714,
+      "series_details": [
+        {
+          "series_id": 3108,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3109,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3110,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3111,
+          "best_match": 8,
+          "accuracy": 0.5714285714285714
+        },
+        {
+          "series_id": 3112,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3113,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3114,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3115,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        }
+      ]
+    },
+    {
+      "window_start": 3116,
+      "window_end": 3123,
+      "training_end": 3115,
+      "training_series_count": 218,
+      "average": 0.6696428571428571,
+      "peak": 0.7142857142857143,
+      "min": 0.6428571428571429,
+      "series_details": [
+        {
+          "series_id": 3116,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3117,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3118,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3119,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3120,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3121,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3122,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3123,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        }
+      ]
+    },
+    {
+      "window_start": 3124,
+      "window_end": 3131,
+      "training_end": 3123,
+      "training_series_count": 226,
+      "average": 0.6607142857142857,
+      "peak": 0.7142857142857143,
+      "min": 0.5714285714285714,
+      "series_details": [
+        {
+          "series_id": 3124,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3125,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3126,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3127,
+          "best_match": 8,
+          "accuracy": 0.5714285714285714
+        },
+        {
+          "series_id": 3128,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3129,
+          "best_match": 8,
+          "accuracy": 0.5714285714285714
+        },
+        {
+          "series_id": 3130,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3131,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        }
+      ]
+    },
+    {
+      "window_start": 3132,
+      "window_end": 3139,
+      "training_end": 3131,
+      "training_series_count": 234,
+      "average": 0.6875000000000001,
+      "peak": 0.7857142857142857,
+      "min": 0.6428571428571429,
+      "series_details": [
+        {
+          "series_id": 3132,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3133,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3134,
+          "best_match": 11,
+          "accuracy": 0.7857142857142857
+        },
+        {
+          "series_id": 3135,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3136,
+          "best_match": 10,
+          "accuracy": 0.7142857142857143
+        },
+        {
+          "series_id": 3137,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3138,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        },
+        {
+          "series_id": 3139,
+          "best_match": 9,
+          "accuracy": 0.6428571428571429
+        }
+      ]
+    }
+  ]
+}
