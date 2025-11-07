@@ -1,0 +1,33 @@
+================================================================================
+MULTI-MODEL VOTING - ROUND 3
+================================================================================
+
+Current best: 70 series + 2k candidates → 58.0%
+Testing: Voting across models with different hyperparameters
+================================================================================
+
+Testing Single model (70 + 2k)                        ... 56.6%
+Testing Ensemble: 3 windows (60, 70, 80)              ... 56.5%
+Testing Ensemble: 3 LRs (0.08, 0.10, 0.12)            ... 56.6%
+Testing Ensemble: All 5 models                        ... 56.0%
+
+================================================================================
+SUMMARY - RANKED BY ACTUAL AVERAGE
+================================================================================
+
+Configuration                                    | ACTUAL | vs 58.0%
+-------------------------------------------------|--------|----------
+  Single model (70 + 2k)                         |  56.6% | -1.4% ❌
+  Ensemble: 3 LRs (0.08, 0.10, 0.12)             |  56.6% | -1.4% ❌
+  Ensemble: 3 windows (60, 70, 80)               |  56.5% | -1.5% ❌
+  Ensemble: All 5 models                         |  56.0% | -2.0% ❌
+
+================================================================================
+CONCLUSION:
+================================================================================
+➖ NO IMPROVEMENT
+   Best: 56.6%
+   Voting doesn't help
+
+📁 Results saved to: test_multi_model_voting_results.json
+

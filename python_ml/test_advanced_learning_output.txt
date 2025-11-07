@@ -1,0 +1,41 @@
+================================================================================
+ADVANCED LEARNING STRATEGIES - ROUND 3
+================================================================================
+
+Current best: 70 series + 2k candidates → 58.0%
+Testing: Progressive LR decay, exponential data weighting
+================================================================================
+
+Testing 70 + 2k (baseline, LR=0.10 constant)          ... 58.0%
+Testing 70 + 2k + Progressive LR (0.20→0.05)          ... 57.5%
+Testing 70 + 2k + Progressive LR (0.15→0.08)          ... 58.0%
+Testing 70 + 2k + Progressive LR (0.12→0.08)          ... 58.0%
+Testing 70 + 2k + Inverse LR (0.05→0.15)              ... 57.7%
+Testing 70 + 2k + Exp decay (rate=0.02)               ... 57.7%
+Testing 70 + 2k + Exp decay (rate=0.05)               ... 55.9%
+Testing 70 + 2k + Exp decay (rate=0.10)               ... 56.1%
+
+================================================================================
+SUMMARY - RANKED BY ACTUAL AVERAGE
+================================================================================
+
+Configuration                                    | ACTUAL | vs 58.0%
+-------------------------------------------------|--------|----------
+  70 + 2k (baseline, LR=0.10 constant)           |  58.0% | ~same ➖
+  70 + 2k + Progressive LR (0.15→0.08)           |  58.0% | ~same ➖
+  70 + 2k + Progressive LR (0.12→0.08)           |  58.0% | ~same ➖
+  70 + 2k + Exp decay (rate=0.02)                |  57.7% | ~same ➖
+  70 + 2k + Inverse LR (0.05→0.15)               |  57.7% | ~same ➖
+  70 + 2k + Progressive LR (0.20→0.05)           |  57.5% | ~same ➖
+  70 + 2k + Exp decay (rate=0.10)                |  56.1% | -1.9% ❌
+  70 + 2k + Exp decay (rate=0.05)                |  55.9% | -2.1% ❌
+
+================================================================================
+CONCLUSION:
+================================================================================
+➖ NO IMPROVEMENT
+   Best: 58.0%
+   All within noise of 58.0%
+
+📁 Results saved to: test_advanced_learning_results.json
+
