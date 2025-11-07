@@ -1,0 +1,30 @@
+{
+  "series_id": 3146,
+  "prediction": [
+    1,
+    2,
+    4,
+    6,
+    7,
+    9,
+    11,
+    12,
+    13,
+    16,
+    18,
+    21,
+    23,
+    25
+  ],
+  "prediction_formatted": "01 02 04 06 07 09 11 12 13 16 18 21 23 25",
+  "model_type": "TrueLearningModel Phase 1 Pure",
+  "seed": 999,
+  "training_series_count": 176,
+  "validation_window": "3138-3145",
+  "performance_on_validation": {
+    "overall_best_average": "64.3%",
+    "overall_average": "55.7%",
+    "improvement": "+1.7%"
+  },
+  "generated_at": "2025-11-07T21:33:36.394323"
+}
