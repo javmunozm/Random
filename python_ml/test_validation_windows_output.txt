@@ -1,0 +1,106 @@
+================================================================================
+VALIDATION WINDOW SIZE OPTIMIZATION
+================================================================================
+
+Current baseline: 8 series window, 55.7% actual average
+Testing: 4, 6, 10, 12 series windows
+
+CRITICAL: Using ACTUAL average (all 7 events), not 'best match'
+================================================================================
+
+================================================================================
+Testing Validation Window Size: 4 series
+================================================================================
+
+Training: Series 2898-3141 (244 series)
+Validation: Series 3142-3145 (4 series)
+
+
+Results:
+  Best Match Average: 73.2% (misleading)
+  ACTUAL Average: 56.4% ← REAL METRIC
+  Improvement: -1.5%
+  Training series: 172
+  Validation series: 4
+
+================================================================================
+Testing Validation Window Size: 6 series
+================================================================================
+
+Training: Series 2898-3139 (242 series)
+Validation: Series 3140-3145 (6 series)
+
+
+Results:
+  Best Match Average: 69.0% (misleading)
+  ACTUAL Average: 56.6% ← REAL METRIC
+  Improvement: -2.4%
+  Training series: 170
+  Validation series: 6
+
+================================================================================
+Testing Validation Window Size: 8 series
+================================================================================
+
+Training: Series 2898-3137 (240 series)
+Validation: Series 3138-3145 (8 series)
+
+
+Results:
+  Best Match Average: 67.9% (misleading)
+  ACTUAL Average: 56.1% ← REAL METRIC
+  Improvement: -0.5%
+  Training series: 168
+  Validation series: 8
+
+================================================================================
+Testing Validation Window Size: 10 series
+================================================================================
+
+Training: Series 2898-3135 (238 series)
+Validation: Series 3136-3145 (10 series)
+
+
+Results:
+  Best Match Average: 66.4% (misleading)
+  ACTUAL Average: 55.7% ← REAL METRIC
+  Improvement: +1.6%
+  Training series: 166
+  Validation series: 10
+
+================================================================================
+Testing Validation Window Size: 12 series
+================================================================================
+
+Training: Series 2898-3133 (236 series)
+Validation: Series 3134-3145 (12 series)
+
+
+Results:
+  Best Match Average: 65.5% (misleading)
+  ACTUAL Average: 54.5% ← REAL METRIC
+  Improvement: +0.9%
+  Training series: 164
+  Validation series: 12
+
+================================================================================
+SUMMARY - RANKED BY ACTUAL AVERAGE
+================================================================================
+
+Window | Training | Best Match | ACTUAL Avg | Improvement | Verdict
+-------|----------|------------|------------|-------------|--------
+     6 |     170 |      69.0% |      56.6% |       -2.4% | ~same ➖
+     4 |     172 |      73.2% |      56.4% |       -1.5% | ~same ➖
+     8 |     168 |      67.9% |      56.1% |       -0.5% | ~same ➖
+    10 |     166 |      66.4% |      55.7% |       +1.6% | ~same ➖
+    12 |     164 |      65.5% |      54.5% |       +0.9% | -1.2% ❌
+
+================================================================================
+CONCLUSION:
+================================================================================
+➖ NO SIGNIFICANT DIFFERENCE
+   All window sizes perform similarly (~56.6%)
+   RECOMMENDATION: Keep current 8 series window
+
+📁 Results saved to: test_validation_windows_results.json
+

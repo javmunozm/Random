@@ -1,0 +1,260 @@
+{
+  "baseline": 0.557,
+  "results": [
+    {
+      "window_size": 4,
+      "best_match_avg": 0.7321428571428571,
+      "actual_avg": 0.5637755102040816,
+      "improvement": -0.015306122448979664,
+      "training_count": 172,
+      "validation_count": 4,
+      "results": [
+        {
+          "series_id": 3142,
+          "best_accuracy": 0.7857142857142857,
+          "avg_accuracy": 0.6122448979591837
+        },
+        {
+          "series_id": 3143,
+          "best_accuracy": 0.6428571428571429,
+          "avg_accuracy": 0.5306122448979591
+        },
+        {
+          "series_id": 3144,
+          "best_accuracy": 0.7142857142857143,
+          "avg_accuracy": 0.5816326530612245
+        },
+        {
+          "series_id": 3145,
+          "best_accuracy": 0.7857142857142857,
+          "avg_accuracy": 0.5306122448979591
+        }
+      ]
+    },
+    {
+      "window_size": 6,
+      "best_match_avg": 0.6904761904761906,
+      "actual_avg": 0.5663265306122449,
+      "improvement": -0.023809523809523947,
+      "training_count": 170,
+      "validation_count": 6,
+      "results": [
+        {
+          "series_id": 3140,
+          "best_accuracy": 0.7142857142857143,
+          "avg_accuracy": 0.5612244897959184
+        },
+        {
+          "series_id": 3141,
+          "best_accuracy": 0.7142857142857143,
+          "avg_accuracy": 0.5918367346938777
+        },
+        {
+          "series_id": 3142,
+          "best_accuracy": 0.6428571428571429,
+          "avg_accuracy": 0.5816326530612245
+        },
+        {
+          "series_id": 3143,
+          "best_accuracy": 0.6428571428571429,
+          "avg_accuracy": 0.5306122448979591
+        },
+        {
+          "series_id": 3144,
+          "best_accuracy": 0.7142857142857143,
+          "avg_accuracy": 0.6020408163265306
+        },
+        {
+          "series_id": 3145,
+          "best_accuracy": 0.7142857142857143,
+          "avg_accuracy": 0.5306122448979591
+        }
+      ]
+    },
+    {
+      "window_size": 8,
+      "best_match_avg": 0.6785714285714286,
+      "actual_avg": 0.5612244897959184,
+      "improvement": -0.005102040816326592,
+      "training_count": 168,
+      "validation_count": 8,
+      "results": [
+        {
+          "series_id": 3138,
+          "best_accuracy": 0.6428571428571429,
+          "avg_accuracy": 0.5510204081632654
+        },
+        {
+          "series_id": 3139,
+          "best_accuracy": 0.7142857142857143,
+          "avg_accuracy": 0.5714285714285714
+        },
+        {
+          "series_id": 3140,
+          "best_accuracy": 0.7142857142857143,
+          "avg_accuracy": 0.5306122448979592
+        },
+        {
+          "series_id": 3141,
+          "best_accuracy": 0.7142857142857143,
+          "avg_accuracy": 0.6020408163265305
+        },
+        {
+          "series_id": 3142,
+          "best_accuracy": 0.7142857142857143,
+          "avg_accuracy": 0.5714285714285714
+        },
+        {
+          "series_id": 3143,
+          "best_accuracy": 0.6428571428571429,
+          "avg_accuracy": 0.5612244897959183
+        },
+        {
+          "series_id": 3144,
+          "best_accuracy": 0.7142857142857143,
+          "avg_accuracy": 0.5918367346938777
+        },
+        {
+          "series_id": 3145,
+          "best_accuracy": 0.5714285714285714,
+          "avg_accuracy": 0.510204081632653
+        }
+      ]
+    },
+    {
+      "window_size": 10,
+      "best_match_avg": 0.6642857142857144,
+      "actual_avg": 0.5571428571428572,
+      "improvement": 0.016326530612244983,
+      "training_count": 166,
+      "validation_count": 10,
+      "results": [
+        {
+          "series_id": 3136,
+          "best_accuracy": 0.5714285714285714,
+          "avg_accuracy": 0.5306122448979592
+        },
+        {
+          "series_id": 3137,
+          "best_accuracy": 0.6428571428571429,
+          "avg_accuracy": 0.520408163265306
+        },
+        {
+          "series_id": 3138,
+          "best_accuracy": 0.7142857142857143,
+          "avg_accuracy": 0.5714285714285714
+        },
+        {
+          "series_id": 3139,
+          "best_accuracy": 0.6428571428571429,
+          "avg_accuracy": 0.5816326530612245
+        },
+        {
+          "series_id": 3140,
+          "best_accuracy": 0.7142857142857143,
+          "avg_accuracy": 0.5408163265306122
+        },
+        {
+          "series_id": 3141,
+          "best_accuracy": 0.7142857142857143,
+          "avg_accuracy": 0.5714285714285714
+        },
+        {
+          "series_id": 3142,
+          "best_accuracy": 0.7142857142857143,
+          "avg_accuracy": 0.5816326530612245
+        },
+        {
+          "series_id": 3143,
+          "best_accuracy": 0.6428571428571429,
+          "avg_accuracy": 0.5408163265306122
+        },
+        {
+          "series_id": 3144,
+          "best_accuracy": 0.6428571428571429,
+          "avg_accuracy": 0.5714285714285714
+        },
+        {
+          "series_id": 3145,
+          "best_accuracy": 0.6428571428571429,
+          "avg_accuracy": 0.5612244897959183
+        }
+      ]
+    },
+    {
+      "window_size": 12,
+      "best_match_avg": 0.6547619047619049,
+      "actual_avg": 0.5450680272108844,
+      "improvement": 0.008503401360544172,
+      "training_count": 164,
+      "validation_count": 12,
+      "results": [
+        {
+          "series_id": 3134,
+          "best_accuracy": 0.7142857142857143,
+          "avg_accuracy": 0.5306122448979591
+        },
+        {
+          "series_id": 3135,
+          "best_accuracy": 0.7142857142857143,
+          "avg_accuracy": 0.5816326530612246
+        },
+        {
+          "series_id": 3136,
+          "best_accuracy": 0.6428571428571429,
+          "avg_accuracy": 0.5612244897959183
+        },
+        {
+          "series_id": 3137,
+          "best_accuracy": 0.6428571428571429,
+          "avg_accuracy": 0.5204081632653061
+        },
+        {
+          "series_id": 3138,
+          "best_accuracy": 0.6428571428571429,
+          "avg_accuracy": 0.5102040816326531
+        },
+        {
+          "series_id": 3139,
+          "best_accuracy": 0.6428571428571429,
+          "avg_accuracy": 0.5408163265306122
+        },
+        {
+          "series_id": 3140,
+          "best_accuracy": 0.7142857142857143,
+          "avg_accuracy": 0.5612244897959184
+        },
+        {
+          "series_id": 3141,
+          "best_accuracy": 0.6428571428571429,
+          "avg_accuracy": 0.5510204081632653
+        },
+        {
+          "series_id": 3142,
+          "best_accuracy": 0.6428571428571429,
+          "avg_accuracy": 0.5816326530612245
+        },
+        {
+          "series_id": 3143,
+          "best_accuracy": 0.5714285714285714,
+          "avg_accuracy": 0.5102040816326531
+        },
+        {
+          "series_id": 3144,
+          "best_accuracy": 0.6428571428571429,
+          "avg_accuracy": 0.5510204081632653
+        },
+        {
+          "series_id": 3145,
+          "best_accuracy": 0.6428571428571429,
+          "avg_accuracy": 0.5408163265306122
+        }
+      ]
+    }
+  ],
+  "best_config": {
+    "window_size": 6,
+    "actual_avg": 0.5663265306122449,
+    "improvement_vs_baseline": 0.009326530612244865
+  }
+}

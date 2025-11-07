@@ -1,0 +1,131 @@
+================================================================================
+RECENT DATA ONLY OPTIMIZATION
+================================================================================
+
+Hypothesis: Old data is noise, recent data more relevant
+Current baseline: All 168 series, 55.7% actual average
+Testing: Most recent 50, 75, 100, 125, 150 series only
+
+CRITICAL: Using ACTUAL average (all 7 events), not 'best match'
+================================================================================
+
+================================================================================
+Testing Recent Data Only: 50 series
+================================================================================
+
+Training: Series 3088-3137 (50 series)
+Validation: Series 3138-3145 (8 series)
+Skipped old data: Series 2898-3087 (190 series)
+
+
+Results:
+  Best Match Average: 68.8% (misleading)
+  ACTUAL Average: 57.1% ← REAL METRIC
+  Improvement: -1.5%
+  Training series used: 50
+  Validation series: 8
+
+================================================================================
+Testing Recent Data Only: 75 series
+================================================================================
+
+Training: Series 3063-3137 (75 series)
+Validation: Series 3138-3145 (8 series)
+Skipped old data: Series 2898-3062 (165 series)
+
+
+Results:
+  Best Match Average: 68.8% (misleading)
+  ACTUAL Average: 56.5% ← REAL METRIC
+  Improvement: -2.3%
+  Training series used: 75
+  Validation series: 8
+
+================================================================================
+Testing Recent Data Only: 100 series
+================================================================================
+
+Training: Series 3038-3137 (100 series)
+Validation: Series 3138-3145 (8 series)
+Skipped old data: Series 2898-3037 (140 series)
+
+
+Results:
+  Best Match Average: 67.9% (misleading)
+  ACTUAL Average: 56.0% ← REAL METRIC
+  Improvement: -1.8%
+  Training series used: 100
+  Validation series: 8
+
+================================================================================
+Testing Recent Data Only: 125 series
+================================================================================
+
+Training: Series 3013-3137 (125 series)
+Validation: Series 3138-3145 (8 series)
+Skipped old data: Series 2898-3012 (115 series)
+
+
+Results:
+  Best Match Average: 67.9% (misleading)
+  ACTUAL Average: 56.5% ← REAL METRIC
+  Improvement: -2.8%
+  Training series used: 125
+  Validation series: 8
+
+================================================================================
+Testing Recent Data Only: 150 series
+================================================================================
+
+Training: Series 2988-3137 (150 series)
+Validation: Series 3138-3145 (8 series)
+Skipped old data: Series 2898-2987 (90 series)
+
+
+Results:
+  Best Match Average: 67.9% (misleading)
+  ACTUAL Average: 56.1% ← REAL METRIC
+  Improvement: -1.5%
+  Training series used: 150
+  Validation series: 8
+
+================================================================================
+Testing Recent Data Only: 168 series
+================================================================================
+
+Training: Series 2970-3137 (168 series)
+Validation: Series 3138-3145 (8 series)
+Skipped old data: Series 2898-2969 (72 series)
+
+⚠️  Warning: Only 158 series available for training
+
+Results:
+  Best Match Average: 67.0% (misleading)
+  ACTUAL Average: 55.4% ← REAL METRIC
+  Improvement: -2.0%
+  Training series used: 158
+  Validation series: 8
+
+================================================================================
+SUMMARY - RANKED BY ACTUAL AVERAGE
+================================================================================
+
+Recent | Training | Best Match | ACTUAL Avg | Improvement | Verdict
+-------|----------|------------|------------|-------------|--------
+    50 |      50 |      68.8% |      57.1% |       -1.5% | +1.4% ✅
+    75 |      75 |      68.8% |      56.5% |       -2.3% | ~same ➖
+   125 |     125 |      67.9% |      56.5% |       -2.8% | ~same ➖
+   150 |     150 |      67.9% |      56.1% |       -1.5% | ~same ➖
+   100 |     100 |      67.9% |      56.0% |       -1.8% | ~same ➖
+   168 |     158 |      67.0% |      55.4% |       -2.0% | ~same ➖
+
+================================================================================
+CONCLUSION:
+================================================================================
+✅ IMPROVEMENT FOUND: Using 50 recent series
+   Actual average: 57.1% (vs 55.7% baseline)
+   Improvement: +1.4%
+   RECOMMENDATION: Limit training to 50 most recent series
+
+📁 Results saved to: test_recent_data_results.json
+
