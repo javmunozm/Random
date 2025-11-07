@@ -1,0 +1,65 @@
+{
+  "approach": "Hybrid Adaptive Learning",
+  "baseline": {
+    "learning_rate": "fixed 0.10",
+    "overall_best_avg": 0.722,
+    "series_3145_best": 0.643
+  },
+  "hybrid": {
+    "learning_rate": "adaptive 0.08-0.20",
+    "overall_best_avg": 0.6825396825396827,
+    "series_3145_best": 0.7142857142857143,
+    "series_results": [
+      {
+        "series_id": 3137,
+        "best_accuracy": 0.7142857142857143,
+        "avg_accuracy": 0.5612244897959183
+      },
+      {
+        "series_id": 3138,
+        "best_accuracy": 0.7142857142857143,
+        "avg_accuracy": 0.5714285714285714
+      },
+      {
+        "series_id": 3139,
+        "best_accuracy": 0.6428571428571429,
+        "avg_accuracy": 0.5612244897959183
+      },
+      {
+        "series_id": 3140,
+        "best_accuracy": 0.7142857142857143,
+        "avg_accuracy": 0.5612244897959183
+      },
+      {
+        "series_id": 3141,
+        "best_accuracy": 0.6428571428571429,
+        "avg_accuracy": 0.5612244897959183
+      },
+      {
+        "series_id": 3142,
+        "best_accuracy": 0.7142857142857143,
+        "avg_accuracy": 0.5408163265306122
+      },
+      {
+        "series_id": 3143,
+        "best_accuracy": 0.6428571428571429,
+        "avg_accuracy": 0.5918367346938777
+      },
+      {
+        "series_id": 3144,
+        "best_accuracy": 0.6428571428571429,
+        "avg_accuracy": 0.5408163265306123
+      },
+      {
+        "series_id": 3145,
+        "best_accuracy": 0.7142857142857143,
+        "avg_accuracy": 0.5918367346938777
+      }
+    ]
+  },
+  "improvement": {
+    "overall_best_avg": -0.03946031746031731,
+    "series_3145_best": 0.07128571428571429
+  },
+  "decision": "ROLLBACK"
+}

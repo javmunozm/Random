@@ -1,0 +1,304 @@
+================================================================================
+IMPROVEMENT TEST 1: ENHANCED CANDIDATE POOL
+================================================================================
+
+Approach: Increase candidate pool from 10,000 → 50,000
+Rationale: More exploration may find better combinations
+Evidence: Previous 2,000→5,000 showed +4.7% improvement
+Expected: +2-3% improvement if pattern continues
+
+================================================================================
+BASELINE: Phase 1 Pure with 10,000 candidates
+================================================================================
+
+  Series 3137: Best=71.4%, Avg=56.1%
+
+📊 Learning from Series 3137: Accuracy = 71.4% (10/14)
+🔥 Critical numbers (5+ events): 05 06 08 12 15 16 17 18
+   ✅ Hit: 5/8 - 05 15 16 17 18
+   ❌ Missed: 3/8 - 06 08 12
+   Best: 71.4%, Avg across 7 events: 56.1%
+   ⚠️  CRITICAL MISS: #06 (appeared 6/7 events) - HEAVY boost
+   ⚠️  CRITICAL MISS: #08 (appeared 5/7 events) - HEAVY boost
+   ⚠️  CRITICAL MISS: #12 (appeared 5/7 events) - HEAVY boost
+✅ Top 8 weights after learning: 06 08 12 24 21 14 11 07
+🔗 Top 3 pair affinities: 10+23, 03+25, 10+13
+  Series 3138: Best=71.4%, Avg=57.1%
+
+📊 Learning from Series 3138: Accuracy = 71.4% (10/14)
+🔥 Critical numbers (5+ events): 09 14 16 17 18 21 24
+   ✅ Hit: 4/7 - 14 16 18 21
+   ❌ Missed: 3/7 - 09 17 24
+   Best: 71.4%, Avg across 7 events: 57.1%
+   ⚠️  CRITICAL MISS: #09 (appeared 5/7 events) - HEAVY boost
+   ⚠️  CRITICAL MISS: #24 (appeared 5/7 events) - HEAVY boost
+   ⚠️  CRITICAL MISS: #17 (appeared 5/7 events) - HEAVY boost
+✅ Top 8 weights after learning: 24 06 07 17 12 19 09 08
+🔗 Top 3 pair affinities: 10+23, 10+13, 19+25
+  Series 3139: Best=71.4%, Avg=57.1%
+
+📊 Learning from Series 3139: Accuracy = 71.4% (10/14)
+🔥 Critical numbers (5+ events): 03 04 09 17 18 19 21 22 24 25
+   ✅ Hit: 6/10 - 03 09 17 18 21 24
+   ❌ Missed: 4/10 - 04 19 22 25
+   Best: 71.4%, Avg across 7 events: 57.1%
+   ⚠️  CRITICAL MISS: #04 (appeared 5/7 events) - HEAVY boost
+   ⚠️  CRITICAL MISS: #19 (appeared 5/7 events) - HEAVY boost
+   ⚠️  CRITICAL MISS: #22 (appeared 5/7 events) - HEAVY boost
+   ⚠️  CRITICAL MISS: #25 (appeared 5/7 events) - HEAVY boost
+✅ Top 8 weights after learning: 19 24 08 22 12 17 09 11
+🔗 Top 3 pair affinities: 10+23, 03+25, 19+25
+  Series 3140: Best=71.4%, Avg=57.1%
+
+📊 Learning from Series 3140: Accuracy = 71.4% (10/14)
+🔥 Critical numbers (5+ events): 01 02 07 12 14 15 18 21 25
+   ✅ Hit: 5/9 - 01 02 12 18 25
+   ❌ Missed: 4/9 - 07 14 15 21
+   Best: 71.4%, Avg across 7 events: 57.1%
+   ⚠️  CRITICAL MISS: #07 (appeared 6/7 events) - HEAVY boost
+   ⚠️  CRITICAL MISS: #21 (appeared 5/7 events) - HEAVY boost
+   ⚠️  CRITICAL MISS: #14 (appeared 5/7 events) - HEAVY boost
+   ⚠️  CRITICAL MISS: #15 (appeared 5/7 events) - HEAVY boost
+✅ Top 8 weights after learning: 07 21 19 17 11 24 14 12
+🔗 Top 3 pair affinities: 03+25, 19+25, 10+23
+  Series 3141: Best=71.4%, Avg=53.1%
+
+📊 Learning from Series 3141: Accuracy = 71.4% (10/14)
+🔥 Critical numbers (5+ events): 01 02 05 09 10 12 14 24 25
+   ✅ Hit: 6/9 - 01 02 12 14 24 25
+   ❌ Missed: 3/9 - 05 09 10
+   Best: 71.4%, Avg across 7 events: 53.1%
+   ⚠️  CRITICAL MISS: #09 (appeared 7/7 events) - HEAVY boost
+   ⚠️  CRITICAL MISS: #10 (appeared 5/7 events) - HEAVY boost
+   ⚠️  CRITICAL MISS: #05 (appeared 5/7 events) - HEAVY boost
+✅ Top 8 weights after learning: 17 09 11 08 07 19 24 14
+🔗 Top 3 pair affinities: 19+25, 09+17, 02+09
+  Series 3142: Best=78.6%, Avg=56.1%
+
+📊 Learning from Series 3142: Accuracy = 78.6% (11/14)
+🔥 Critical numbers (5+ events): 02 06 07 09 14 15 16 18 20 21
+   ✅ Hit: 6/10 - 02 06 09 14 16 20
+   ❌ Missed: 4/10 - 07 15 18 21
+   Best: 78.6%, Avg across 7 events: 56.1%
+   ⚠️  CRITICAL MISS: #07 (appeared 5/7 events) - HEAVY boost
+   ⚠️  CRITICAL MISS: #21 (appeared 5/7 events) - HEAVY boost
+   ⚠️  CRITICAL MISS: #15 (appeared 5/7 events) - HEAVY boost
+   ⚠️  CRITICAL MISS: #18 (appeared 5/7 events) - HEAVY boost
+✅ Top 8 weights after learning: 07 11 17 08 21 09 18 04
+🔗 Top 3 pair affinities: 02+09, 03+25, 19+25
+  Series 3143: Best=78.6%, Avg=62.2%
+
+📊 Learning from Series 3143: Accuracy = 78.6% (11/14)
+🔥 Critical numbers (5+ events): 02 06 08 10 11 12 13 14 16 18
+   ✅ Hit: 8/10 - 02 06 08 10 11 14 16 18
+   ❌ Missed: 2/10 - 12 13
+   Best: 78.6%, Avg across 7 events: 62.2%
+   ⚠️  CRITICAL MISS: #13 (appeared 5/7 events) - HEAVY boost
+   ⚠️  CRITICAL MISS: #12 (appeared 5/7 events) - HEAVY boost
+✅ Top 8 weights after learning: 07 11 08 13 21 12 17 18
+🔗 Top 3 pair affinities: 02+09, 02+10, 03+25
+  Series 3144: Best=71.4%, Avg=55.1%
+
+📊 Learning from Series 3144: Accuracy = 71.4% (10/14)
+🔥 Critical numbers (5+ events): 01 04 11 17 21 22 24 25
+   ✅ Hit: 4/8 - 01 11 17 21
+   ❌ Missed: 4/8 - 04 22 24 25
+   Best: 71.4%, Avg across 7 events: 55.1%
+   ⚠️  CRITICAL MISS: #22 (appeared 5/7 events) - HEAVY boost
+   ⚠️  CRITICAL MISS: #24 (appeared 6/7 events) - HEAVY boost
+   ⚠️  CRITICAL MISS: #25 (appeared 5/7 events) - HEAVY boost
+   ⚠️  CRITICAL MISS: #04 (appeared 6/7 events) - HEAVY boost
+✅ Top 8 weights after learning: 04 07 24 11 12 21 08 13
+🔗 Top 3 pair affinities: 02+09, 02+10, 01+08
+  Series 3145: Best=64.3%, Avg=53.1%
+
+📊 Learning from Series 3145: Accuracy = 64.3% (9/14)
+🔥 Critical numbers (5+ events): 01 07 09 11 12 16 21
+   ✅ Hit: 4/7 - 01 07 11 21
+   ❌ Missed: 3/7 - 09 12 16
+   Best: 64.3%, Avg across 7 events: 53.1%
+   ⚠️  CRITICAL MISS: #09 (appeared 6/7 events) - HEAVY boost
+   ⚠️  CRITICAL MISS: #12 (appeared 6/7 events) - HEAVY boost
+   ⚠️  CRITICAL MISS: #16 (appeared 6/7 events) - HEAVY boost
+✅ Top 8 weights after learning: 12 09 04 07 13 11 21 16
+🔗 Top 3 pair affinities: 01+08, 02+09, 09+10
+
+📊 Baseline Overall Best Average: 72.2%
+📊 Baseline Overall Average: 56.3%
+📊 Baseline Series 3145: 64.3%
+
+================================================================================
+ENHANCED: Phase 1 Pure with 50,000 candidates
+================================================================================
+
+  Series 3137: Best=71.4%, Avg=56.1%
+
+📊 Learning from Series 3137: Accuracy = 71.4% (10/14)
+🔥 Critical numbers (5+ events): 05 06 08 12 15 16 17 18
+   ✅ Hit: 5/8 - 05 15 16 17 18
+   ❌ Missed: 3/8 - 06 08 12
+   Best: 71.4%, Avg across 7 events: 56.1%
+   ⚠️  CRITICAL MISS: #06 (appeared 6/7 events) - HEAVY boost
+   ⚠️  CRITICAL MISS: #08 (appeared 5/7 events) - HEAVY boost
+   ⚠️  CRITICAL MISS: #12 (appeared 5/7 events) - HEAVY boost
+✅ Top 8 weights after learning: 06 08 12 24 21 14 11 07
+🔗 Top 3 pair affinities: 10+23, 03+25, 10+13
+  Series 3138: Best=71.4%, Avg=57.1%
+
+📊 Learning from Series 3138: Accuracy = 71.4% (10/14)
+🔥 Critical numbers (5+ events): 09 14 16 17 18 21 24
+   ✅ Hit: 4/7 - 14 16 18 21
+   ❌ Missed: 3/7 - 09 17 24
+   Best: 71.4%, Avg across 7 events: 57.1%
+   ⚠️  CRITICAL MISS: #09 (appeared 5/7 events) - HEAVY boost
+   ⚠️  CRITICAL MISS: #24 (appeared 5/7 events) - HEAVY boost
+   ⚠️  CRITICAL MISS: #17 (appeared 5/7 events) - HEAVY boost
+✅ Top 8 weights after learning: 24 06 07 17 12 19 09 08
+🔗 Top 3 pair affinities: 10+23, 10+13, 19+25
+  Series 3139: Best=71.4%, Avg=57.1%
+
+📊 Learning from Series 3139: Accuracy = 71.4% (10/14)
+🔥 Critical numbers (5+ events): 03 04 09 17 18 19 21 22 24 25
+   ✅ Hit: 6/10 - 03 09 17 18 21 24
+   ❌ Missed: 4/10 - 04 19 22 25
+   Best: 71.4%, Avg across 7 events: 57.1%
+   ⚠️  CRITICAL MISS: #04 (appeared 5/7 events) - HEAVY boost
+   ⚠️  CRITICAL MISS: #19 (appeared 5/7 events) - HEAVY boost
+   ⚠️  CRITICAL MISS: #22 (appeared 5/7 events) - HEAVY boost
+   ⚠️  CRITICAL MISS: #25 (appeared 5/7 events) - HEAVY boost
+✅ Top 8 weights after learning: 19 24 08 22 12 17 09 11
+🔗 Top 3 pair affinities: 10+23, 03+25, 19+25
+  Series 3140: Best=71.4%, Avg=57.1%
+
+📊 Learning from Series 3140: Accuracy = 71.4% (10/14)
+🔥 Critical numbers (5+ events): 01 02 07 12 14 15 18 21 25
+   ✅ Hit: 5/9 - 01 02 12 18 25
+   ❌ Missed: 4/9 - 07 14 15 21
+   Best: 71.4%, Avg across 7 events: 57.1%
+   ⚠️  CRITICAL MISS: #07 (appeared 6/7 events) - HEAVY boost
+   ⚠️  CRITICAL MISS: #21 (appeared 5/7 events) - HEAVY boost
+   ⚠️  CRITICAL MISS: #14 (appeared 5/7 events) - HEAVY boost
+   ⚠️  CRITICAL MISS: #15 (appeared 5/7 events) - HEAVY boost
+✅ Top 8 weights after learning: 07 21 19 17 11 24 14 12
+🔗 Top 3 pair affinities: 03+25, 19+25, 10+23
+  Series 3141: Best=71.4%, Avg=53.1%
+
+📊 Learning from Series 3141: Accuracy = 71.4% (10/14)
+🔥 Critical numbers (5+ events): 01 02 05 09 10 12 14 24 25
+   ✅ Hit: 6/9 - 01 02 12 14 24 25
+   ❌ Missed: 3/9 - 05 09 10
+   Best: 71.4%, Avg across 7 events: 53.1%
+   ⚠️  CRITICAL MISS: #09 (appeared 7/7 events) - HEAVY boost
+   ⚠️  CRITICAL MISS: #10 (appeared 5/7 events) - HEAVY boost
+   ⚠️  CRITICAL MISS: #05 (appeared 5/7 events) - HEAVY boost
+✅ Top 8 weights after learning: 17 09 11 08 07 19 24 14
+🔗 Top 3 pair affinities: 19+25, 09+17, 02+09
+  Series 3142: Best=78.6%, Avg=56.1%
+
+📊 Learning from Series 3142: Accuracy = 78.6% (11/14)
+🔥 Critical numbers (5+ events): 02 06 07 09 14 15 16 18 20 21
+   ✅ Hit: 6/10 - 02 06 09 14 16 20
+   ❌ Missed: 4/10 - 07 15 18 21
+   Best: 78.6%, Avg across 7 events: 56.1%
+   ⚠️  CRITICAL MISS: #07 (appeared 5/7 events) - HEAVY boost
+   ⚠️  CRITICAL MISS: #21 (appeared 5/7 events) - HEAVY boost
+   ⚠️  CRITICAL MISS: #15 (appeared 5/7 events) - HEAVY boost
+   ⚠️  CRITICAL MISS: #18 (appeared 5/7 events) - HEAVY boost
+✅ Top 8 weights after learning: 07 11 17 08 21 09 18 04
+🔗 Top 3 pair affinities: 02+09, 03+25, 19+25
+  Series 3143: Best=78.6%, Avg=62.2%
+
+📊 Learning from Series 3143: Accuracy = 78.6% (11/14)
+🔥 Critical numbers (5+ events): 02 06 08 10 11 12 13 14 16 18
+   ✅ Hit: 8/10 - 02 06 08 10 11 14 16 18
+   ❌ Missed: 2/10 - 12 13
+   Best: 78.6%, Avg across 7 events: 62.2%
+   ⚠️  CRITICAL MISS: #13 (appeared 5/7 events) - HEAVY boost
+   ⚠️  CRITICAL MISS: #12 (appeared 5/7 events) - HEAVY boost
+✅ Top 8 weights after learning: 07 11 08 13 21 12 17 18
+🔗 Top 3 pair affinities: 02+09, 02+10, 03+25
+  Series 3144: Best=71.4%, Avg=55.1%
+
+📊 Learning from Series 3144: Accuracy = 71.4% (10/14)
+🔥 Critical numbers (5+ events): 01 04 11 17 21 22 24 25
+   ✅ Hit: 4/8 - 01 11 17 21
+   ❌ Missed: 4/8 - 04 22 24 25
+   Best: 71.4%, Avg across 7 events: 55.1%
+   ⚠️  CRITICAL MISS: #22 (appeared 5/7 events) - HEAVY boost
+   ⚠️  CRITICAL MISS: #24 (appeared 6/7 events) - HEAVY boost
+   ⚠️  CRITICAL MISS: #25 (appeared 5/7 events) - HEAVY boost
+   ⚠️  CRITICAL MISS: #04 (appeared 6/7 events) - HEAVY boost
+✅ Top 8 weights after learning: 04 07 24 11 12 21 08 13
+🔗 Top 3 pair affinities: 02+09, 02+10, 01+08
+  Series 3145: Best=64.3%, Avg=53.1%
+
+📊 Learning from Series 3145: Accuracy = 64.3% (9/14)
+🔥 Critical numbers (5+ events): 01 07 09 11 12 16 21
+   ✅ Hit: 4/7 - 01 07 11 21
+   ❌ Missed: 3/7 - 09 12 16
+   Best: 64.3%, Avg across 7 events: 53.1%
+   ⚠️  CRITICAL MISS: #09 (appeared 6/7 events) - HEAVY boost
+   ⚠️  CRITICAL MISS: #12 (appeared 6/7 events) - HEAVY boost
+   ⚠️  CRITICAL MISS: #16 (appeared 6/7 events) - HEAVY boost
+✅ Top 8 weights after learning: 12 09 04 07 13 11 21 16
+🔗 Top 3 pair affinities: 01+08, 02+09, 09+10
+
+📊 Enhanced Overall Best Average: 72.2%
+📊 Enhanced Overall Average: 56.3%
+📊 Enhanced Series 3145: 64.3%
+
+================================================================================
+COMPARISON: BASELINE vs ENHANCED
+================================================================================
+
+Metric                  | Baseline | Enhanced | Improvement
+------------------------|----------|----------|------------
+Overall Best Average    |   72.2% |   72.2% |  +0.0%
+Overall Average         |   56.3% |   56.3% |  +0.0%
+Series 3145 Performance |   64.3% |   64.3% |  +0.0%
+
+Series-by-Series Comparison:
+
+Series | Baseline | Enhanced | Change
+-------|----------|----------|--------
+ 3137 |   71.4% |   71.4% | +0.0% ➖
+ 3138 |   71.4% |   71.4% | +0.0% ➖
+ 3139 |   71.4% |   71.4% | +0.0% ➖
+ 3140 |   71.4% |   71.4% | +0.0% ➖
+ 3141 |   71.4% |   71.4% | +0.0% ➖
+ 3142 |   78.6% |   78.6% | +0.0% ➖
+ 3143 |   78.6% |   78.6% | +0.0% ➖
+ 3144 |   71.4% |   71.4% | +0.0% ➖
+ 3145 |   64.3% |   64.3% | +0.0% ➖
+
+================================================================================
+DECISION
+================================================================================
+
+❌ NO IMPROVEMENT DETECTED
+   Enhanced candidate pool changed performance by +0.0%
+   This does not justify 5x compute cost.
+
+🔄 RECOMMENDATION: ROLLBACK TO BASELINE
+   - Keep current 10,000 candidate pool
+   - Look for alternative improvement approaches
+
+📁 Results saved to: /home/user/Random/python_ml/test_enhanced_pool_results.json
+
+================================================================================
+NEXT STEPS: TRY ALTERNATIVE APPROACH
+================================================================================
+
+Since enhanced candidate pool didn't improve performance,
+we should try the next most promising approach:
+
+Option 2: Hybrid Adaptive Learning
+  - Keep Phase 1 Pure base
+  - Add adaptive component for difficult series detection
+  - Use higher learning rate when performance drops
+
+Rationale:
+  - Adaptive LR achieved 78.6% on Series 3145
+  - Could help recover from difficult series faster
+  - Hybrid approach may balance consistency + adaptability
+
