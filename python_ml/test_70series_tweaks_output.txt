@@ -1,0 +1,43 @@
+================================================================================
+70 SERIES + HYPERPARAMETER OPTIMIZATION
+================================================================================
+
+Baseline: 70 series at 57.7% (tied with 50 series)
+Testing: Various LR and candidate pool combinations
+================================================================================
+
+Testing 70 series (baseline)                     ... 57.7%
+Testing 70 series + LR=0.08                      ... 57.7%
+Testing 70 series + LR=0.12                      ... 57.9%
+Testing 70 series + LR=0.15                      ... 57.9%
+Testing 70 series + 2k candidates                ... 58.0%
+Testing 70 series + 3k candidates                ... 57.1%
+Testing 70 series + 7k candidates                ... 56.8%
+Testing 70 series + LR=0.12 + 3k cand            ... 57.1%
+Testing 70 series + LR=0.15 + 2k cand            ... 57.4%
+
+================================================================================
+SUMMARY - RANKED BY ACTUAL AVERAGE
+================================================================================
+
+Configuration                              | ACTUAL Avg | vs Best (57.7%)
+-------------------------------------------|------------|----------------
+  70 series + 2k candidates                 |      58.0% | ~same ➖
+  70 series + LR=0.12                       |      57.9% | ~same ➖
+  70 series + LR=0.15                       |      57.9% | ~same ➖
+  70 series (baseline)                      |      57.7% | ~same ➖
+  70 series + LR=0.08                       |      57.7% | ~same ➖
+  70 series + LR=0.15 + 2k cand             |      57.4% | ~same ➖
+  70 series + 3k candidates                 |      57.1% | ~same ➖
+  70 series + LR=0.12 + 3k cand             |      57.1% | ~same ➖
+  70 series + 7k candidates                 |      56.8% | ~same ➖
+
+================================================================================
+CONCLUSION:
+================================================================================
+➖ NO IMPROVEMENT
+   Best: 70 series + 2k candidates, 58.0%
+   All within noise of 57.7%
+
+📁 Results saved to: test_70series_tweaks_results.json
+

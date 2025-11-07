@@ -1,0 +1,44 @@
+================================================================================
+FINE-TUNED RECENT DATA WINDOW OPTIMIZATION
+================================================================================
+
+Current best: 50 series → 57.7% actual average
+Testing: 30, 35, 40, 45, 55, 60, 65, 70 series
+================================================================================
+
+Testing 30 recent series... Actual: 56.1%
+Testing 35 recent series... Actual: 56.1%
+Testing 40 recent series... Actual: 56.1%
+Testing 45 recent series... Actual: 56.9%
+Testing 50 recent series... Actual: 57.1%
+Testing 55 recent series... Actual: 57.5%
+Testing 60 recent series... Actual: 56.9%
+Testing 65 recent series... Actual: 57.1%
+Testing 70 recent series... Actual: 57.7%
+
+================================================================================
+SUMMARY - RANKED BY ACTUAL AVERAGE
+================================================================================
+
+Recent Series | ACTUAL Avg | vs Best (57.7%)
+--------------|------------|----------------
+     70 series |      57.7% | ~same ➖
+     55 series |      57.5% | ~same ➖
+     50 series |      57.1% | ~same ➖ ← CURRENT
+     65 series |      57.1% | ~same ➖
+     60 series |      56.9% | ~same ➖
+     45 series |      56.9% | ~same ➖
+     30 series |      56.1% | -1.6% ❌
+     35 series |      56.1% | -1.6% ❌
+     40 series |      56.1% | -1.6% ❌
+
+================================================================================
+CONCLUSION:
+================================================================================
+➖ MARGINAL DIFFERENCE
+   Best: 70 series at 57.7%
+   Current: 50 series at 57.7%
+   Difference within noise
+
+📁 Results saved to: test_fine_tuned_windows_results.json
+

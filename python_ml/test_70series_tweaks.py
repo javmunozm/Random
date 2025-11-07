@@ -1,0 +1,286 @@
+#!/usr/bin/env python3
+"""
+Test 70 recent series with various hyperparameter tweaks.
+
+70 series tied with 50 series at 57.7%.
+Testing if hyperparameter tweaks with 70 series can push above 57.7%
+
+Tweaks to test:
+1. Different learning rates (0.08, 0.12, 0.15)
+2. Different candidate pool sizes (2k, 3k, 7k, 10k)
+3. Combinations
+"""
+
+import json
+import sys
+import random
+from pathlib import Path
+from true_learning_model import TrueLearningModel
+
+# Series data
+SERIES_3144 = [
+    [1, 2, 3, 9, 11, 13, 14, 17, 19, 20, 21, 22, 24, 25],
+    [1, 4, 6, 8, 11, 14, 16, 17, 18, 21, 22, 23, 24, 25],
+    [2, 3, 4, 5, 9, 10, 11, 13, 15, 16, 17, 19, 21, 24],
+    [4, 7, 12, 13, 14, 15, 17, 19, 20, 21, 22, 23, 24, 25],
+    [1, 2, 4, 5, 6, 8, 10, 11, 12, 20, 21, 22, 23, 25],
+    [1, 4, 5, 6, 7, 8, 12, 14, 16, 17, 19, 20, 21, 24],
+    [1, 2, 4, 6, 10, 11, 15, 16, 17, 21, 22, 23, 24, 25],
+]
+
+SERIES_3145 = [
+    [1, 7, 8, 9, 12, 13, 15, 16, 17, 19, 21, 22, 23, 25],
+    [1, 5, 7, 8, 9, 10, 11, 12, 14, 17, 18, 19, 20, 24],
+    [3, 4, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 19, 22],
+    [1, 3, 6, 7, 10, 11, 13, 14, 16, 20, 21, 22, 23, 25],
+    [1, 2, 4, 5, 6, 7, 9, 12, 15, 16, 17, 18, 21, 23],
+    [1, 2, 4, 9, 11, 12, 13, 14, 16, 18, 20, 21, 24, 25],
+    [1, 3, 4, 6, 7, 8, 9, 10, 11, 12, 16, 18, 20, 21],
+]
+
+
+def load_database_export():
+    """Load data from JSON export"""
+    json_path = Path(__file__).parent.parent / "Results" / "database_export_2898_3143_20251105_135513.json"
+
+    if not json_path.exists():
+        print(f"❌ JSON export not found: {json_path}")
+        return []
+
+    with open(json_path, 'r') as f:
+        json_data = json.load(f)
+
+    series_list = []
+    for series in json_data.get('data', []):
+        series_id = series['series_id']
+        events = []
+        for event in series['events']:
+            numbers = event['numbers']
+            events.append(numbers)
+
+        series_list.append({
+            'series_id': series_id,
+            'events': events
+        })
+
+    return series_list
+
+
+def test_config(config_name, modify_fn, seed=999):
+    """Test specific configuration"""
+    print(f"Testing {config_name:40} ... ", end='', flush=True)
+
+    # Load data
+    all_series_data = load_database_export()
+    all_series_data.append({'series_id': 3144, 'events': SERIES_3144})
+    all_series_data.append({'series_id': 3145, 'events': SERIES_3145})
+
+    # Fixed settings
+    recent_count = 70
+    validation_window = 8
+    latest_series = 3145
+    validation_start = latest_series - validation_window + 1  # 3138
+    training_start = validation_start - recent_count
+
+    # Initialize model
+    random.seed(seed)
+    model = TrueLearningModel()
+
+    # Apply modifications
+    if modify_fn:
+        modify_fn(model)
+
+    # Phase 1: Bulk training
+    training_data = [s for s in all_series_data
+                     if training_start <= s['series_id'] < validation_start]
+
+    for series in training_data:
+        model.learn_from_series(series['series_id'], series['events'])
+
+    # Phase 2: Iterative validation
+    validation_series = [s for s in all_series_data
+                        if validation_start <= s['series_id'] <= latest_series]
+
+    results = []
+    for series in validation_series:
+        series_id = series['series_id']
+        actual_events = series['events']
+
+        # Generate prediction
+        prediction = model.predict_best_combination(series_id)
+
+        # Calculate accuracy for each event
+        event_accuracies = []
+        for actual in actual_events:
+            matches = len(set(prediction) & set(actual))
+            accuracy = matches / 14
+            event_accuracies.append(accuracy)
+
+        best_accuracy = max(event_accuracies)
+        avg_accuracy = sum(event_accuracies) / len(event_accuracies)
+
+        results.append({
+            'series_id': series_id,
+            'best_accuracy': best_accuracy,
+            'avg_accuracy': avg_accuracy
+        })
+
+        # Learn from this series
+        model.learn_from_series(series_id, actual_events)
+
+    # Calculate overall metrics
+    overall_actual_avg = sum(r['avg_accuracy'] for r in results) / len(results)
+
+    print(f"{overall_actual_avg*100:.1f}%")
+
+    return {
+        'config': config_name,
+        'actual_avg': overall_actual_avg,
+        'results': results
+    }
+
+
+def main():
+    """Test 70 series with hyperparameter tweaks"""
+    print("="*80)
+    print("70 SERIES + HYPERPARAMETER OPTIMIZATION")
+    print("="*80)
+    print()
+    print("Baseline: 70 series at 57.7% (tied with 50 series)")
+    print("Testing: Various LR and candidate pool combinations")
+    print("="*80)
+    print()
+
+    all_results = []
+
+    # Baseline
+    all_results.append(test_config(
+        "70 series (baseline)",
+        None
+    ))
+
+    # Learning rate variations
+    all_results.append(test_config(
+        "70 series + LR=0.08",
+        lambda m: setattr(m, 'learning_rate', 0.08)
+    ))
+
+    all_results.append(test_config(
+        "70 series + LR=0.12",
+        lambda m: setattr(m, 'learning_rate', 0.12)
+    ))
+
+    all_results.append(test_config(
+        "70 series + LR=0.15",
+        lambda m: setattr(m, 'learning_rate', 0.15)
+    ))
+
+    # Candidate pool variations
+    def set_pool_2k(m):
+        m.CANDIDATES_TO_SCORE = 2000
+        m.CANDIDATE_POOL_SIZE = 20000
+
+    def set_pool_3k(m):
+        m.CANDIDATES_TO_SCORE = 3000
+        m.CANDIDATE_POOL_SIZE = 30000
+
+    def set_pool_7k(m):
+        m.CANDIDATES_TO_SCORE = 7000
+        m.CANDIDATE_POOL_SIZE = 70000
+
+    all_results.append(test_config(
+        "70 series + 2k candidates",
+        set_pool_2k
+    ))
+
+    all_results.append(test_config(
+        "70 series + 3k candidates",
+        set_pool_3k
+    ))
+
+    all_results.append(test_config(
+        "70 series + 7k candidates",
+        set_pool_7k
+    ))
+
+    # Best combinations
+    def combo_1(m):
+        m.learning_rate = 0.12
+        m.CANDIDATES_TO_SCORE = 3000
+        m.CANDIDATE_POOL_SIZE = 30000
+
+    def combo_2(m):
+        m.learning_rate = 0.15
+        m.CANDIDATES_TO_SCORE = 2000
+        m.CANDIDATE_POOL_SIZE = 20000
+
+    all_results.append(test_config(
+        "70 series + LR=0.12 + 3k cand",
+        combo_1
+    ))
+
+    all_results.append(test_config(
+        "70 series + LR=0.15 + 2k cand",
+        combo_2
+    ))
+
+    # Summary
+    print("\n" + "="*80)
+    print("SUMMARY - RANKED BY ACTUAL AVERAGE")
+    print("="*80)
+    print()
+    print("Configuration                              | ACTUAL Avg | vs Best (57.7%)")
+    print("-------------------------------------------|------------|----------------")
+
+    # Sort by actual average (descending)
+    sorted_results = sorted(all_results, key=lambda x: x['actual_avg'], reverse=True)
+    baseline_actual = 0.577
+
+    for result in sorted_results:
+        config = result['config']
+        actual = result['actual_avg'] * 100
+        vs_baseline = result['actual_avg'] - baseline_actual
+
+        if vs_baseline > 0.01:
+            verdict = f"+{vs_baseline*100:.1f}% ✅"
+        elif vs_baseline > -0.01:
+            verdict = "~same ➖"
+        else:
+            verdict = f"{vs_baseline*100:.1f}% ❌"
+
+        print(f"  {config:41} |     {actual:5.1f}% | {verdict}")
+
+    print()
+    print("="*80)
+    print("CONCLUSION:")
+    print("="*80)
+
+    best = sorted_results[0]
+    if best['actual_avg'] > baseline_actual + 0.01:
+        print(f"✅ IMPROVEMENT: {best['config']}")
+        print(f"   Actual: {best['actual_avg']*100:.1f}% (vs {baseline_actual*100:.1f}% baseline)")
+        print(f"   Improvement: +{(best['actual_avg'] - baseline_actual)*100:.1f}%")
+    else:
+        print(f"➖ NO IMPROVEMENT")
+        print(f"   Best: {best['config']}, {best['actual_avg']*100:.1f}%")
+        print(f"   All within noise of 57.7%")
+
+    # Save results
+    output_file = "test_70series_tweaks_results.json"
+    with open(output_file, 'w') as f:
+        json.dump({
+            'baseline': baseline_actual,
+            'results': all_results,
+            'best': {
+                'config': best['config'],
+                'actual_avg': best['actual_avg'],
+                'improvement': best['actual_avg'] - baseline_actual
+            }
+        }, f, indent=2)
+
+    print(f"\n📁 Results saved to: {output_file}")
+    print()
+
+
+if __name__ == "__main__":
+    main()

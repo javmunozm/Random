@@ -1,0 +1,76 @@
+================================================================================
+SIMPLE BASELINE APPROACHES TEST
+================================================================================
+
+Hypothesis: Simpler might be better than complex ML
+Current best: 57.7% (50 recent series ML)
+Testing: Pure frequency, weighted random, hybrid
+
+CRITICAL: Using ACTUAL average (all 7 events), not 'best match'
+================================================================================
+
+================================================================================
+Testing: Pure Frequency (top 14 most common)
+================================================================================
+
+Training: Series 3088-3137 (50 series)
+Validation: Series 3138-3145 (8 series)
+
+Results:
+  Best Match Average: 69.6%
+  ACTUAL Average: 55.9%
+
+================================================================================
+Testing: Weighted Random (frequency-weighted)
+================================================================================
+
+Training: Series 3088-3137 (50 series)
+Validation: Series 3138-3145 (8 series)
+
+Results:
+  Best Match Average: 65.2%
+  ACTUAL Average: 55.0%
+
+================================================================================
+Testing: Hybrid (90% freq + 10% random)
+================================================================================
+
+Training: Series 3088-3137 (50 series)
+Validation: Series 3138-3145 (8 series)
+
+Results:
+  Best Match Average: 68.8%
+  ACTUAL Average: 56.1%
+
+================================================================================
+Testing: Hybrid (80% freq + 20% random)
+================================================================================
+
+Training: Series 3088-3137 (50 series)
+Validation: Series 3138-3145 (8 series)
+
+Results:
+  Best Match Average: 69.6%
+  ACTUAL Average: 55.9%
+
+================================================================================
+SUMMARY - RANKED BY ACTUAL AVERAGE
+================================================================================
+
+Approach                                  | ACTUAL Avg | vs Best (57.7%)
+------------------------------------------|------------|----------------
+  Hybrid (90% freq + 10% random)           |      56.1% | -1.6% ❌
+  Pure Frequency (top 14 most common)      |      55.9% | -1.8% ❌
+  Hybrid (80% freq + 20% random)           |      55.9% | -1.8% ❌
+  Weighted Random (frequency-weighted)     |      55.0% | -2.7% ❌
+
+================================================================================
+CONCLUSION:
+================================================================================
+➖ NO IMPROVEMENT
+   Best simple approach: 56.1%
+   Current ML approach: 57.7%
+   ML still slightly better
+
+📁 Results saved to: test_simple_baselines_results.json
+
