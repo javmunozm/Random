@@ -1,0 +1,41 @@
+{
+  "series_id": 3146,
+  "prediction": [
+    1,
+    3,
+    7,
+    9,
+    10,
+    11,
+    12,
+    15,
+    16,
+    19,
+    21,
+    23,
+    24,
+    25
+  ],
+  "prediction_formatted": "01 03 07 09 10 11 12 15 16 19 21 23 24 25",
+  "model_type": "TrueLearningModel Phase 1 Pure - OPTIMIZED (50 recent series)",
+  "seed": 999,
+  "configuration": {
+    "recent_series_count": 50,
+    "training_series": 58,
+    "validation_window": "3138-3145",
+    "improvement_over_baseline": "+1.4%"
+  },
+  "performance_on_validation": {
+    "overall_best_average": "68.8%",
+    "overall_actual_average": "57.7%",
+    "improvement": "+4.1%",
+    "vs_random": "-10.2% (still below 67.9% random baseline)"
+  },
+  "optimization_summary": {
+    "total_tests": 50,
+    "success_rate": "2.0%",
+    "best_improvement": "+1.4%",
+    "approach": "Use only 50 most recent series (old data is noise)"
+  },
+  "generated_at": "2025-11-07T21:48:22.116736"
+}

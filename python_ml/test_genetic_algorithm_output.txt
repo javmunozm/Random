@@ -1,0 +1,133 @@
+================================================================================
+GENETIC ALGORITHM TEST
+================================================================================
+
+Completely different approach: Evolve predictions using GA
+Baseline: 57.1% actual average (50 recent series)
+
+CRITICAL: Using ACTUAL average (all 7 events), not 'best match'
+================================================================================
+
+================================================================================
+Testing Genetic Algorithm
+================================================================================
+
+Training: Series 3088-3137 (50 series)
+Validation: Series 3138-3145 (8 series)
+
+Series 3138: Evolving prediction...
+  Population: 1000, Generations: 50
+  Elite: 100, Mutation rate: 0.1
+  Gen   0: Best fitness = 0.5918
+  Gen  10: Best fitness = 0.5959
+  Gen  20: Best fitness = 0.5959
+  Gen  30: Best fitness = 0.5959
+  Gen  40: Best fitness = 0.5959
+  Gen  49: Best fitness = 0.5959
+  Best fitness on training: 0.5959
+  Validation: Best=64.3%, Avg=56.1%
+
+Series 3139: Evolving prediction...
+  Population: 1000, Generations: 50
+  Elite: 100, Mutation rate: 0.1
+  Gen   0: Best fitness = 0.5908
+  Gen  10: Best fitness = 0.5959
+  Gen  20: Best fitness = 0.5959
+  Gen  30: Best fitness = 0.5959
+  Gen  40: Best fitness = 0.5959
+  Gen  49: Best fitness = 0.5959
+  Best fitness on training: 0.5959
+  Validation: Best=64.3%, Avg=56.1%
+
+Series 3140: Evolving prediction...
+  Population: 1000, Generations: 50
+  Elite: 100, Mutation rate: 0.1
+  Gen   0: Best fitness = 0.5898
+  Gen  10: Best fitness = 0.5949
+  Gen  20: Best fitness = 0.5949
+  Gen  30: Best fitness = 0.5949
+  Gen  40: Best fitness = 0.5949
+  Gen  49: Best fitness = 0.5949
+  Best fitness on training: 0.5949
+  Validation: Best=64.3%, Avg=54.1%
+
+Series 3141: Evolving prediction...
+  Population: 1000, Generations: 50
+  Elite: 100, Mutation rate: 0.1
+  Gen   0: Best fitness = 0.5908
+  Gen  10: Best fitness = 0.5969
+  Gen  20: Best fitness = 0.5969
+  Gen  30: Best fitness = 0.5969
+  Gen  40: Best fitness = 0.5969
+  Gen  49: Best fitness = 0.5969
+  Best fitness on training: 0.5969
+  Validation: Best=57.1%, Avg=51.0%
+
+Series 3142: Evolving prediction...
+  Population: 1000, Generations: 50
+  Elite: 100, Mutation rate: 0.1
+  Gen   0: Best fitness = 0.5867
+  Gen  10: Best fitness = 0.5939
+  Gen  20: Best fitness = 0.5939
+  Gen  30: Best fitness = 0.5939
+  Gen  40: Best fitness = 0.5939
+  Gen  49: Best fitness = 0.5939
+  Best fitness on training: 0.5939
+  Validation: Best=64.3%, Avg=57.1%
+
+Series 3143: Evolving prediction...
+  Population: 1000, Generations: 50
+  Elite: 100, Mutation rate: 0.1
+  Gen   0: Best fitness = 0.5847
+  Gen  10: Best fitness = 0.5959
+  Gen  20: Best fitness = 0.5959
+  Gen  30: Best fitness = 0.5959
+  Gen  40: Best fitness = 0.5959
+  Gen  49: Best fitness = 0.5959
+  Best fitness on training: 0.5959
+  Validation: Best=78.6%, Avg=57.1%
+
+Series 3144: Evolving prediction...
+  Population: 1000, Generations: 50
+  Elite: 100, Mutation rate: 0.1
+  Gen   0: Best fitness = 0.5929
+  Gen  10: Best fitness = 0.5969
+  Gen  20: Best fitness = 0.5969
+  Gen  30: Best fitness = 0.5969
+  Gen  40: Best fitness = 0.5969
+  Gen  49: Best fitness = 0.5969
+  Best fitness on training: 0.5969
+  Validation: Best=64.3%, Avg=54.1%
+
+Series 3145: Evolving prediction...
+  Population: 1000, Generations: 50
+  Elite: 100, Mutation rate: 0.1
+  Gen   0: Best fitness = 0.5918
+  Gen  10: Best fitness = 0.6051
+  Gen  20: Best fitness = 0.6051
+  Gen  30: Best fitness = 0.6051
+  Gen  40: Best fitness = 0.6051
+  Gen  49: Best fitness = 0.6051
+  Best fitness on training: 0.6051
+  Validation: Best=71.4%, Avg=57.1%
+
+
+================================================================================
+GENETIC ALGORITHM RESULTS
+================================================================================
+
+Best Match Average: 66.1% (misleading)
+ACTUAL Average: 55.4% ← REAL METRIC
+
+================================================================================
+CONCLUSION:
+================================================================================
+Genetic Algorithm: 55.4%
+Baseline (50 recent): 57.1%
+Difference: -1.7%
+
+❌ WORSE: Genetic algorithm underperforms baseline
+   Decline: -1.7%
+
+📁 Results saved to: test_genetic_algorithm_results.json
+
