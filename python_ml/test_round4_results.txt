@@ -1,0 +1,16 @@
+ROUND 4 TESTING RESULTS
+=======================
+Date: 2025-11-08
+Continuation of improvement testing (Tests 76+)
+
+Baseline for these tests: 62.9% actual (using 70 series validation window)
+
+Test 76: Column Affinity Tracking
+----------------------------------
+Hypothesis: Numbers in same column (01-09, 10-19, 20-25) appear together
+Tested multipliers: 2.0, 5.0, 10.0, 15.0
+Result: 62.9% for ALL configurations (0.0% change)
+Verdict: ❌ FAILED - Column affinity provides NO improvement
+Reason: Column information doesn't predict co-occurrence
+
+Running additional tests...

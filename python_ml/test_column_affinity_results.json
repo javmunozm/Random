@@ -1,0 +1,35 @@
+{
+  "baseline": 0.6288265306122448,
+  "test_results": [
+    {
+      "multiplier": 2.0,
+      "actual_avg": 0.6288265306122448,
+      "best_match_avg": 0.7321428571428571,
+      "vs_baseline": 0.0
+    },
+    {
+      "multiplier": 5.0,
+      "actual_avg": 0.6288265306122448,
+      "best_match_avg": 0.7321428571428571,
+      "vs_baseline": 0.0
+    },
+    {
+      "multiplier": 10.0,
+      "actual_avg": 0.6288265306122448,
+      "best_match_avg": 0.7321428571428571,
+      "vs_baseline": 0.0
+    },
+    {
+      "multiplier": 15.0,
+      "actual_avg": 0.6288265306122448,
+      "best_match_avg": 0.7321428571428571,
+      "vs_baseline": 0.0
+    }
+  ],
+  "best": {
+    "multiplier": 2.0,
+    "actual_avg": 0.6288265306122448,
+    "best_match_avg": 0.7321428571428571,
+    "vs_baseline": 0.0
+  }
+}
