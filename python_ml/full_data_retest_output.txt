@@ -1,0 +1,142 @@
+======================================================================
+COMPREHENSIVE RE-TEST WITH FULL DATASET
+======================================================================
+
+Loading full dataset...
+✅ Loaded 166 series (2980 to 3145)
+
+======================================================================
+TEST 1: Training Window Sizes
+======================================================================
+
+1. Baseline: 70 series...
+   Actual avg: 57.7%
+   Best match avg: 68.8%
+
+   Testing window=30...
+   Actual avg: 56.1% (-1.5%)
+
+   Testing window=40...
+   Actual avg: 56.1% (-1.5%)
+
+   Testing window=50...
+   Actual avg: 57.1% (-0.5%)
+
+   Testing window=60...
+   Actual avg: 56.9% (-0.8%)
+
+   Testing window=80...
+   Actual avg: 56.4% (-1.3%)
+
+   Testing window=90...
+   Actual avg: 57.4% (-0.3%)
+
+   Testing window=100...
+   Actual avg: 56.0% (-1.7%)
+
+   Testing window=120...
+   Actual avg: 56.4% (-1.3%)
+
+   Testing window=150...
+   Actual avg: 56.1% (-1.5%)
+
+   ✅ Best window: 70 (57.7%, +0.0%)
+
+======================================================================
+TEST 2: Candidate Pool Sizes
+======================================================================
+
+   Testing 500 candidates...
+   Actual avg: 56.8% (-0.9%)
+
+   Testing 1000 candidates...
+   Actual avg: 57.7% (+0.0%)
+
+   Testing 1500 candidates...
+   Actual avg: 55.4% (-2.3%)
+
+   Testing 2000 candidates...
+   Actual avg: 58.0% (+0.4%)
+
+   Testing 3000 candidates...
+   Actual avg: 57.1% (-0.5%)
+
+   Testing 5000 candidates...
+   Actual avg: 57.1% (-0.5%)
+
+   Testing 7000 candidates...
+   Actual avg: 56.8% (-0.9%)
+
+   Testing 10000 candidates...
+   Actual avg: 57.0% (-0.6%)
+
+   ✅ Best candidates: 2000 (58.0%, +0.4%)
+
+======================================================================
+TEST 3: Learning Rates
+======================================================================
+
+   Testing LR=0.05...
+   Actual avg: 58.3% (+0.6%)
+
+   Testing LR=0.08...
+   Actual avg: 58.0% (+0.4%)
+
+   Testing LR=0.1...
+   Actual avg: 58.0% (+0.4%)
+
+   Testing LR=0.12...
+   Actual avg: 57.3% (-0.4%)
+
+   Testing LR=0.15...
+   Actual avg: 57.4% (-0.3%)
+
+   Testing LR=0.2...
+   Actual avg: 57.3% (-0.4%)
+
+   ✅ Best LR: 0.05 (58.3%, +0.6%)
+
+======================================================================
+FINAL TEST: Best Combined Configuration
+======================================================================
+
+Best window: 70
+Best candidates: 2000
+Best LR: 0.05
+
+Testing combined configuration...
+
+======================================================================
+RESULTS SUMMARY
+======================================================================
+
+Original baseline (70 series): 57.7%
+
+Best window size: 70 series
+  → Performance: 57.7%
+  → Improvement: +0.0%
+
+Best candidate pool: 2000
+  → Performance: 58.0%
+  → Improvement: +0.4%
+
+Best learning rate: 0.05
+  → Performance: 58.3%
+  → Improvement: +0.6%
+
+======================================================================
+FINAL BEST CONFIGURATION:
+======================================================================
+Window: 70 series
+Candidates: 2000
+Learning Rate: 0.05
+Seed: 999
+
+Performance: 58.3% actual avg
+Best match avg: 70.5%
+Improvement over baseline: +0.6%
+
+✅ SUCCESS: Improved by +0.6%!
+======================================================================
+
+💾 Results saved to: full_data_retest_results.json
