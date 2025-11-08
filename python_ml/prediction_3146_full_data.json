@@ -1,0 +1,99 @@
+{
+  "series_id": 3146,
+  "prediction": [
+    1,
+    2,
+    3,
+    5,
+    6,
+    9,
+    12,
+    13,
+    14,
+    16,
+    19,
+    22,
+    23,
+    25
+  ],
+  "model": "TrueLearningModel Phase 1 Pure",
+  "configuration": "70 recent series (best from testing)",
+  "dataset": "166 total series (2980-3145)",
+  "training_range": "3076-3145",
+  "training_count": 70,
+  "seed": 999,
+  "expected_performance": "58.0% actual average (from testing)",
+  "generated_at": "2025-11-08",
+  "frequency_analysis": [
+    {
+      "number": 1,
+      "frequency": 291,
+      "percentage": 59.38775510204082
+    },
+    {
+      "number": 2,
+      "frequency": 285,
+      "percentage": 58.16326530612245
+    },
+    {
+      "number": 3,
+      "frequency": 264,
+      "percentage": 53.87755102040816
+    },
+    {
+      "number": 5,
+      "frequency": 287,
+      "percentage": 58.57142857142858
+    },
+    {
+      "number": 6,
+      "frequency": 274,
+      "percentage": 55.91836734693878
+    },
+    {
+      "number": 9,
+      "frequency": 295,
+      "percentage": 60.204081632653065
+    },
+    {
+      "number": 12,
+      "frequency": 292,
+      "percentage": 59.591836734693885
+    },
+    {
+      "number": 13,
+      "frequency": 277,
+      "percentage": 56.53061224489796
+    },
+    {
+      "number": 14,
+      "frequency": 262,
+      "percentage": 53.46938775510204
+    },
+    {
+      "number": 16,
+      "frequency": 275,
+      "percentage": 56.12244897959183
+    },
+    {
+      "number": 19,
+      "frequency": 287,
+      "percentage": 58.57142857142858
+    },
+    {
+      "number": 22,
+      "frequency": 271,
+      "percentage": 55.306122448979586
+    },
+    {
+      "number": 23,
+      "frequency": 279,
+      "percentage": 56.93877551020409
+    },
+    {
+      "number": 25,
+      "frequency": 274,
+      "percentage": 55.91836734693878
+    }
+  ]
+}
