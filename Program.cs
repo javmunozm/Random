@@ -19,7 +19,7 @@ namespace DataProcessor
         // Series ID validation constants
         private const int MIN_SERIES_ID = 2898;  // First series in database
         private const int MAX_SERIES_ID = 3200;  // Maximum reasonable series ID
-        private const int CURRENT_LATEST_SERIES = 3135;  // Latest series with actual results
+        private const int CURRENT_LATEST_SERIES = 3145;  // Latest series with actual results
 
         /// <summary>
         /// Validates that a series ID is within acceptable range

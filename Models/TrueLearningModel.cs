@@ -92,6 +92,10 @@ namespace DataProcessor.Models
         private const double PATTERN_WEIGHT_DISTRIBUTION = 0.2;
         private const double PATTERN_WEIGHT_HIGH_NUMBERS = 0.2;
 
+        // Sum range constants
+        private const int SUM_RANGE_MIN = 160;
+        private const int SUM_RANGE_MAX = 240;
+
 
         private readonly LearningWeights weights;
         private readonly List<SeriesPattern> trainingData;
