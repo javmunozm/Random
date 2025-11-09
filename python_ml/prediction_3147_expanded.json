@@ -1,0 +1,111 @@
+{
+  "series_id": 3147,
+  "prediction": [
+    1,
+    2,
+    4,
+    5,
+    8,
+    9,
+    10,
+    12,
+    13,
+    17,
+    18,
+    19,
+    24,
+    25
+  ],
+  "model": "TrueLearningModel Phase 1 Pure + Mandel Pool",
+  "dataset": {
+    "total_series": 176,
+    "range": "2898-3145",
+    "training_window": 70,
+    "training_range": "3076-3145",
+    "expansion": "+10 series (+6.0% growth)"
+  },
+  "configuration": {
+    "method": "Mandel pool optimization",
+    "candidates": 2000,
+    "seed": 999,
+    "validated_improvement": "+6.1% over random pool"
+  },
+  "generated_at": "2025-11-09",
+  "distribution": {
+    "column_0": 6,
+    "column_1": 6,
+    "column_2": 2
+  },
+  "frequency_analysis": [
+    {
+      "number": 1,
+      "frequency": 291,
+      "percentage": 59.38775510204082
+    },
+    {
+      "number": 2,
+      "frequency": 285,
+      "percentage": 58.16326530612245
+    },
+    {
+      "number": 4,
+      "frequency": 267,
+      "percentage": 54.48979591836734
+    },
+    {
+      "number": 5,
+      "frequency": 287,
+      "percentage": 58.57142857142858
+    },
+    {
+      "number": 8,
+      "frequency": 270,
+      "percentage": 55.10204081632652
+    },
+    {
+      "number": 9,
+      "frequency": 295,
+      "percentage": 60.204081632653065
+    },
+    {
+      "number": 10,
+      "frequency": 284,
+      "percentage": 57.95918367346938
+    },
+    {
+      "number": 12,
+      "frequency": 292,
+      "percentage": 59.591836734693885
+    },
+    {
+      "number": 13,
+      "frequency": 277,
+      "percentage": 56.53061224489796
+    },
+    {
+      "number": 17,
+      "frequency": 270,
+      "percentage": 55.10204081632652
+    },
+    {
+      "number": 18,
+      "frequency": 278,
+      "percentage": 56.734693877551024
+    },
+    {
+      "number": 19,
+      "frequency": 287,
+      "percentage": 58.57142857142858
+    },
+    {
+      "number": 24,
+      "frequency": 284,
+      "percentage": 57.95918367346938
+    },
+    {
+      "number": 25,
+      "frequency": 274,
+      "percentage": 55.91836734693878
+    }
+  ]
+}
