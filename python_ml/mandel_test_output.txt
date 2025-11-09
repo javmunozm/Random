@@ -1,0 +1,71 @@
+======================================================================
+MANDEL POOL TEST ON SERIES 3146 (ACTUAL RESULTS)
+======================================================================
+
+Testing: Random 2k, LR=0.10...
+  Prediction: 01 02 05 06 10 12 14 16 19 20 21 22 24 25
+  Best match: 64.3%
+  Average: 50.0%
+
+Testing: Random 2k, LR=0.05...
+  Prediction: 01 02 05 06 10 12 14 16 19 20 21 22 24 25
+  Best match: 64.3%
+  Average: 50.0%
+
+Testing: Random 10k, LR=0.10...
+  Prediction: 01 02 05 06 10 12 13 14 16 19 20 21 22 24
+  Best match: 64.3%
+  Average: 52.0%
+
+Testing: Mandel 2k, LR=0.10...
+  Prediction: 01 02 04 05 08 09 10 12 13 17 18 19 24 25
+  Best match: 71.4%
+  Average: 58.2%
+
+Testing: Mandel 2k, LR=0.05...
+  Prediction: 01 02 04 05 08 09 10 12 13 17 18 19 24 25
+  Best match: 71.4%
+  Average: 58.2%
+
+Testing: Mandel 5k, LR=0.10...
+  Prediction: 01 02 05 06 09 10 11 12 19 21 22 23 24 25
+  Best match: 78.6%
+  Average: 50.0%
+
+======================================================================
+RESULTS SUMMARY:
+======================================================================
+
+Configuration                  Best       Average   
+----------------------------------------------------------------------
+Mandel 2k, LR=0.10                71.4%     58.2%
+Mandel 2k, LR=0.05                71.4%     58.2%
+Random 10k, LR=0.10               64.3%     52.0%
+Mandel 5k, LR=0.10                78.6%     50.0%
+Random 2k, LR=0.10                64.3%     50.0%
+Random 2k, LR=0.05                64.3%     50.0%
+
+======================================================================
+WINNER:
+======================================================================
+Config: Mandel 2k, LR=0.10
+Average: 58.2%
+Prediction: 01 02 04 05 08 09 10 12 13 17 18 19 24 25
+
+Comparison to C# (62.2% average):
+❌ Still below C#: -4.0%
+
+======================================================================
+MANDEL VS RANDOM:
+======================================================================
+
+Best Mandel: Mandel 2k, LR=0.10
+  Performance: 58.2%
+
+Best Random: Random 10k, LR=0.10
+  Performance: 52.0%
+
+✅ Mandel WINS by +6.1%!
+
+💾 Results saved to: mandel_test_3146_results.json
+======================================================================

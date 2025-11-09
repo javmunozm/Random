@@ -1,0 +1,104 @@
+{
+  "series_id": 3147,
+  "prediction": [
+    1,
+    2,
+    4,
+    5,
+    8,
+    9,
+    10,
+    12,
+    13,
+    17,
+    18,
+    19,
+    24,
+    25
+  ],
+  "method": "Mandel Pool (adapted for 25-number lottery)",
+  "configuration": {
+    "window": 70,
+    "candidates": 2000,
+    "learning_rate": 0.1,
+    "seed": 999,
+    "pool_method": "mandel"
+  },
+  "dataset": "167 total series (2980-3146)",
+  "training_range": "3077-3146",
+  "validated_performance": "58.2% on Series 3146",
+  "improvement_vs_random": "+6.1% vs Random 10k",
+  "generated_at": "2025-11-08",
+  "frequency_analysis": [
+    {
+      "number": 1,
+      "frequency": 288,
+      "percentage": 58.77551020408164
+    },
+    {
+      "number": 2,
+      "frequency": 282,
+      "percentage": 57.55102040816327
+    },
+    {
+      "number": 4,
+      "frequency": 268,
+      "percentage": 54.69387755102041
+    },
+    {
+      "number": 5,
+      "frequency": 287,
+      "percentage": 58.57142857142858
+    },
+    {
+      "number": 8,
+      "frequency": 269,
+      "percentage": 54.89795918367347
+    },
+    {
+      "number": 9,
+      "frequency": 292,
+      "percentage": 59.591836734693885
+    },
+    {
+      "number": 10,
+      "frequency": 284,
+      "percentage": 57.95918367346938
+    },
+    {
+      "number": 12,
+      "frequency": 294,
+      "percentage": 60.0
+    },
+    {
+      "number": 13,
+      "frequency": 276,
+      "percentage": 56.326530612244895
+    },
+    {
+      "number": 17,
+      "frequency": 272,
+      "percentage": 55.51020408163265
+    },
+    {
+      "number": 18,
+      "frequency": 281,
+      "percentage": 57.3469387755102
+    },
+    {
+      "number": 19,
+      "frequency": 287,
+      "percentage": 58.57142857142858
+    },
+    {
+      "number": 24,
+      "frequency": 284,
+      "percentage": 57.95918367346938
+    },
+    {
+      "number": 25,
+      "frequency": 272,
+      "percentage": 55.51020408163265
+    }
+  ]
+}
