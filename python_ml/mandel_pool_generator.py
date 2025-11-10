@@ -19,12 +19,12 @@ class MandelPoolGenerator:
                  pair_affinities: Dict[Tuple[int, int], float] = None,
                  hybrid_cold_numbers: Set[int] = None,
                  hybrid_hot_numbers: Set[int] = None,
-                 cold_hot_boost: float = 25.0):
+                 cold_hot_boost: float = 30.0):
         self.frequency_weights = frequency_weights or {}
         self.pair_affinities = pair_affinities or {}
         self.hybrid_cold_numbers = hybrid_cold_numbers or set()
         self.hybrid_hot_numbers = hybrid_hot_numbers or set()
-        self.cold_hot_boost = cold_hot_boost  # OPTIMIZED: 25x (was 50x)
+        self.cold_hot_boost = cold_hot_boost  # OPTIMIZED: 30x with 8-series lookback (Nov 10)
 
         # Normalize frequency weights for probability distribution
         if self.frequency_weights:
