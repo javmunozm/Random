@@ -1,0 +1,212 @@
+{
+  "test_name": "Cold/Hot Boost Threshold",
+  "validation_window": [
+    3143,
+    3144,
+    3145
+  ],
+  "results": [
+    {
+      "cold_hot_boost": 1.0,
+      "avg_best_match": 0.7857142857142857,
+      "avg_cold_hot_in_prediction": 0.0,
+      "results": [
+        {
+          "series_id": 3143,
+          "best_match": 0.9285714285714286,
+          "cold_hot_in_prediction": 0,
+          "total_cold_hot": 0
+        },
+        {
+          "series_id": 3144,
+          "best_match": 0.6428571428571429,
+          "cold_hot_in_prediction": 0,
+          "total_cold_hot": 0
+        },
+        {
+          "series_id": 3145,
+          "best_match": 0.7857142857142857,
+          "cold_hot_in_prediction": 0,
+          "total_cold_hot": 0
+        }
+      ]
+    },
+    {
+      "cold_hot_boost": 2.0,
+      "avg_best_match": 0.7857142857142857,
+      "avg_cold_hot_in_prediction": 0.0,
+      "results": [
+        {
+          "series_id": 3143,
+          "best_match": 0.9285714285714286,
+          "cold_hot_in_prediction": 0,
+          "total_cold_hot": 0
+        },
+        {
+          "series_id": 3144,
+          "best_match": 0.6428571428571429,
+          "cold_hot_in_prediction": 0,
+          "total_cold_hot": 0
+        },
+        {
+          "series_id": 3145,
+          "best_match": 0.7857142857142857,
+          "cold_hot_in_prediction": 0,
+          "total_cold_hot": 0
+        }
+      ]
+    },
+    {
+      "cold_hot_boost": 5.0,
+      "avg_best_match": 0.7857142857142857,
+      "avg_cold_hot_in_prediction": 0.0,
+      "results": [
+        {
+          "series_id": 3143,
+          "best_match": 0.9285714285714286,
+          "cold_hot_in_prediction": 0,
+          "total_cold_hot": 0
+        },
+        {
+          "series_id": 3144,
+          "best_match": 0.6428571428571429,
+          "cold_hot_in_prediction": 0,
+          "total_cold_hot": 0
+        },
+        {
+          "series_id": 3145,
+          "best_match": 0.7857142857142857,
+          "cold_hot_in_prediction": 0,
+          "total_cold_hot": 0
+        }
+      ]
+    },
+    {
+      "cold_hot_boost": 10.0,
+      "avg_best_match": 0.7857142857142857,
+      "avg_cold_hot_in_prediction": 0.0,
+      "results": [
+        {
+          "series_id": 3143,
+          "best_match": 0.9285714285714286,
+          "cold_hot_in_prediction": 0,
+          "total_cold_hot": 0
+        },
+        {
+          "series_id": 3144,
+          "best_match": 0.6428571428571429,
+          "cold_hot_in_prediction": 0,
+          "total_cold_hot": 0
+        },
+        {
+          "series_id": 3145,
+          "best_match": 0.7857142857142857,
+          "cold_hot_in_prediction": 0,
+          "total_cold_hot": 0
+        }
+      ]
+    },
+    {
+      "cold_hot_boost": 15.0,
+      "avg_best_match": 0.7857142857142857,
+      "avg_cold_hot_in_prediction": 0.0,
+      "results": [
+        {
+          "series_id": 3143,
+          "best_match": 0.9285714285714286,
+          "cold_hot_in_prediction": 0,
+          "total_cold_hot": 0
+        },
+        {
+          "series_id": 3144,
+          "best_match": 0.6428571428571429,
+          "cold_hot_in_prediction": 0,
+          "total_cold_hot": 0
+        },
+        {
+          "series_id": 3145,
+          "best_match": 0.7857142857142857,
+          "cold_hot_in_prediction": 0,
+          "total_cold_hot": 0
+        }
+      ]
+    },
+    {
+      "cold_hot_boost": 25.0,
+      "avg_best_match": 0.7857142857142857,
+      "avg_cold_hot_in_prediction": 0.0,
+      "results": [
+        {
+          "series_id": 3143,
+          "best_match": 0.9285714285714286,
+          "cold_hot_in_prediction": 0,
+          "total_cold_hot": 0
+        },
+        {
+          "series_id": 3144,
+          "best_match": 0.6428571428571429,
+          "cold_hot_in_prediction": 0,
+          "total_cold_hot": 0
+        },
+        {
+          "series_id": 3145,
+          "best_match": 0.7857142857142857,
+          "cold_hot_in_prediction": 0,
+          "total_cold_hot": 0
+        }
+      ]
+    },
+    {
+      "cold_hot_boost": 50.0,
+      "avg_best_match": 0.7857142857142857,
+      "avg_cold_hot_in_prediction": 0.0,
+      "results": [
+        {
+          "series_id": 3143,
+          "best_match": 0.9285714285714286,
+          "cold_hot_in_prediction": 0,
+          "total_cold_hot": 0
+        },
+        {
+          "series_id": 3144,
+          "best_match": 0.6428571428571429,
+          "cold_hot_in_prediction": 0,
+          "total_cold_hot": 0
+        },
+        {
+          "series_id": 3145,
+          "best_match": 0.7857142857142857,
+          "cold_hot_in_prediction": 0,
+          "total_cold_hot": 0
+        }
+      ]
+    },
+    {
+      "cold_hot_boost": 100.0,
+      "avg_best_match": 0.7857142857142857,
+      "avg_cold_hot_in_prediction": 0.0,
+      "results": [
+        {
+          "series_id": 3143,
+          "best_match": 0.9285714285714286,
+          "cold_hot_in_prediction": 0,
+          "total_cold_hot": 0
+        },
+        {
+          "series_id": 3144,
+          "best_match": 0.6428571428571429,
+          "cold_hot_in_prediction": 0,
+          "total_cold_hot": 0
+        },
+        {
+          "series_id": 3145,
+          "best_match": 0.7857142857142857,
+          "cold_hot_in_prediction": 0,
+          "total_cold_hot": 0
+        }
+      ]
+    }
+  ],
+  "optimal_boost": 1.0,
+  "optimal_performance": 0.7857142857142857
+}

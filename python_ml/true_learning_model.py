@@ -68,7 +68,29 @@ class TrueLearningModel:
     PATTERN_WEIGHT_DISTRIBUTION = 0.2
     PATTERN_WEIGHT_HIGH_NUMBERS = 0.2
 
-    def __init__(self):
+    def __init__(self, seed: int = None, pool_size: int = None, cold_hot_boost: float = None):
+        """
+        Initialize TrueLearningModel
+
+        Args:
+            seed: Random seed for reproducibility (default: None)
+            pool_size: Candidate pool size (default: CANDIDATE_POOL_SIZE constant)
+            cold_hot_boost: Cold/hot number boost multiplier (default: 50.0)
+        """
+        # Set seed if provided
+        if seed is not None:
+            random.seed(seed)
+            self._seed = seed
+        else:
+            self._seed = None
+
+        # Override pool size if provided
+        if pool_size is not None:
+            self.CANDIDATE_POOL_SIZE = pool_size
+
+        # Store cold/hot boost (OPTIMIZED: 25x found optimal via comprehensive testing)
+        self._cold_hot_boost = cold_hot_boost if cold_hot_boost is not None else 25.0
+
         self.number_frequency_weights = {i: 1.0 for i in range(self.MIN_NUMBER, self.MAX_NUMBER + 1)}
         self.position_weights = {i: 1.0 for i in range(self.MIN_NUMBER, self.MAX_NUMBER + 1)}
         self.pattern_weights = {
@@ -275,9 +297,9 @@ class TrueLearningModel:
             if i not in used:
                 weight = self.number_frequency_weights[i] * self.position_weights[i]
 
-                # Hybrid balanced boost
+                # Hybrid balanced boost (configurable)
                 if i in self.hybrid_cold_numbers or i in self.hybrid_hot_numbers:
-                    weight *= 50.0
+                    weight *= self._cold_hot_boost
 
                 # Critical number boost
                 if i in self.recent_critical_numbers:

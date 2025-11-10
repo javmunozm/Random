@@ -18,11 +18,13 @@ class MandelPoolGenerator:
     def __init__(self, frequency_weights: Dict[int, float] = None,
                  pair_affinities: Dict[Tuple[int, int], float] = None,
                  hybrid_cold_numbers: Set[int] = None,
-                 hybrid_hot_numbers: Set[int] = None):
+                 hybrid_hot_numbers: Set[int] = None,
+                 cold_hot_boost: float = 25.0):
         self.frequency_weights = frequency_weights or {}
         self.pair_affinities = pair_affinities or {}
         self.hybrid_cold_numbers = hybrid_cold_numbers or set()
         self.hybrid_hot_numbers = hybrid_hot_numbers or set()
+        self.cold_hot_boost = cold_hot_boost  # OPTIMIZED: 25x (was 50x)
 
         # Normalize frequency weights for probability distribution
         if self.frequency_weights:
@@ -105,10 +107,10 @@ class MandelPoolGenerator:
         # Get base frequency weights for this population
         weights = [self.freq_probs.get(n, 1/25) for n in population]
 
-        # Apply 50x boost to cold/hot numbers (CRITICAL FIX!)
+        # Apply cold/hot boost to prioritize cold and hot numbers
         for i, n in enumerate(population):
             if n in self.hybrid_cold_numbers or n in self.hybrid_hot_numbers:
-                weights[i] *= 50.0  # Match C# model's massive boost
+                weights[i] *= self.cold_hot_boost  # Configurable boost (default 50x)
 
         # Weighted random sampling without replacement
         selected = []

@@ -1,0 +1,158 @@
+{
+  "test_name": "Pool Size Optimization",
+  "validation_window": [
+    3140,
+    3141,
+    3142,
+    3143,
+    3144,
+    3145
+  ],
+  "seed": 999,
+  "results": [
+    {
+      "pool_size": 2000,
+      "avg_best_match": 0.75,
+      "results": [
+        {
+          "series_id": 3140,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5204081632653061
+        },
+        {
+          "series_id": 3141,
+          "best_match": 0.7142857142857143,
+          "avg_match": 0.5816326530612245
+        },
+        {
+          "series_id": 3142,
+          "best_match": 0.7857142857142857,
+          "avg_match": 0.6428571428571429
+        },
+        {
+          "series_id": 3143,
+          "best_match": 0.9285714285714286,
+          "avg_match": 0.7959183673469388
+        },
+        {
+          "series_id": 3144,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5714285714285714
+        },
+        {
+          "series_id": 3145,
+          "best_match": 0.7857142857142857,
+          "avg_match": 0.6836734693877551
+        }
+      ]
+    },
+    {
+      "pool_size": 5000,
+      "avg_best_match": 0.75,
+      "results": [
+        {
+          "series_id": 3140,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5204081632653061
+        },
+        {
+          "series_id": 3141,
+          "best_match": 0.7142857142857143,
+          "avg_match": 0.5816326530612245
+        },
+        {
+          "series_id": 3142,
+          "best_match": 0.7857142857142857,
+          "avg_match": 0.6428571428571429
+        },
+        {
+          "series_id": 3143,
+          "best_match": 0.9285714285714286,
+          "avg_match": 0.7959183673469388
+        },
+        {
+          "series_id": 3144,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5714285714285714
+        },
+        {
+          "series_id": 3145,
+          "best_match": 0.7857142857142857,
+          "avg_match": 0.6836734693877551
+        }
+      ]
+    },
+    {
+      "pool_size": 10000,
+      "avg_best_match": 0.75,
+      "results": [
+        {
+          "series_id": 3140,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5204081632653061
+        },
+        {
+          "series_id": 3141,
+          "best_match": 0.7142857142857143,
+          "avg_match": 0.5816326530612245
+        },
+        {
+          "series_id": 3142,
+          "best_match": 0.7857142857142857,
+          "avg_match": 0.6428571428571429
+        },
+        {
+          "series_id": 3143,
+          "best_match": 0.9285714285714286,
+          "avg_match": 0.7959183673469388
+        },
+        {
+          "series_id": 3144,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5714285714285714
+        },
+        {
+          "series_id": 3145,
+          "best_match": 0.7857142857142857,
+          "avg_match": 0.6836734693877551
+        }
+      ]
+    }
+  ],
+  "baseline": {
+    "pool_size": 2000,
+    "avg_best_match": 0.75,
+    "results": [
+      {
+        "series_id": 3140,
+        "best_match": 0.6428571428571429,
+        "avg_match": 0.5204081632653061
+      },
+      {
+        "series_id": 3141,
+        "best_match": 0.7142857142857143,
+        "avg_match": 0.5816326530612245
+      },
+      {
+        "series_id": 3142,
+        "best_match": 0.7857142857142857,
+        "avg_match": 0.6428571428571429
+      },
+      {
+        "series_id": 3143,
+        "best_match": 0.9285714285714286,
+        "avg_match": 0.7959183673469388
+      },
+      {
+        "series_id": 3144,
+        "best_match": 0.6428571428571429,
+        "avg_match": 0.5714285714285714
+      },
+      {
+        "series_id": 3145,
+        "best_match": 0.7857142857142857,
+        "avg_match": 0.6836734693877551
+      }
+    ]
+  }
+}

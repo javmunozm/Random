@@ -1,0 +1,640 @@
+{
+  "test_name": "Comprehensive Pool Optimization",
+  "dataset_size": 176,
+  "validation_window": [
+    3140,
+    3141,
+    3142,
+    3143,
+    3144,
+    3145
+  ],
+  "seed": 999,
+  "configurations": [
+    {
+      "pool_size": 10000,
+      "cold_hot_boost": 25.0,
+      "avg_best_match": 0.6785714285714285,
+      "peak_performance": 0.7857142857142857,
+      "avg_cold_hot_usage": 11.166666666666666,
+      "results": [
+        {
+          "series_id": 3140,
+          "best_match": 0.7142857142857143,
+          "avg_match": 0.5612244897959183,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 11
+        },
+        {
+          "series_id": 3141,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5408163265306121,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 10
+        },
+        {
+          "series_id": 3142,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 10
+        },
+        {
+          "series_id": 3143,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.520408163265306,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        },
+        {
+          "series_id": 3144,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5714285714285713,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        },
+        {
+          "series_id": 3145,
+          "best_match": 0.7857142857142857,
+          "avg_match": 0.5306122448979592,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        }
+      ],
+      "label": "Boost 25x"
+    },
+    {
+      "pool_size": 10000,
+      "cold_hot_boost": 50.0,
+      "avg_best_match": 0.6666666666666666,
+      "peak_performance": 0.7857142857142857,
+      "avg_cold_hot_usage": 12.0,
+      "results": [
+        {
+          "series_id": 3140,
+          "best_match": 0.7142857142857143,
+          "avg_match": 0.5612244897959184,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        },
+        {
+          "series_id": 3141,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5714285714285714,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        },
+        {
+          "series_id": 3142,
+          "best_match": 0.7857142857142857,
+          "avg_match": 0.6122448979591837,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        },
+        {
+          "series_id": 3143,
+          "best_match": 0.5714285714285714,
+          "avg_match": 0.5,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        },
+        {
+          "series_id": 3144,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5612244897959183,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        },
+        {
+          "series_id": 3145,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5204081632653061,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        }
+      ],
+      "label": "Baseline"
+    },
+    {
+      "pool_size": 2000,
+      "cold_hot_boost": 50.0,
+      "avg_best_match": 0.6666666666666666,
+      "peak_performance": 0.7857142857142857,
+      "avg_cold_hot_usage": 12.0,
+      "results": [
+        {
+          "series_id": 3140,
+          "best_match": 0.7142857142857143,
+          "avg_match": 0.5612244897959184,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        },
+        {
+          "series_id": 3141,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5714285714285714,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        },
+        {
+          "series_id": 3142,
+          "best_match": 0.7857142857142857,
+          "avg_match": 0.6122448979591837,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        },
+        {
+          "series_id": 3143,
+          "best_match": 0.5714285714285714,
+          "avg_match": 0.5,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        },
+        {
+          "series_id": 3144,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5612244897959183,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        },
+        {
+          "series_id": 3145,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5204081632653061,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        }
+      ],
+      "label": "Pool 2k"
+    },
+    {
+      "pool_size": 5000,
+      "cold_hot_boost": 50.0,
+      "avg_best_match": 0.6666666666666666,
+      "peak_performance": 0.7857142857142857,
+      "avg_cold_hot_usage": 12.0,
+      "results": [
+        {
+          "series_id": 3140,
+          "best_match": 0.7142857142857143,
+          "avg_match": 0.5612244897959184,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        },
+        {
+          "series_id": 3141,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5714285714285714,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        },
+        {
+          "series_id": 3142,
+          "best_match": 0.7857142857142857,
+          "avg_match": 0.6122448979591837,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        },
+        {
+          "series_id": 3143,
+          "best_match": 0.5714285714285714,
+          "avg_match": 0.5,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        },
+        {
+          "series_id": 3144,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5612244897959183,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        },
+        {
+          "series_id": 3145,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5204081632653061,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        }
+      ],
+      "label": "Pool 5k"
+    },
+    {
+      "pool_size": 20000,
+      "cold_hot_boost": 50.0,
+      "avg_best_match": 0.6666666666666666,
+      "peak_performance": 0.7857142857142857,
+      "avg_cold_hot_usage": 12.0,
+      "results": [
+        {
+          "series_id": 3140,
+          "best_match": 0.7142857142857143,
+          "avg_match": 0.5612244897959184,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        },
+        {
+          "series_id": 3141,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5714285714285714,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        },
+        {
+          "series_id": 3142,
+          "best_match": 0.7857142857142857,
+          "avg_match": 0.6122448979591837,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        },
+        {
+          "series_id": 3143,
+          "best_match": 0.5714285714285714,
+          "avg_match": 0.5,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        },
+        {
+          "series_id": 3144,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5612244897959183,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        },
+        {
+          "series_id": 3145,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5204081632653061,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        }
+      ],
+      "label": "Pool 20k"
+    },
+    {
+      "pool_size": 10000,
+      "cold_hot_boost": 75.0,
+      "avg_best_match": 0.6666666666666666,
+      "peak_performance": 0.7142857142857143,
+      "avg_cold_hot_usage": 12.0,
+      "results": [
+        {
+          "series_id": 3140,
+          "best_match": 0.7142857142857143,
+          "avg_match": 0.5612244897959184,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        },
+        {
+          "series_id": 3141,
+          "best_match": 0.7142857142857143,
+          "avg_match": 0.6326530612244898,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        },
+        {
+          "series_id": 3142,
+          "best_match": 0.7142857142857143,
+          "avg_match": 0.5714285714285714,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        },
+        {
+          "series_id": 3143,
+          "best_match": 0.5714285714285714,
+          "avg_match": 0.5102040816326531,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        },
+        {
+          "series_id": 3144,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5714285714285714,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        },
+        {
+          "series_id": 3145,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5204081632653061,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        }
+      ],
+      "label": "Boost 75x"
+    },
+    {
+      "pool_size": 10000,
+      "cold_hot_boost": 100.0,
+      "avg_best_match": 0.6666666666666666,
+      "peak_performance": 0.7142857142857143,
+      "avg_cold_hot_usage": 12.0,
+      "results": [
+        {
+          "series_id": 3140,
+          "best_match": 0.7142857142857143,
+          "avg_match": 0.5918367346938777,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        },
+        {
+          "series_id": 3141,
+          "best_match": 0.7142857142857143,
+          "avg_match": 0.5816326530612245,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 13
+        },
+        {
+          "series_id": 3142,
+          "best_match": 0.7142857142857143,
+          "avg_match": 0.5714285714285714,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        },
+        {
+          "series_id": 3143,
+          "best_match": 0.5714285714285714,
+          "avg_match": 0.5102040816326531,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        },
+        {
+          "series_id": 3144,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5714285714285714,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        },
+        {
+          "series_id": 3145,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5306122448979591,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 11
+        }
+      ],
+      "label": "Boost 100x"
+    },
+    {
+      "pool_size": 20000,
+      "cold_hot_boost": 75.0,
+      "avg_best_match": 0.6666666666666666,
+      "peak_performance": 0.7142857142857143,
+      "avg_cold_hot_usage": 12.0,
+      "results": [
+        {
+          "series_id": 3140,
+          "best_match": 0.7142857142857143,
+          "avg_match": 0.5612244897959184,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        },
+        {
+          "series_id": 3141,
+          "best_match": 0.7142857142857143,
+          "avg_match": 0.6326530612244898,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        },
+        {
+          "series_id": 3142,
+          "best_match": 0.7142857142857143,
+          "avg_match": 0.5714285714285714,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        },
+        {
+          "series_id": 3143,
+          "best_match": 0.5714285714285714,
+          "avg_match": 0.5102040816326531,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        },
+        {
+          "series_id": 3144,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5714285714285714,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        },
+        {
+          "series_id": 3145,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5204081632653061,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        }
+      ],
+      "label": "20k pool + 75x boost"
+    },
+    {
+      "pool_size": 5000,
+      "cold_hot_boost": 75.0,
+      "avg_best_match": 0.6666666666666666,
+      "peak_performance": 0.7142857142857143,
+      "avg_cold_hot_usage": 12.0,
+      "results": [
+        {
+          "series_id": 3140,
+          "best_match": 0.7142857142857143,
+          "avg_match": 0.5612244897959184,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        },
+        {
+          "series_id": 3141,
+          "best_match": 0.7142857142857143,
+          "avg_match": 0.6326530612244898,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        },
+        {
+          "series_id": 3142,
+          "best_match": 0.7142857142857143,
+          "avg_match": 0.5714285714285714,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        },
+        {
+          "series_id": 3143,
+          "best_match": 0.5714285714285714,
+          "avg_match": 0.5102040816326531,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        },
+        {
+          "series_id": 3144,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5714285714285714,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        },
+        {
+          "series_id": 3145,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5204081632653061,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        }
+      ],
+      "label": "5k pool + 75x boost"
+    },
+    {
+      "pool_size": 10000,
+      "cold_hot_boost": 10.0,
+      "avg_best_match": 0.6547619047619048,
+      "peak_performance": 0.7142857142857143,
+      "avg_cold_hot_usage": 11.0,
+      "results": [
+        {
+          "series_id": 3140,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5510204081632654,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 11
+        },
+        {
+          "series_id": 3141,
+          "best_match": 0.7142857142857143,
+          "avg_match": 0.6428571428571429,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 11
+        },
+        {
+          "series_id": 3142,
+          "best_match": 0.7142857142857143,
+          "avg_match": 0.5918367346938777,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 10
+        },
+        {
+          "series_id": 3143,
+          "best_match": 0.5714285714285714,
+          "avg_match": 0.5102040816326531,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 12
+        },
+        {
+          "series_id": 3144,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5714285714285714,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 11
+        },
+        {
+          "series_id": 3145,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.520408163265306,
+          "cold_hot_total": 14,
+          "cold_hot_in_prediction": 11
+        }
+      ],
+      "label": "Boost 10x"
+    }
+  ],
+  "baseline": {
+    "pool_size": 10000,
+    "cold_hot_boost": 50.0,
+    "avg_best_match": 0.6666666666666666,
+    "peak_performance": 0.7857142857142857,
+    "avg_cold_hot_usage": 12.0,
+    "results": [
+      {
+        "series_id": 3140,
+        "best_match": 0.7142857142857143,
+        "avg_match": 0.5612244897959184,
+        "cold_hot_total": 14,
+        "cold_hot_in_prediction": 12
+      },
+      {
+        "series_id": 3141,
+        "best_match": 0.6428571428571429,
+        "avg_match": 0.5714285714285714,
+        "cold_hot_total": 14,
+        "cold_hot_in_prediction": 12
+      },
+      {
+        "series_id": 3142,
+        "best_match": 0.7857142857142857,
+        "avg_match": 0.6122448979591837,
+        "cold_hot_total": 14,
+        "cold_hot_in_prediction": 12
+      },
+      {
+        "series_id": 3143,
+        "best_match": 0.5714285714285714,
+        "avg_match": 0.5,
+        "cold_hot_total": 14,
+        "cold_hot_in_prediction": 12
+      },
+      {
+        "series_id": 3144,
+        "best_match": 0.6428571428571429,
+        "avg_match": 0.5612244897959183,
+        "cold_hot_total": 14,
+        "cold_hot_in_prediction": 12
+      },
+      {
+        "series_id": 3145,
+        "best_match": 0.6428571428571429,
+        "avg_match": 0.5204081632653061,
+        "cold_hot_total": 14,
+        "cold_hot_in_prediction": 12
+      }
+    ],
+    "label": "Baseline"
+  },
+  "best": {
+    "pool_size": 10000,
+    "cold_hot_boost": 25.0,
+    "avg_best_match": 0.6785714285714285,
+    "peak_performance": 0.7857142857142857,
+    "avg_cold_hot_usage": 11.166666666666666,
+    "results": [
+      {
+        "series_id": 3140,
+        "best_match": 0.7142857142857143,
+        "avg_match": 0.5612244897959183,
+        "cold_hot_total": 14,
+        "cold_hot_in_prediction": 11
+      },
+      {
+        "series_id": 3141,
+        "best_match": 0.6428571428571429,
+        "avg_match": 0.5408163265306121,
+        "cold_hot_total": 14,
+        "cold_hot_in_prediction": 10
+      },
+      {
+        "series_id": 3142,
+        "best_match": 0.6428571428571429,
+        "avg_match": 0.5,
+        "cold_hot_total": 14,
+        "cold_hot_in_prediction": 10
+      },
+      {
+        "series_id": 3143,
+        "best_match": 0.6428571428571429,
+        "avg_match": 0.520408163265306,
+        "cold_hot_total": 14,
+        "cold_hot_in_prediction": 12
+      },
+      {
+        "series_id": 3144,
+        "best_match": 0.6428571428571429,
+        "avg_match": 0.5714285714285713,
+        "cold_hot_total": 14,
+        "cold_hot_in_prediction": 12
+      },
+      {
+        "series_id": 3145,
+        "best_match": 0.7857142857142857,
+        "avg_match": 0.5306122448979592,
+        "cold_hot_total": 14,
+        "cold_hot_in_prediction": 12
+      }
+    ],
+    "label": "Boost 25x"
+  },
+  "improvement": 0.011904761904761862
+}
