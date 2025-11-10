@@ -1,0 +1,62 @@
+{
+  "series_id": 3148,
+  "prediction": [
+    1,
+    3,
+    5,
+    6,
+    8,
+    10,
+    11,
+    13,
+    14,
+    16,
+    19,
+    20,
+    21,
+    23
+  ],
+  "model_type": "TrueLearningModel Phase 1 Pure (IMPROVED Nov 10)",
+  "configuration": {
+    "lookback_window": 8,
+    "cold_hot_boost": 30.0,
+    "pool_size": 10000,
+    "seed": 999,
+    "optimization": "8-series lookback + 30x boost"
+  },
+  "cold_hot_strategy": {
+    "cold_numbers": [
+      3,
+      5,
+      6,
+      13,
+      19,
+      20,
+      23
+    ],
+    "hot_numbers": [
+      1,
+      7,
+      11,
+      14,
+      16,
+      18,
+      21
+    ],
+    "usage_in_prediction": 12,
+    "usage_percentage": "85.7%"
+  },
+  "training_data": {
+    "total_series": 177,
+    "range": "2898-3147",
+    "total_events": 1239
+  },
+  "expected_performance": {
+    "avg_best_match": "71.4%",
+    "peak_performance": "78.6%",
+    "improvement_vs_previous": "+4.1%",
+    "validated_on": "7 series (3140-3147)"
+  },
+  "generated_at": "2025-11-10T03:55:12.174092",
+  "improvement_study": "November 10, 2025 - Lookback Window Optimization"
+}
