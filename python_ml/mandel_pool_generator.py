@@ -13,12 +13,16 @@ from typing import List, Dict, Tuple, Set
 from collections import defaultdict
 
 class MandelPoolGenerator:
-    """Generate candidate pools using Mandel principles"""
+    """Generate candidate pools using Mandel principles + ML weights"""
 
     def __init__(self, frequency_weights: Dict[int, float] = None,
-                 pair_affinities: Dict[Tuple[int, int], float] = None):
+                 pair_affinities: Dict[Tuple[int, int], float] = None,
+                 hybrid_cold_numbers: Set[int] = None,
+                 hybrid_hot_numbers: Set[int] = None):
         self.frequency_weights = frequency_weights or {}
         self.pair_affinities = pair_affinities or {}
+        self.hybrid_cold_numbers = hybrid_cold_numbers or set()
+        self.hybrid_hot_numbers = hybrid_hot_numbers or set()
 
         # Normalize frequency weights for probability distribution
         if self.frequency_weights:
@@ -96,10 +100,15 @@ class MandelPoolGenerator:
 
     def _weighted_sample(self, population: range, k: int) -> List[int]:
         """
-        Sample k numbers from population using frequency weights
+        Sample k numbers from population using frequency weights + cold/hot boost
         """
-        # Get weights for this population
+        # Get base frequency weights for this population
         weights = [self.freq_probs.get(n, 1/25) for n in population]
+
+        # Apply 50x boost to cold/hot numbers (CRITICAL FIX!)
+        for i, n in enumerate(population):
+            if n in self.hybrid_cold_numbers or n in self.hybrid_hot_numbers:
+                weights[i] *= 50.0  # Match C# model's massive boost
 
         # Weighted random sampling without replacement
         selected = []

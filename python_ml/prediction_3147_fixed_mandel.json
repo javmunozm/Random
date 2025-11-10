@@ -1,0 +1,41 @@
+{
+  "series_id": 3147,
+  "prediction": [
+    1,
+    2,
+    3,
+    6,
+    9,
+    10,
+    12,
+    13,
+    16,
+    19,
+    21,
+    22,
+    23,
+    25
+  ],
+  "model": "TrueLearningModel Phase 1 Pure + FIXED Mandel Pool",
+  "dataset": {
+    "total_series": 176,
+    "range": "2898-3145",
+    "training_series": 176
+  },
+  "configuration": {
+    "method": "Mandel pool with cold/hot hybrid boost",
+    "candidates": 2000,
+    "seed": 999,
+    "validated_performance": "67.9% (+3.6% vs original)"
+  },
+  "generated_at": "2025-11-09",
+  "distribution": {
+    "column_0": 5,
+    "column_1": 5,
+    "column_2": 4
+  },
+  "cold_hot_coverage": {
+    "cold_count": 5,
+    "hot_count": 6
+  }
+}
