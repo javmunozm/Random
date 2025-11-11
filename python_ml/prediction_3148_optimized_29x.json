@@ -1,0 +1,66 @@
+{
+  "series_id": 3148,
+  "prediction": [
+    1,
+    3,
+    5,
+    9,
+    12,
+    13,
+    14,
+    16,
+    18,
+    19,
+    20,
+    21,
+    23,
+    24
+  ],
+  "model_type": "TrueLearningModel Phase 1 Pure (OPTIMIZED)",
+  "configuration": {
+    "lookback": 8,
+    "cold_hot_boost": 29.0,
+    "cold_count": 7,
+    "hot_count": 7,
+    "pool_size": 10000,
+    "seed": 999,
+    "optimization": "29x boost (Nov 11 fine-tuning, was 30x)"
+  },
+  "cold_hot_strategy": {
+    "cold_numbers": [
+      3,
+      20,
+      24,
+      19,
+      13,
+      23,
+      17
+    ],
+    "hot_numbers": [
+      7,
+      11,
+      12,
+      16,
+      14,
+      21,
+      1
+    ],
+    "cold_in_prediction": 6,
+    "hot_in_prediction": 5,
+    "total_usage": 11,
+    "usage_percentage": "78.6%"
+  },
+  "training_data": {
+    "total_series": 177,
+    "range": "2898-3147",
+    "total_events": 1239
+  },
+  "expected_performance": {
+    "avg_best_match": "72.449%",
+    "peak_performance": "85.7%",
+    "improvement_vs_nov10": "+1.020%",
+    "improvement_vs_baseline": "+5.7%"
+  },
+  "generated_at": "2025-11-11T15:17:13.699094",
+  "optimization_study": "November 11, 2025 - Quick Wins Fine-Tuning (29x boost optimal)"
+}
