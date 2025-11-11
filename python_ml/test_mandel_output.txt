@@ -1,0 +1,99 @@
+================================================================================
+MANDEL VS RANDOM POOL GENERATION - COMPREHENSIVE A/B TEST
+================================================================================
+
+Configuration:
+  Validation Series: 7 series (3140-3147)
+  Test Seeds: [42, 123, 456, 789, 999]
+  Boost: 30.0x
+  Lookback: 8 series
+  Candidate Pool: 10,000
+
+
+================================================================================
+STARTING COMPREHENSIVE A/B TEST
+================================================================================
+
+================================================================================
+TEST 1: BASELINE PERFORMANCE (Seed 999)
+================================================================================
+
+Testing Series 3140...
+  Random: 71.4% best match
+  Mandel: 64.3% best match
+  Difference: 7.1% (Random better)
+
+Testing Series 3141...
+  Random: 78.6% best match
+  Mandel: 71.4% best match
+  Difference: 7.1% (Random better)
+
+Testing Series 3142...
+  Random: 71.4% best match
+  Mandel: 64.3% best match
+  Difference: 7.1% (Random better)
+
+Testing Series 3143...
+  Random: 64.3% best match
+Warning: Only generated 9871/10000 valid candidates
+  Mandel: 64.3% best match
+  Difference: Tie
+
+Testing Series 3144...
+  Random: 71.4% best match
+Warning: Only generated 9410/10000 valid candidates
+  Mandel: 71.4% best match
+  Difference: Tie
+
+Testing Series 3145...
+  Random: 71.4% best match
+  Mandel: 78.6% best match
+  Difference: 7.1% (Mandel better)
+
+Testing Series 3147...
+  Random: 64.3% best match
+  Mandel: 71.4% best match
+  Difference: 7.1% (Mandel better)
+
+================================================================================
+TEST 1 SUMMARY:
+================================================================================
+Random Method:
+  Average: 70.408%
+  Peak: 78.6%
+
+Mandel Method:
+  Average: 69.388%
+  Peak: 78.6%
+
+Difference: -1.020% (Mandel vs Random)
+VERDICT: ✅ RANDOM BETTER by 1.020%
+
+================================================================================
+TEST 2: SEED SENSITIVITY (5 Seeds)
+================================================================================
+
+Testing with seed 42...
+Warning: Only generated 9861/10000 valid candidates
+Warning: Only generated 9279/10000 valid candidates
+  Random: 73.469%
+  Mandel: 67.347%
+  Difference: -6.122%
+
+Testing with seed 123...
+Warning: Only generated 9972/10000 valid candidates
+Warning: Only generated 9392/10000 valid candidates
+  Random: 72.449%
+  Mandel: 68.367%
+  Difference: -4.082%
+
+Testing with seed 456...
+Warning: Only generated 9885/10000 valid candidates
+Warning: Only generated 9306/10000 valid candidates
+  Random: 71.429%
+  Mandel: 67.347%
+  Difference: -4.082%
+
+Testing with seed 789...
+Warning: Only generated 9983/10000 valid candidates
+Warning: Only generated 9451/10000 valid candidates
