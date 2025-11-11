@@ -1,0 +1,71 @@
+================================================================================
+COMPREHENSIVE REEVALUATION: 29x vs 30x Boost
+================================================================================
+
+This will run 7 comprehensive tests to validate the improvement claim.
+Estimated time: 10-15 minutes
+
+================================================================================
+TEST 1: REPRODUCIBILITY (10 independent runs)
+================================================================================
+
+Run 1/10...
+
+Run 2/10...
+
+Run 3/10...
+
+Run 4/10...
+
+Run 5/10...
+
+Run 6/10...
+
+Run 7/10...
+
+Run 8/10...
+
+Run 9/10...
+
+Run 10/10...
+
+29x Results: [np.float64(0.7244897959183675), np.float64(0.7244897959183675), np.float64(0.7244897959183675), np.float64(0.7244897959183675), np.float64(0.7244897959183675), np.float64(0.7244897959183675), np.float64(0.7244897959183675), np.float64(0.7244897959183675), np.float64(0.7244897959183675), np.float64(0.7244897959183675)]
+30x Results: [np.float64(0.7142857142857143), np.float64(0.7142857142857143), np.float64(0.7142857142857143), np.float64(0.7142857142857143), np.float64(0.7142857142857143), np.float64(0.7142857142857143), np.float64(0.7142857142857143), np.float64(0.7142857142857143), np.float64(0.7142857142857143), np.float64(0.7142857142857143)]
+
+29x: Mean=0.7245, Std=0.000000
+30x: Mean=0.7143, Std=0.000000
+
+✅ Reproducibility: PASS
+   (Variance should be ~0 for deterministic results)
+
+================================================================================
+TEST 2: EXTENDED VALIDATION (15 series: 3133-3147)
+================================================================================
+
+Testing on 15 series...
+  Series 3133: 29x=71.4%, 30x=64.3%
+  Series 3134: 29x=64.3%, 30x=64.3%
+  Series 3135: 29x=71.4%, 30x=78.6%
+  Series 3136: 29x=71.4%, 30x=71.4%
+  Series 3137: 29x=71.4%, 30x=71.4%
+  Series 3138: 29x=78.6%, 30x=78.6%
+  Series 3139: 29x=78.6%, 30x=78.6%
+  Series 3140: 29x=85.7%, 30x=71.4%
+  Series 3141: 29x=78.6%, 30x=78.6%
+  Series 3142: 29x=71.4%, 30x=71.4%
+  Series 3143: 29x=64.3%, 30x=64.3%
+  Series 3144: 29x=71.4%, 30x=71.4%
+  Series 3145: 29x=64.3%, 30x=71.4%
+Traceback (most recent call last):
+  File "/home/user/Random/python_ml/test_comprehensive_reevaluation.py", line 504, in <module>
+    main()
+  File "/home/user/Random/python_ml/test_comprehensive_reevaluation.py", line 450, in main
+    results['test2'] = test_2_extended_validation()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/Random/python_ml/test_comprehensive_reevaluation.py", line 122, in test_2_extended_validation
+    r29 = test_configuration(29.0, s, seed=SEED)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/Random/python_ml/test_comprehensive_reevaluation.py", line 46, in test_configuration
+    actual_events = SERIES_DATA[target_series]
+                    ~~~~~~~~~~~^^^^^^^^^^^^^^^
+KeyError: 3146
