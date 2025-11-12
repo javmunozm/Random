@@ -1,0 +1,106 @@
+================================================================================
+EXHAUSTIVE MANDEL vs RANDOM SAMPLING - COMPARISON TEST
+================================================================================
+
+Testing on 1 series: [3147]
+Total historical data: 177 series
+
+
+================================================================================
+TESTING SERIES 3147
+================================================================================
+
+--- Method 1: Random Sampling (10K candidates) ---
+✅ Random Sampling: 64.3% best match
+   Prediction: [1, 2, 3, 5, 9, 10, 13, 14, 16, 19, 20, 21, 22, 23]
+   Time: 0.23 seconds
+
+--- Method 2: Exhaustive Mandel (4.4M combinations) ---
+================================================================================
+TRUE MANDEL METHOD - Exhaustive Search
+================================================================================
+Total combinations to score: 4,457,400
+Estimated time: 7-10 minutes
+
+🎯 New best at 0: score=330728.85, combo=[1, 2, 3, 4, 5]...[12, 13, 14], time=0.0s
+🎯 New best at 1: score=331583.90, combo=[1, 2, 3, 4, 5]...[12, 13, 15], time=0.0s
+🎯 New best at 2: score=333139.15, combo=[1, 2, 3, 4, 5]...[12, 13, 16], time=0.0s
+🎯 New best at 3: score=333466.00, combo=[1, 2, 3, 4, 5]...[12, 13, 17], time=0.0s
+🎯 New best at 4: score=334008.40, combo=[1, 2, 3, 4, 5]...[12, 13, 18], time=0.0s
+🎯 New best at 5: score=335521.90, combo=[1, 2, 3, 4, 5]...[12, 13, 19], time=0.0s
+🎯 New best at 6: score=336174.36, combo=[1, 2, 3, 4, 5]...[12, 13, 20], time=0.0s
+🎯 New best at 8: score=336206.51, combo=[1, 2, 3, 4, 5]...[12, 13, 22], time=0.0s
+🎯 New best at 11: score=336549.01, combo=[1, 2, 3, 4, 5]...[12, 13, 25], time=0.0s
+🎯 New best at 62: score=336753.31, combo=[1, 2, 3, 4, 5]...[12, 19, 25], time=0.0s
+🎯 New best at 74: score=336926.43, combo=[1, 2, 3, 4, 5]...[12, 22, 25], time=0.0s
+🎯 New best at 123: score=337737.21, combo=[1, 2, 3, 4, 5]...[13, 19, 20], time=0.0s
+🎯 New best at 128: score=338436.56, combo=[1, 2, 3, 4, 5]...[13, 19, 25], time=0.0s
+🎯 New best at 133: score=338642.03, combo=[1, 2, 3, 4, 5]...[13, 20, 25], time=0.0s
+🎯 New best at 333: score=339161.43, combo=[1, 2, 3, 4, 5]...[19, 20, 25], time=0.0s
+🎯 New best at 409: score=339265.86, combo=[1, 2, 3, 4, 5]...[13, 19, 20], time=0.1s
+🎯 New best at 412: score=339524.11, combo=[1, 2, 3, 4, 5]...[13, 19, 23], time=0.1s
+🎯 New best at 414: score=340325.21, combo=[1, 2, 3, 4, 5]...[13, 19, 25], time=0.1s
+🎯 New best at 419: score=340855.68, combo=[1, 2, 3, 4, 5]...[13, 20, 25], time=0.1s
+🎯 New best at 428: score=340906.23, combo=[1, 2, 3, 4, 5]...[13, 23, 25], time=0.1s
+🎯 New best at 837: score=341342.23, combo=[1, 2, 3, 4, 5]...[19, 20, 23], time=0.1s
+🎯 New best at 839: score=342288.33, combo=[1, 2, 3, 4, 5]...[19, 20, 25], time=0.1s
+🎯 New best at 848: score=342415.58, combo=[1, 2, 3, 4, 5]...[19, 23, 25], time=0.1s
+🎯 New best at 858: score=342588.03, combo=[1, 2, 3, 4, 5]...[20, 23, 25], time=0.1s
+🎯 New best at 1,338: score=342809.43, combo=[1, 2, 3, 4, 5]...[20, 23, 25], time=0.2s
+🎯 New best at 14,560: score=343228.94, combo=[1, 2, 3, 4, 5]...[20, 23, 25], time=2.1s
+🎯 New best at 31,858: score=343386.56, combo=[1, 2, 3, 4, 5]...[13, 17, 22], time=4.6s
+🎯 New best at 31,863: score=344139.31, combo=[1, 2, 3, 4, 5]...[13, 18, 20], time=4.6s
+🎯 New best at 31,869: score=345510.61, combo=[1, 2, 3, 4, 5]...[13, 19, 20], time=4.6s
+🎯 New best at 31,871: score=345557.46, combo=[1, 2, 3, 4, 5]...[13, 19, 22], time=4.6s
+🎯 New best at 31,874: score=345810.96, combo=[1, 2, 3, 4, 5]...[13, 19, 25], time=4.6s
+🎯 New best at 31,876: score=346135.93, combo=[1, 2, 3, 4, 5]...[13, 20, 22], time=4.6s
+🎯 New best at 31,884: score=346140.28, combo=[1, 2, 3, 4, 5]...[13, 22, 23], time=4.6s
+🎯 New best at 31,886: score=346290.08, combo=[1, 2, 3, 4, 5]...[13, 22, 25], time=4.6s
+🎯 New best at 32,295: score=346700.63, combo=[1, 2, 3, 4, 5]...[19, 20, 21], time=4.6s
+🎯 New best at 32,296: score=347571.28, combo=[1, 2, 3, 4, 5]...[19, 20, 22], time=4.6s
+🎯 New best at 32,299: score=348065.28, combo=[1, 2, 3, 4, 5]...[19, 20, 25], time=4.6s
+🎯 New best at 32,306: score=348127.13, combo=[1, 2, 3, 4, 5]...[19, 22, 25], time=4.6s
+🎯 New best at 32,316: score=348209.59, combo=[1, 2, 3, 4, 5]...[20, 22, 25], time=4.6s
+🎯 New best at 32,796: score=348438.99, combo=[1, 2, 3, 4, 5]...[20, 22, 25], time=4.7s
+🎯 New best at 33,011: score=349029.43, combo=[1, 2, 3, 4, 5]...[19, 20, 22], time=4.7s
+🎯 New best at 33,012: score=349472.83, combo=[1, 2, 3, 4, 5]...[19, 20, 23], time=4.7s
+🎯 New best at 33,014: score=350161.43, combo=[1, 2, 3, 4, 5]...[19, 20, 25], time=4.7s
+🎯 New best at 33,023: score=350178.68, combo=[1, 2, 3, 4, 5]...[19, 23, 25], time=4.7s
+🎯 New best at 33,031: score=350377.24, combo=[1, 2, 3, 4, 5]...[20, 22, 25], time=4.7s
+🎯 New best at 33,042: score=350483.58, combo=[1, 2, 3, 4, 5]...[22, 23, 25], time=4.7s
+🎯 New best at 34,003: score=350705.24, combo=[1, 2, 3, 4, 5]...[20, 21, 25], time=4.9s
+🎯 New best at 34,004: score=350946.09, combo=[1, 2, 3, 4, 5]...[20, 22, 23], time=4.9s
+🎯 New best at 34,006: score=351678.89, combo=[1, 2, 3, 4, 5]...[20, 22, 25], time=4.9s
+🎯 New best at 34,008: score=351986.79, combo=[1, 2, 3, 4, 5]...[20, 23, 25], time=4.9s
+🎯 New best at 34,027: score=351991.88, combo=[1, 2, 3, 4, 5]...[22, 23, 25], time=4.9s
+🎯 New best at 55,339: score=352387.39, combo=[1, 2, 3, 4, 5]...[22, 23, 25], time=7.9s
+Progress: 100,000/4,457,400 (2.2%) - 7098 combos/sec - ETA: 10.2 min
+🎯 New best at 123,404: score=352399.99, combo=[1, 2, 3, 4, 5]...[21, 23, 25], time=17.4s
+🎯 New best at 123,407: score=353342.44, combo=[1, 2, 3, 4, 5]...[22, 23, 25], time=17.4s
+Progress: 200,000/4,457,400 (4.5%) - 7101 combos/sec - ETA: 10.0 min
+🎯 New best at 215,785: score=354008.39, combo=[1, 2, 3, 4, 6]...[22, 23, 25], time=30.4s
+Progress: 300,000/4,457,400 (6.7%) - 7108 combos/sec - ETA: 9.7 min
+🎯 New best at 314,595: score=354091.89, combo=[1, 2, 3, 4, 8]...[22, 23, 25], time=44.2s
+🎯 New best at 314,598: score=354582.79, combo=[1, 2, 3, 4, 8]...[23, 24, 25], time=44.2s
+Progress: 400,000/4,457,400 (9.0%) - 7103 combos/sec - ETA: 9.5 min
+🎯 New best at 400,538: score=354707.34, combo=[1, 2, 3, 5, 6]...[21, 23, 25], time=56.4s
+🎯 New best at 400,541: score=355572.29, combo=[1, 2, 3, 5, 6]...[22, 23, 25], time=56.4s
+🎯 New best at 426,424: score=355809.34, combo=[1, 2, 3, 5, 6]...[23, 24, 25], time=60.1s
+🎯 New best at 499,351: score=356077.99, combo=[1, 2, 3, 5, 8]...[22, 23, 25], time=70.3s
+🎯 New best at 499,354: score=356883.89, combo=[1, 2, 3, 5, 8]...[23, 24, 25], time=70.3s
+Progress: 500,000/4,457,400 (11.2%) - 7104 combos/sec - ETA: 9.3 min
+🎯 New best at 591,732: score=357158.64, combo=[1, 2, 3, 6, 8]...[23, 24, 25], time=83.3s
+Progress: 600,000/4,457,400 (13.5%) - 7106 combos/sec - ETA: 9.0 min
+🎯 New best at 679,547: score=357581.14, combo=[1, 2, 3, 8, 9]...[23, 24, 25], time=96.1s
+Progress: 700,000/4,457,400 (15.7%) - 7068 combos/sec - ETA: 8.9 min
+Progress: 800,000/4,457,400 (17.9%) - 7069 combos/sec - ETA: 8.6 min
+Progress: 900,000/4,457,400 (20.2%) - 7037 combos/sec - ETA: 8.4 min
+Progress: 1,000,000/4,457,400 (22.4%) - 7047 combos/sec - ETA: 8.2 min
+Progress: 1,100,000/4,457,400 (24.7%) - 7053 combos/sec - ETA: 7.9 min
+Progress: 1,200,000/4,457,400 (26.9%) - 7057 combos/sec - ETA: 7.7 min
+Progress: 1,300,000/4,457,400 (29.2%) - 7066 combos/sec - ETA: 7.4 min
+Progress: 1,400,000/4,457,400 (31.4%) - 7069 combos/sec - ETA: 7.2 min
+Progress: 1,500,000/4,457,400 (33.7%) - 7069 combos/sec - ETA: 7.0 min
+Progress: 1,600,000/4,457,400 (35.9%) - 7073 combos/sec - ETA: 6.7 min
+Progress: 1,700,000/4,457,400 (38.1%) - 7074 combos/sec - ETA: 6.5 min
+Progress: 1,800,000/4,457,400 (40.4%) - 7072 combos/sec - ETA: 6.3 min
