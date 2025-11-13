@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-MANDEL METHOD - ML-Guided Exhaustive Search
+MANDEL METHOD - ML-Guided Exhaustive Search (WITH VALIDATION LEARNING)
 
 Stefan Mandel's principle: Reduce search space intelligently, then exhaustively search.
 
@@ -9,12 +9,20 @@ Instead of:
 - Random 10k weighted samples (not exhaustive)
 
 Mandel approach:
-1. ML identifies top N most likely numbers for target series
-2. Generate ALL C(N,14) combinations from those N numbers
-3. Exhaustively score that focused pool
-4. Pick the highest scoring combination
+1. Train ML model with ITERATIVE VALIDATION LEARNING:
+   - Bulk train on historical data
+   - Generate predictions for recent 8 series
+   - Validate against actual results
+   - Learn from errors (multiplicative updates for missed critical numbers)
+2. ML identifies top N most likely numbers based on calibrated weights
+3. Generate ALL C(N,14) combinations from those N numbers
+4. Exhaustively score that focused pool
+5. Pick the highest scoring combination
 
-Key advantage: Each series gets its own ML-guided pool!
+Key advantages:
+- Each series gets its own ML-guided pool!
+- Weights calibrated by actual prediction performance
+- Stronger learning (multiplicative vs additive updates)
 """
 
 import json
@@ -122,20 +130,67 @@ def generate_mandel_prediction(series_id: int = 3149, top_n: int = 18):
     print(f"Loaded {len(series_data)} series for training")
     print()
 
-    # Train model
+    # Train model with iterative validation learning
     print("=" * 80)
-    print("PHASE 1: TRAINING ML MODEL")
+    print("PHASE 1: TRAINING ML MODEL WITH VALIDATION LEARNING")
     print("=" * 80)
+    print("Using validate_and_learn for better weight calibration")
+    print()
+
     model = TrueLearningModel(seed=999, cold_hot_boost=30.0)
     model.RECENT_SERIES_LOOKBACK = 8
 
-    train_count = 0
-    for sid in sorted(series_data.keys()):
-        if sid < series_id:
-            model.learn_from_series(sid, series_data[sid])
-            train_count += 1
+    # Get all training series
+    training_series = sorted([sid for sid in series_data.keys() if sid < series_id])
 
-    print(f"✅ Trained on {train_count} series (up to {series_id-1})")
+    # Split into bulk training and iterative validation
+    if len(training_series) >= 8:
+        # Bulk train on all but last 8
+        bulk_series = training_series[:-8]
+        validation_series = training_series[-8:]
+
+        print(f"Bulk training on {len(bulk_series)} series (basic learning)")
+        for sid in bulk_series:
+            model.learn_from_series(sid, series_data[sid])
+
+        print(f"✅ Bulk training complete")
+        print()
+        print(f"Iterative validation learning on last {len(validation_series)} series")
+        print("(Generates predictions, validates, learns from errors)")
+        print()
+
+        # Iterative validation learning on recent series
+        for i, sid in enumerate(validation_series, 1):
+            print(f"  [{i}/{len(validation_series)}] Series {sid}:", end=" ")
+
+            # Generate prediction
+            prediction = model.predict_best_combination(sid)
+
+            # Validate and learn (strong multiplicative updates)
+            actual_results = series_data[sid]
+            matches = [len(set(prediction) & set(event)) for event in actual_results]
+            best_match = max(matches)
+            avg_match = sum(matches) / len(matches)
+
+            print(f"Best={best_match}/14 ({best_match/14*100:.1f}%), Avg={avg_match:.2f}/14", end="")
+
+            # This uses the stronger validate_and_learn mechanism
+            model.validate_and_learn(sid, prediction, actual_results)
+
+            print(" ✅")
+
+        train_count = len(training_series)
+    else:
+        # Not enough data for split, just bulk train
+        print(f"Training on {len(training_series)} series (bulk only)")
+        for sid in training_series:
+            model.learn_from_series(sid, series_data[sid])
+        train_count = len(training_series)
+
+    print()
+    print(f"✅ Training complete: {train_count} series")
+    print(f"   - Bulk training: {len(bulk_series) if len(training_series) >= 8 else len(training_series)} series")
+    print(f"   - Iterative validation: {len(validation_series) if len(training_series) >= 8 else 0} series")
     print()
 
     # Select top N numbers based on ML weights
@@ -237,8 +292,9 @@ def generate_mandel_prediction(series_id: int = 3149, top_n: int = 18):
     # Save results
     results = {
         'series_id': series_id,
-        'method': 'mandel_ml_guided_exhaustive',
+        'method': 'mandel_ml_guided_exhaustive_with_validation',
         'model': 'TrueLearningModel-Phase1-Optimized',
+        'training_method': 'iterative_validation_learning',
         'top_n_selected': top_n,
         'selected_numbers': selected_numbers,
         'mandel_pool_size': pool_size,
@@ -247,6 +303,8 @@ def generate_mandel_prediction(series_id: int = 3149, top_n: int = 18):
         'cold_hot_boost': 30.0,
         'lookback_window': 8,
         'training_series_count': train_count,
+        'bulk_training_series': len(bulk_series) if len(training_series) >= 8 else len(training_series),
+        'validation_learning_series': len(validation_series) if len(training_series) >= 8 else 0,
         'prediction': best_combination,
         'prediction_formatted': prediction_str,
         'ml_score': best_score,
