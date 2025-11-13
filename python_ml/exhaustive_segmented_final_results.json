@@ -1,0 +1,95 @@
+{
+  "series_id": 3147,
+  "method": "exhaustive_mandel_segmented_sequential",
+  "segments_run": [
+    5
+  ],
+  "total_combinations": 1782960,
+  "total_time_seconds": 253.20076823234558,
+  "average_rate": 7041.684796010949,
+  "best_combination": [
+    1,
+    2,
+    3,
+    8,
+    9,
+    10,
+    13,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25
+  ],
+  "best_score": 357581.1428571437,
+  "found_in_segment": 1,
+  "accuracy": {
+    "best_match": 9,
+    "best_match_pct": 64.28571428571429,
+    "avg_match": 7.571428571428571,
+    "avg_match_pct": 54.08163265306122,
+    "matches_per_event": [
+      7,
+      9,
+      8,
+      7,
+      7,
+      7,
+      8
+    ]
+  },
+  "segments": [
+    {
+      "segment": 1,
+      "start_idx": 0,
+      "end_idx": 891480,
+      "combinations_scored": 891480,
+      "best_combination": [
+        1,
+        2,
+        3,
+        8,
+        9,
+        10,
+        13,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "best_score": 357581.1428571437,
+      "time_seconds": 126.97170853614807,
+      "rate": 7021.091629606615
+    },
+    {
+      "segment": 5,
+      "start_idx": 3565920,
+      "end_idx": 4457400,
+      "combinations_scored": 891480,
+      "best_combination": [
+        3,
+        5,
+        6,
+        8,
+        9,
+        10,
+        13,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "best_score": 354798.49285714363,
+      "time_seconds": 126.22905969619751,
+      "rate": 7062.39911907428
+    }
+  ]
+}

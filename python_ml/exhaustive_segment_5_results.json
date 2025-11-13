@@ -1,0 +1,47 @@
+{
+  "segment": {
+    "segment": 5,
+    "start_idx": 3565920,
+    "end_idx": 4457400,
+    "combinations_scored": 891480,
+    "best_combination": [
+      3,
+      5,
+      6,
+      8,
+      9,
+      10,
+      13,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25
+    ],
+    "best_score": 354798.49285714363,
+    "time_seconds": 126.22905969619751,
+    "rate": 7062.39911907428
+  },
+  "overall_best_so_far": {
+    "combination": [
+      1,
+      2,
+      3,
+      8,
+      9,
+      10,
+      13,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25
+    ],
+    "score": 357581.1428571437,
+    "found_in_segment": 1
+  }
+}
