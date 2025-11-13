@@ -1,323 +1,282 @@
+#!/usr/bin/env python3
 """
-Mandel Method - Smart Candidate Pool Generation
+MANDEL METHOD - ML-Guided Exhaustive Search
 
-Instead of random candidates, generate combinations using:
-1. Balanced distribution (columns balanced)
-2. Frequency weighting (favor common numbers)
-3. Pattern filtering (exclude unlikely patterns)
-4. Diversity guarantee (varied combinations)
+Stefan Mandel's principle: Reduce search space intelligently, then exhaustively search.
+
+Instead of:
+- Searching ALL 4,457,400 combinations (too slow)
+- Random 10k weighted samples (not exhaustive)
+
+Mandel approach:
+1. ML identifies top N most likely numbers for target series
+2. Generate ALL C(N,14) combinations from those N numbers
+3. Exhaustively score that focused pool
+4. Pick the highest scoring combination
+
+Key advantage: Each series gets its own ML-guided pool!
 """
 
-import random
-from typing import List, Dict, Tuple, Set
-from collections import defaultdict
+import json
+import sys
+import time
+from pathlib import Path
+from itertools import combinations
+from typing import List, Dict, Any
 
-class MandelPoolGenerator:
-    """Generate candidate pools using Mandel principles + ML weights"""
+# Add parent directory to path
+sys.path.insert(0, str(Path(__file__).parent))
 
-    def __init__(self, frequency_weights: Dict[int, float] = None,
-                 pair_affinities: Dict[Tuple[int, int], float] = None,
-                 hybrid_cold_numbers: Set[int] = None,
-                 hybrid_hot_numbers: Set[int] = None,
-                 cold_hot_boost: float = 30.0):
-        self.frequency_weights = frequency_weights or {}
-        self.pair_affinities = pair_affinities or {}
-        self.hybrid_cold_numbers = hybrid_cold_numbers or set()
-        self.hybrid_hot_numbers = hybrid_hot_numbers or set()
-        self.cold_hot_boost = cold_hot_boost  # RESTORED: 30x after reevaluation (Nov 11)
+from true_learning_model import TrueLearningModel
 
-        # Normalize frequency weights for probability distribution
-        if self.frequency_weights:
-            total = sum(self.frequency_weights.values())
-            self.freq_probs = {k: v/total for k, v in self.frequency_weights.items()}
-        else:
-            # Uniform if no weights provided
-            self.freq_probs = {i: 1/25 for i in range(1, 26)}
 
-    def generate_pool(self, size: int, seed: int = None) -> List[List[int]]:
-        """
-        Generate pool of candidates using Mandel method
+def load_all_series_data():
+    """Load all series data from JSON export + hardcoded recent series"""
+    # Load from JSON export
+    json_path = Path(__file__).parent.parent / "Results" / "database_export_2898_3143_20251105_135513.json"
 
-        Args:
-            size: Number of candidates to generate
-            seed: Random seed for reproducibility
+    series_dict = {}
 
-        Returns:
-            List of candidate combinations (each is list of 14 numbers)
-        """
-        if seed is not None:
-            random.seed(seed)
+    if json_path.exists():
+        with open(json_path, 'r') as f:
+            json_data = json.load(f)
 
-        candidates = []
-        seen = set()  # Avoid duplicates
-        attempts = 0
-        max_attempts = size * 10  # Prevent infinite loop
+        for series in json_data.get('data', []):
+            series_id = series['series_id']
+            events = [event['numbers'] for event in series['events']]
+            series_dict[series_id] = events
 
-        while len(candidates) < size and attempts < max_attempts:
-            candidate = self._generate_balanced_candidate()
+    # Add hardcoded recent series
+    series_dict[3144] = [
+        [1, 2, 3, 9, 11, 13, 14, 17, 19, 20, 21, 22, 24, 25],
+        [1, 4, 6, 8, 11, 14, 16, 17, 18, 21, 22, 23, 24, 25],
+        [2, 3, 4, 5, 9, 10, 11, 13, 15, 16, 17, 19, 21, 24],
+        [4, 7, 12, 13, 14, 15, 17, 19, 20, 21, 22, 23, 24, 25],
+        [1, 2, 4, 5, 6, 8, 10, 11, 12, 20, 21, 22, 23, 25],
+        [1, 4, 5, 6, 7, 8, 12, 14, 16, 17, 19, 20, 21, 24],
+        [1, 2, 4, 6, 10, 11, 15, 16, 17, 21, 22, 23, 24, 25],
+    ]
 
-            # Convert to tuple for set membership
-            cand_tuple = tuple(sorted(candidate))
+    series_dict[3145] = [
+        [1, 7, 8, 9, 12, 13, 15, 16, 17, 19, 21, 22, 23, 25],
+        [1, 5, 7, 8, 9, 10, 11, 12, 14, 17, 18, 19, 20, 24],
+        [3, 4, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 19, 22],
+        [1, 3, 6, 7, 10, 11, 13, 14, 16, 20, 21, 22, 23, 25],
+        [1, 2, 4, 5, 6, 7, 9, 12, 15, 16, 17, 18, 21, 23],
+        [1, 2, 4, 9, 11, 12, 13, 14, 16, 18, 20, 21, 24, 25],
+        [1, 3, 4, 6, 7, 8, 9, 10, 11, 12, 16, 18, 20, 21],
+    ]
 
-            if self._is_valid_pattern(candidate) and cand_tuple not in seen:
-                candidates.append(candidate)
-                seen.add(cand_tuple)
+    series_dict[3147] = [
+        [1, 2, 4, 6, 7, 9, 11, 13, 16, 17, 18, 20, 21, 23],
+        [1, 3, 5, 7, 8, 9, 11, 16, 18, 20, 21, 22, 23, 25],
+        [1, 2, 3, 6, 7, 8, 10, 11, 14, 16, 18, 20, 21, 23],
+        [2, 3, 4, 5, 7, 8, 10, 11, 14, 16, 18, 21, 23, 25],
+        [1, 2, 5, 6, 7, 8, 10, 12, 14, 16, 17, 20, 22, 24],
+        [2, 3, 4, 7, 9, 11, 14, 15, 16, 18, 19, 21, 22, 23],
+        [2, 3, 4, 6, 7, 10, 11, 13, 16, 18, 21, 22, 23, 25],
+    ]
 
-            attempts += 1
+    series_dict[3148] = [
+        [1, 2, 3, 4, 5, 7, 8, 10, 15, 16, 19, 22, 23, 25],
+        [2, 3, 6, 7, 10, 12, 13, 14, 15, 16, 17, 19, 21, 23],
+        [1, 2, 4, 5, 6, 8, 10, 12, 14, 15, 17, 18, 20, 22],
+        [2, 3, 4, 5, 8, 10, 12, 13, 14, 15, 18, 20, 21, 25],
+        [3, 4, 6, 7, 11, 12, 13, 14, 15, 16, 19, 20, 21, 24],
+        [2, 3, 4, 5, 9, 10, 12, 14, 15, 16, 17, 18, 22, 25],
+        [1, 4, 6, 7, 9, 11, 12, 14, 16, 19, 20, 21, 23, 25],
+    ]
 
-        if len(candidates) < size:
-            print(f"Warning: Only generated {len(candidates)}/{size} valid candidates")
+    return series_dict
 
-        return candidates
 
-    def _generate_balanced_candidate(self) -> List[int]:
-        """
-        Generate one candidate with balanced distribution
-        """
-        # Target distribution across columns
-        # Column 0 (01-09): 5-7 numbers (9 available, ~56% selection rate)
-        # Column 1 (10-19): 4-6 numbers (10 available, ~50% selection rate)
-        # Column 2 (20-25): 2-4 numbers (6 available, ~50% selection rate)
+def generate_mandel_prediction(series_id: int = 3149, top_n: int = 18):
+    """
+    Generate prediction using Mandel method
 
-        target_col0 = random.randint(5, 7)
-        target_col1 = random.randint(4, 6)
-        target_col2 = 14 - target_col0 - target_col1
+    Args:
+        series_id: The series to predict
+        top_n: Number of top numbers to select (16-20 recommended)
+               C(16,14) = 120, C(17,14) = 680, C(18,14) = 3060,
+               C(19,14) = 11628, C(20,14) = 38760
 
-        # Ensure valid distribution
-        if target_col2 < 1 or target_col2 > 5:
-            target_col2 = max(1, min(5, target_col2))
-            target_col1 = 14 - target_col0 - target_col2
+    Returns:
+        dict with prediction and metadata
+    """
+    print("=" * 80)
+    print("MANDEL METHOD - ML-GUIDED EXHAUSTIVE SEARCH")
+    print("=" * 80)
+    print()
+    print(f"Target Series: {series_id}")
+    print(f"Top N numbers to select: {top_n}")
 
-        # Generate from each column with frequency weighting
-        col0_nums = self._weighted_sample(range(1, 10), target_col0)
-        col1_nums = self._weighted_sample(range(10, 20), target_col1)
-        col2_nums = self._weighted_sample(range(20, 26), target_col2)
+    # Calculate pool size
+    from math import comb
+    pool_size = comb(top_n, 14)
+    print(f"Mandel pool size: {pool_size:,} combinations (vs 4,457,400 total)")
+    print(f"Reduction: {(1 - pool_size/4457400)*100:.1f}% smaller search space")
+    print()
 
-        candidate = col0_nums + col1_nums + col2_nums
+    # Load data
+    series_data = load_all_series_data()
+    print(f"Loaded {len(series_data)} series for training")
+    print()
 
-        # Shuffle to remove positional bias
-        random.shuffle(candidate)
+    # Train model
+    print("=" * 80)
+    print("PHASE 1: TRAINING ML MODEL")
+    print("=" * 80)
+    model = TrueLearningModel(seed=999, cold_hot_boost=30.0)
+    model.RECENT_SERIES_LOOKBACK = 8
 
-        return sorted(candidate)
+    train_count = 0
+    for sid in sorted(series_data.keys()):
+        if sid < series_id:
+            model.learn_from_series(sid, series_data[sid])
+            train_count += 1
 
-    def _weighted_sample(self, population: range, k: int) -> List[int]:
-        """
-        Sample k numbers from population using frequency weights + cold/hot boost
-        """
-        # Get base frequency weights for this population
-        weights = [self.freq_probs.get(n, 1/25) for n in population]
+    print(f"✅ Trained on {train_count} series (up to {series_id-1})")
+    print()
 
-        # Apply cold/hot boost to prioritize cold and hot numbers
-        for i, n in enumerate(population):
-            if n in self.hybrid_cold_numbers or n in self.hybrid_hot_numbers:
-                weights[i] *= self.cold_hot_boost  # Configurable boost (default 50x)
+    # Select top N numbers based on ML weights
+    print("=" * 80)
+    print(f"PHASE 2: SELECT TOP {top_n} NUMBERS (ML-GUIDED)")
+    print("=" * 80)
 
-        # Weighted random sampling without replacement
-        selected = []
-        pop_list = list(population)
-        weights_list = list(weights)
+    # Get all weights
+    all_weights = sorted(model.number_frequency_weights.items(), key=lambda x: -x[1])
 
-        for _ in range(min(k, len(pop_list))):
-            # Normalize weights
-            total = sum(weights_list)
-            if total == 0:
-                # Fallback to uniform if all weights are zero
-                weights_list = [1] * len(weights_list)
-                total = len(weights_list)
+    print("All 25 numbers ranked by ML weight:")
+    for i, (num, weight) in enumerate(all_weights, 1):
+        marker = "✅" if i <= top_n else "❌"
+        print(f"  {i:2d}. #{num:02d}: {weight:.2f} {marker}")
+    print()
 
-            probs = [w/total for w in weights_list]
+    # Select top N
+    selected_numbers = [num for num, _ in all_weights[:top_n]]
+    selected_numbers.sort()
 
-            # Select one
-            choice = random.choices(pop_list, weights=probs, k=1)[0]
-            selected.append(choice)
+    print(f"🎯 Selected {top_n} numbers for Mandel pool:")
+    print(f"   {' '.join(f'{n:02d}' for n in selected_numbers)}")
+    print()
 
-            # Remove from population
-            idx = pop_list.index(choice)
-            pop_list.pop(idx)
-            weights_list.pop(idx)
+    # Generate all combinations from selected numbers
+    print("=" * 80)
+    print(f"PHASE 3: GENERATE & SCORE MANDEL POOL ({pool_size:,} combinations)")
+    print("=" * 80)
+    print()
 
-        return selected
+    start_time = time.time()
 
-    def _is_valid_pattern(self, candidate: List[int]) -> bool:
-        """
-        Validate candidate has reasonable patterns
+    best_combination = None
+    best_score = -float('inf')
+    count = 0
+    progress_interval = max(pool_size // 10, 100)  # Report every 10%
+    next_report = progress_interval
 
-        Checks:
-        - Distribution across columns (must have from all 3)
-        - Not all consecutive
-        - Sum in reasonable range
-        - Even/odd balance
-        - Not too many gaps
-        """
-        if len(candidate) != 14:
-            return False
+    print(f"🔍 Scoring {pool_size:,} combinations...")
+    scoring_start = time.time()
 
-        # Column distribution
-        col0 = [n for n in candidate if 1 <= n <= 9]
-        col1 = [n for n in candidate if 10 <= n <= 19]
-        col2 = [n for n in candidate if 20 <= n <= 25]
+    for combination in combinations(selected_numbers, 14):
+        combo_list = list(combination)
+        score = model._calculate_score(combo_list)
 
-        # Must have numbers from all columns
-        if len(col0) == 0 or len(col1) == 0 or len(col2) == 0:
-            return False
+        if score > best_score:
+            best_score = score
+            best_combination = combo_list
+            elapsed = time.time() - start_time
+            print(f"  🎯 New best: score={score:.2f}, combo={combo_list[:3]}...{combo_list[-3:]}, time={elapsed:.1f}s")
 
-        # Column extremes (not too skewed)
-        if len(col0) > 9 or len(col1) > 9 or len(col2) > 5:
-            return False
+        count += 1
 
-        # Check for all consecutive
-        sorted_cand = sorted(candidate)
-        consecutive_count = 0
-        for i in range(len(sorted_cand) - 1):
-            if sorted_cand[i+1] - sorted_cand[i] == 1:
-                consecutive_count += 1
+        # Progress report
+        if count >= next_report:
+            elapsed = time.time() - start_time
+            rate = count / (time.time() - scoring_start) if (time.time() - scoring_start) > 0 else 0
+            progress_pct = (count / pool_size) * 100
+            remaining = (pool_size - count) / rate if rate > 0 else 0
 
-        # Reject if more than 10 consecutive pairs (nearly all consecutive)
-        if consecutive_count > 10:
-            return False
+            print(f"  Progress: {count:,}/{pool_size:,} ({progress_pct:.1f}%) - "
+                  f"{rate:.0f} combos/sec - ETA: {remaining:.1f}s")
 
-        # Sum range check
-        # Expected sum for 14 numbers from 1-25: ~182
-        # Allow ±35 range (more lenient)
-        total = sum(candidate)
-        if total < 145 or total > 220:
-            return False
+            next_report += progress_interval
 
-        # Even/odd balance
-        evens = sum(1 for n in candidate if n % 2 == 0)
-        # Should have 4-10 evens (not all even or all odd)
-        if evens < 3 or evens > 11:
-            return False
+    end_time = time.time()
+    total_time = end_time - start_time
 
-        # Gap analysis - reject if too many large gaps
-        gaps = [sorted_cand[i+1] - sorted_cand[i] for i in range(len(sorted_cand)-1)]
-        large_gaps = sum(1 for g in gaps if g > 3)
-        # Reject if more than half the gaps are large
-        if large_gaps > 7:
-            return False
+    print()
+    print("=" * 80)
+    print("MANDEL POOL SCORING COMPLETE")
+    print("=" * 80)
+    print(f"Pool size: {pool_size:,} combinations")
+    print(f"Time: {total_time:.1f} seconds ({total_time/60:.2f} minutes)")
+    print(f"Rate: {count/total_time:.0f} combinations/second")
+    print()
+    print("=" * 80)
+    print(f"BEST PREDICTION FOR SERIES {series_id}")
+    print("=" * 80)
+    print(f"Combination: {best_combination}")
+    print(f"ML Score: {best_score:.4f}")
+    print("=" * 80)
+    print()
 
-        return True
+    # Format prediction
+    prediction_str = ' '.join([f"{num:02d}" for num in best_combination])
+    print(f"📊 PREDICTION: {prediction_str}")
+    print()
 
-    def get_pool_statistics(self, pool: List[List[int]]) -> Dict:
-        """
-        Analyze pool diversity and quality
-        """
-        if not pool:
-            return {}
+    # Check which selected numbers made it into final prediction
+    in_prediction = set(best_combination)
+    selected_set = set(selected_numbers)
+    not_selected = [n for n in range(1, 26) if n not in selected_set]
 
-        # Distribution statistics
-        col0_counts = []
-        col1_counts = []
-        col2_counts = []
-        sums = []
-        even_counts = []
+    print(f"✅ All 14 numbers from top-{top_n} pool: {sorted(in_prediction)}")
+    print(f"❌ Excluded numbers (not in top-{top_n}): {not_selected}")
+    print()
 
-        for cand in pool:
-            col0 = sum(1 for n in cand if 1 <= n <= 9)
-            col1 = sum(1 for n in cand if 10 <= n <= 19)
-            col2 = sum(1 for n in cand if 20 <= n <= 25)
-
-            col0_counts.append(col0)
-            col1_counts.append(col1)
-            col2_counts.append(col2)
-            sums.append(sum(cand))
-            even_counts.append(sum(1 for n in cand if n % 2 == 0))
-
-        # Number frequency in pool
-        num_freq = defaultdict(int)
-        for cand in pool:
-            for num in cand:
-                num_freq[num] += 1
-
-        return {
-            "pool_size": len(pool),
-            "avg_col0": sum(col0_counts) / len(pool),
-            "avg_col1": sum(col1_counts) / len(pool),
-            "avg_col2": sum(col2_counts) / len(pool),
-            "avg_sum": sum(sums) / len(pool),
-            "avg_evens": sum(even_counts) / len(pool),
-            "number_coverage": len(num_freq),  # How many different numbers appear
-            "number_frequency": dict(num_freq),
-            "unique_combinations": len(pool)  # Should equal pool_size
+    # Save results
+    results = {
+        'series_id': series_id,
+        'method': 'mandel_ml_guided_exhaustive',
+        'model': 'TrueLearningModel-Phase1-Optimized',
+        'top_n_selected': top_n,
+        'selected_numbers': selected_numbers,
+        'mandel_pool_size': pool_size,
+        'reduction_vs_total': f"{(1 - pool_size/4457400)*100:.1f}%",
+        'seed': 999,
+        'cold_hot_boost': 30.0,
+        'lookback_window': 8,
+        'training_series_count': train_count,
+        'prediction': best_combination,
+        'prediction_formatted': prediction_str,
+        'ml_score': best_score,
+        'scoring_time_seconds': total_time,
+        'scoring_rate': count / total_time,
+        'comparison_to_full_exhaustive': {
+            'mandel_pool': pool_size,
+            'full_exhaustive': 4457400,
+            'speedup': f"{4457400/pool_size:.1f}x faster"
         }
+    }
+
+    output_file = Path(__file__).parent / f'prediction_mandel_{series_id}_top{top_n}.json'
+    with open(output_file, 'w') as f:
+        json.dump(results, f, indent=2)
+
+    print(f"💾 Prediction saved to: {output_file}")
+    print("=" * 80)
+
+    return results
 
 
-def compare_pool_generators(size: int = 2000, seed: int = 999):
-    """
-    Compare random pool vs Mandel pool
-    """
-    print("="*70)
-    print(f"POOL GENERATION COMPARISON (size={size}, seed={seed})")
-    print("="*70)
-    print()
+if __name__ == '__main__':
+    # Allow series_id and top_n to be passed as arguments
+    series_id = 3149
+    top_n = 18  # Default: top 18 numbers
 
-    # Generate random pool (current method)
-    print("1. Generating RANDOM pool...")
-    random.seed(seed)
-    random_pool = []
-    for _ in range(size):
-        cand = sorted(random.sample(range(1, 26), 14))
-        random_pool.append(cand)
+    if len(sys.argv) > 1:
+        series_id = int(sys.argv[1])
+    if len(sys.argv) > 2:
+        top_n = int(sys.argv[2])
 
-    print(f"   Generated {len(random_pool)} random candidates")
-
-    # Generate Mandel pool
-    print("\n2. Generating MANDEL pool...")
-
-    # Use uniform weights for fair comparison (no frequency bias yet)
-    mandel_gen = MandelPoolGenerator()
-    mandel_pool = mandel_gen.generate_pool(size, seed=seed)
-
-    print(f"   Generated {len(mandel_pool)} Mandel candidates")
-
-    # Analyze both
-    print("\n" + "="*70)
-    print("STATISTICS COMPARISON:")
-    print("="*70)
-
-    random_stats = mandel_gen.get_pool_statistics(random_pool)
-    mandel_stats = mandel_gen.get_pool_statistics(mandel_pool)
-
-    print(f"\nRANDOM Pool:")
-    print(f"  Avg Col 0 (01-09): {random_stats['avg_col0']:.2f}")
-    print(f"  Avg Col 1 (10-19): {random_stats['avg_col1']:.2f}")
-    print(f"  Avg Col 2 (20-25): {random_stats['avg_col2']:.2f}")
-    print(f"  Avg Sum: {random_stats['avg_sum']:.1f}")
-    print(f"  Avg Evens: {random_stats['avg_evens']:.2f}")
-    print(f"  Number Coverage: {random_stats['number_coverage']}/25")
-
-    print(f"\nMANDEL Pool:")
-    print(f"  Avg Col 0 (01-09): {mandel_stats['avg_col0']:.2f}")
-    print(f"  Avg Col 1 (10-19): {mandel_stats['avg_col1']:.2f}")
-    print(f"  Avg Col 2 (20-25): {mandel_stats['avg_col2']:.2f}")
-    print(f"  Avg Sum: {mandel_stats['avg_sum']:.1f}")
-    print(f"  Avg Evens: {mandel_stats['avg_evens']:.2f}")
-    print(f"  Number Coverage: {mandel_stats['number_coverage']}/25")
-
-    print("\n" + "="*70)
-    print("QUALITY METRICS:")
-    print("="*70)
-
-    # Count valid patterns in random pool
-    valid_random = sum(1 for cand in random_pool if mandel_gen._is_valid_pattern(cand))
-    valid_mandel = sum(1 for cand in mandel_pool if mandel_gen._is_valid_pattern(cand))
-
-    print(f"\nValid patterns (pass Mandel filters):")
-    print(f"  Random: {valid_random}/{len(random_pool)} ({valid_random/len(random_pool)*100:.1f}%)")
-    print(f"  Mandel: {valid_mandel}/{len(mandel_pool)} ({valid_mandel/len(mandel_pool)*100:.1f}%)")
-
-    print("\n" + "="*70)
-    print("VERDICT:")
-    print("="*70)
-
-    if valid_mandel > valid_random:
-        print(f"✅ Mandel pool has MORE valid patterns (+{valid_mandel - valid_random})")
-    else:
-        print(f"⚠️  Random pool has more valid patterns")
-
-    print()
-    print("Next step: Test both pools with ML model on Series 3146!")
-    print("="*70)
-
-if __name__ == "__main__":
-    compare_pool_generators(size=2000, seed=999)
+    results = generate_mandel_prediction(series_id, top_n)
