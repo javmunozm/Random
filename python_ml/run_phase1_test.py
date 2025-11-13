@@ -34,6 +34,28 @@ SERIES_3145 = [
     [1, 3, 4, 6, 7, 8, 9, 10, 11, 12, 16, 18, 20, 21],
 ]
 
+# Series 3147 actual results (provided by user)
+SERIES_3147 = [
+    [1, 2, 4, 6, 7, 9, 11, 13, 16, 17, 18, 20, 21, 23],
+    [1, 3, 5, 7, 8, 9, 11, 16, 18, 20, 21, 22, 23, 25],
+    [1, 2, 3, 6, 7, 8, 10, 11, 14, 16, 18, 20, 21, 23],
+    [2, 3, 4, 5, 7, 8, 10, 11, 14, 16, 18, 21, 23, 25],
+    [1, 2, 5, 6, 7, 8, 10, 12, 14, 16, 17, 20, 22, 24],
+    [2, 3, 4, 7, 9, 11, 14, 15, 16, 18, 19, 21, 22, 23],
+    [2, 3, 4, 6, 7, 10, 11, 13, 16, 18, 21, 22, 23, 25],
+]
+
+# Series 3148 actual results (provided by user)
+SERIES_3148 = [
+    [1, 2, 3, 4, 5, 7, 8, 10, 15, 16, 19, 22, 23, 25],
+    [2, 3, 6, 7, 10, 12, 13, 14, 15, 16, 17, 19, 21, 23],
+    [1, 2, 4, 5, 6, 8, 10, 12, 14, 15, 17, 18, 20, 22],
+    [2, 3, 4, 5, 8, 10, 12, 13, 14, 15, 18, 20, 21, 25],
+    [3, 4, 6, 7, 11, 12, 13, 14, 15, 16, 19, 20, 21, 24],
+    [2, 3, 4, 5, 9, 10, 12, 14, 15, 16, 17, 18, 22, 25],
+    [1, 4, 6, 7, 9, 11, 12, 14, 16, 19, 20, 21, 23, 25],
+]
+
 
 def load_database_export():
     """Load data from JSON export"""
@@ -103,7 +125,19 @@ def run_iterative_training(validation_window_size=8, recent_series_count=50, ran
         'events': SERIES_3145
     })
 
-    latest_series = 3145
+    # Add Series 3147
+    all_series_data.append({
+        'series_id': 3147,
+        'events': SERIES_3147
+    })
+
+    # Add Series 3148
+    all_series_data.append({
+        'series_id': 3148,
+        'events': SERIES_3148
+    })
+
+    latest_series = 3148
     validation_start = latest_series - validation_window_size + 1  # 3138
 
     # NEW: Use only 50 most recent series before validation

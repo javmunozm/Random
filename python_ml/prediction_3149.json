@@ -1,0 +1,52 @@
+{
+  "series_id": 3149,
+  "method": "standard_10k_random_weighted",
+  "model": "TrueLearningModel-Phase1-Optimized",
+  "candidate_pool_size": 10000,
+  "pool_source": "weighted_random_generation",
+  "seed": 999,
+  "cold_hot_boost": 30.0,
+  "lookback_window": 8,
+  "training_series_count": 57,
+  "recent_series_used": 50,
+  "validation_series_count": 7,
+  "validation_range": "3141-3148",
+  "prediction": [
+    1,
+    2,
+    3,
+    4,
+    6,
+    7,
+    11,
+    12,
+    14,
+    16,
+    17,
+    19,
+    22,
+    25
+  ],
+  "prediction_formatted": "01 02 03 04 06 07 11 12 14 16 17 19 22 25",
+  "performance_metrics": {
+    "overall_best_average": 0.663265306122449,
+    "overall_average": 0.572886297376093,
+    "learning_improvement": 0.027210884353742,
+    "improvement_detected": true
+  },
+  "validation_results": {
+    "series_3141": {"best": 0.714, "avg": 0.592},
+    "series_3142": {"best": 0.643, "avg": 0.541},
+    "series_3143": {"best": 0.643, "avg": 0.571},
+    "series_3144": {"best": 0.643, "avg": 0.520},
+    "series_3145": {"best": 0.643, "avg": 0.571},
+    "series_3147": {"best": 0.714, "avg": 0.633},
+    "series_3148": {"best": 0.643, "avg": 0.582}
+  },
+  "notes": [
+    "Validation includes Series 3147 and 3148 actual results",
+    "Learning improvement detected: +2.7% (first 3 vs last 3 series)",
+    "Series 3146 skipped (no data available)",
+    "Performance close to C# baseline (66.3% vs 71.4%)"
+  ]
+}
