@@ -60,7 +60,7 @@ class TrueLearningModel:
 
     # Candidate pool
     CANDIDATE_POOL_SIZE = 10000
-    CANDIDATES_TO_SCORE = 1000
+    CANDIDATES_TO_SCORE = 10000  # OPTIMIZED: 10k candidates for better exploration
 
     # Pattern weights
     PATTERN_WEIGHT_CONSECUTIVE = 0.3
