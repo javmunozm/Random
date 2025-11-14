@@ -1,0 +1,30 @@
+{
+  "series_id": 3149,
+  "prediction": [
+    1,
+    2,
+    5,
+    9,
+    10,
+    14,
+    16,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24
+  ],
+  "prediction_formatted": "01 02 05 09 10 14 16 18 19 20 21 22 23 24",
+  "training_series_count": 178,
+  "configuration": {
+    "seed": 999,
+    "candidate_pool_size": 10000,
+    "candidates_to_score": 10000,
+    "recent_series_lookback": 10,
+    "cold_hot_boost": 30.0,
+    "uniqueness_lookback": 151
+  },
+  "generated_at": "2025-11-14T16:52:09.399248"
+}
