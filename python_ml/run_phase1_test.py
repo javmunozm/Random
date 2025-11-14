@@ -160,10 +160,11 @@ def run_iterative_training(validation_window_size=8, random_seed=999):
     print(f"✅ Trained on {len(training_data)} total series")
     print()
 
-    # Phase 2: Iterative validation
+    # Phase 2: Validation (train fresh model for each series)
     validation_series = [s for s in all_series_data if validation_start <= s['series_id'] <= latest_series]
 
-    print(f"Phase 2: Iterative validation on {len(validation_series)} series ({validation_start}-{latest_series})")
+    print(f"Phase 2: Validation on {len(validation_series)} series ({validation_start}-{latest_series})")
+    print("         Training FRESH model for each series (not iterative)")
     print("=" * 80)
     print()
 
@@ -177,9 +178,17 @@ def run_iterative_training(validation_window_size=8, random_seed=999):
         print(f"Series {series_id}")
         print("=" * 80)
 
+        # Create FRESH model for this series
+        fresh_model = TrueLearningModel(seed=random_seed)
+
+        # Train on ALL data before this series
+        for s in all_series_data:
+            if s['series_id'] < series_id:
+                fresh_model.learn_from_series(s['series_id'], s['events'])
+
         # Generate prediction
         print(f"🔮 Generating prediction for Series {series_id}...")
-        prediction = model.predict_best_combination(series_id)
+        prediction = fresh_model.predict_best_combination(series_id)
         print(f"Prediction: {' '.join(f'{n:02d}' for n in prediction)}")
         print()
 
@@ -200,14 +209,11 @@ def run_iterative_training(validation_window_size=8, random_seed=999):
         print(f"📊 Average: {avg_accuracy:.1%}")
         print()
 
-        # LEARN from the results
-        model.validate_and_learn(series_id, prediction, actual_results)
-        print()
-
         results.append({
             'series_id': series_id,
             'best_accuracy': best_accuracy,
-            'avg_accuracy': avg_accuracy
+            'avg_accuracy': avg_accuracy,
+            'prediction': prediction
         })
 
     # Summary
@@ -260,18 +266,24 @@ def run_iterative_training(validation_window_size=8, random_seed=999):
     print(f"📁 Results saved to: {output_path}")
     print()
 
-    # Final prediction
+    # Final prediction - train on ALL data including validation series
     next_series = latest_series + 1
     print("=" * 80)
     print(f"FINAL PREDICTION: Series {next_series}")
     print("=" * 80)
     print()
 
-    final_prediction = model.predict_best_combination(next_series)
+    # Create final model trained on ALL data
+    final_model = TrueLearningModel(seed=random_seed)
+    for s in all_series_data:
+        if s['series_id'] <= latest_series:
+            final_model.learn_from_series(s['series_id'], s['events'])
+
+    final_prediction = final_model.predict_best_combination(next_series)
     print(f"🎯 Prediction: {' '.join(f'{n:02d}' for n in final_prediction)}")
     print()
-    print(f"✅ Trained on {model.get_training_size()} series")
-    print(f"✅ Model has learned from actual results of {validation_start}-{latest_series} ({len(validation_series)} series)")
+    print(f"✅ Trained on {final_model.get_training_size()} series")
+    print(f"✅ Model has learned from ALL data including validation series ({validation_start}-{latest_series})")
     print()
 
     # Comparison with Phase 2
