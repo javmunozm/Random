@@ -1,0 +1,375 @@
+{
+  "improvement_name": "Column Affinity Analysis",
+  "timestamp": "2025-11-15T20:37:50.701413",
+  "validation_series": [
+    3138,
+    3139,
+    3140,
+    3141,
+    3142,
+    3143,
+    3144,
+    3145,
+    3147,
+    3148
+  ],
+  "boost_values_tested": [
+    1.0,
+    1.2,
+    1.5,
+    2.0,
+    2.5,
+    3.0
+  ],
+  "simulations_used": 60,
+  "baseline_boost": 1.0,
+  "baseline_performance": 0.6714285714285715,
+  "best_boost": 1.0,
+  "best_performance": 0.6714285714285715,
+  "improvement_pct": 0.0,
+  "decision": "FAIL",
+  "all_results": [
+    {
+      "column_boost": 1.0,
+      "avg_best_match": 0.6714285714285715,
+      "peak_performance": 0.7142857142857143,
+      "results": [
+        {
+          "series_id": 3138,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5408163265306122
+        },
+        {
+          "series_id": 3139,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5918367346938774
+        },
+        {
+          "series_id": 3140,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.520408163265306
+        },
+        {
+          "series_id": 3141,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5816326530612245
+        },
+        {
+          "series_id": 3142,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5408163265306122
+        },
+        {
+          "series_id": 3143,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5408163265306122
+        },
+        {
+          "series_id": 3144,
+          "best_match": 0.7142857142857143,
+          "avg_match": 0.5612244897959183
+        },
+        {
+          "series_id": 3145,
+          "best_match": 0.7142857142857143,
+          "avg_match": 0.5612244897959183
+        },
+        {
+          "series_id": 3147,
+          "best_match": 0.7142857142857143,
+          "avg_match": 0.6020408163265306
+        },
+        {
+          "series_id": 3148,
+          "best_match": 0.7142857142857143,
+          "avg_match": 0.5408163265306122
+        }
+      ]
+    },
+    {
+      "column_boost": 2.0,
+      "avg_best_match": 0.6642857142857144,
+      "peak_performance": 0.7142857142857143,
+      "results": [
+        {
+          "series_id": 3138,
+          "best_match": 0.7142857142857143,
+          "avg_match": 0.5714285714285714
+        },
+        {
+          "series_id": 3139,
+          "best_match": 0.7142857142857143,
+          "avg_match": 0.6020408163265306
+        },
+        {
+          "series_id": 3140,
+          "best_match": 0.5714285714285714,
+          "avg_match": 0.520408163265306
+        },
+        {
+          "series_id": 3141,
+          "best_match": 0.7142857142857143,
+          "avg_match": 0.5918367346938774
+        },
+        {
+          "series_id": 3142,
+          "best_match": 0.7142857142857143,
+          "avg_match": 0.5408163265306122
+        },
+        {
+          "series_id": 3143,
+          "best_match": 0.7142857142857143,
+          "avg_match": 0.5612244897959184
+        },
+        {
+          "series_id": 3144,
+          "best_match": 0.5714285714285714,
+          "avg_match": 0.4489795918367347
+        },
+        {
+          "series_id": 3145,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.520408163265306
+        },
+        {
+          "series_id": 3147,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5408163265306122
+        },
+        {
+          "series_id": 3148,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.6020408163265306
+        }
+      ]
+    },
+    {
+      "column_boost": 1.2,
+      "avg_best_match": 0.65,
+      "peak_performance": 0.7142857142857143,
+      "results": [
+        {
+          "series_id": 3138,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5612244897959183
+        },
+        {
+          "series_id": 3139,
+          "best_match": 0.7142857142857143,
+          "avg_match": 0.6122448979591837
+        },
+        {
+          "series_id": 3140,
+          "best_match": 0.5714285714285714,
+          "avg_match": 0.48979591836734687
+        },
+        {
+          "series_id": 3141,
+          "best_match": 0.7142857142857143,
+          "avg_match": 0.5918367346938777
+        },
+        {
+          "series_id": 3142,
+          "best_match": 0.7142857142857143,
+          "avg_match": 0.5714285714285714
+        },
+        {
+          "series_id": 3143,
+          "best_match": 0.7142857142857143,
+          "avg_match": 0.5408163265306122
+        },
+        {
+          "series_id": 3144,
+          "best_match": 0.5714285714285714,
+          "avg_match": 0.49999999999999994
+        },
+        {
+          "series_id": 3145,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5612244897959183
+        },
+        {
+          "series_id": 3147,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5306122448979591
+        },
+        {
+          "series_id": 3148,
+          "best_match": 0.5714285714285714,
+          "avg_match": 0.5306122448979592
+        }
+      ]
+    },
+    {
+      "column_boost": 1.5,
+      "avg_best_match": 0.65,
+      "peak_performance": 0.7142857142857143,
+      "results": [
+        {
+          "series_id": 3138,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5612244897959183
+        },
+        {
+          "series_id": 3139,
+          "best_match": 0.7142857142857143,
+          "avg_match": 0.6122448979591837
+        },
+        {
+          "series_id": 3140,
+          "best_match": 0.5714285714285714,
+          "avg_match": 0.48979591836734687
+        },
+        {
+          "series_id": 3141,
+          "best_match": 0.7142857142857143,
+          "avg_match": 0.5918367346938777
+        },
+        {
+          "series_id": 3142,
+          "best_match": 0.7142857142857143,
+          "avg_match": 0.5714285714285714
+        },
+        {
+          "series_id": 3143,
+          "best_match": 0.7142857142857143,
+          "avg_match": 0.5408163265306122
+        },
+        {
+          "series_id": 3144,
+          "best_match": 0.5714285714285714,
+          "avg_match": 0.49999999999999994
+        },
+        {
+          "series_id": 3145,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5612244897959183
+        },
+        {
+          "series_id": 3147,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5306122448979591
+        },
+        {
+          "series_id": 3148,
+          "best_match": 0.5714285714285714,
+          "avg_match": 0.5306122448979592
+        }
+      ]
+    },
+    {
+      "column_boost": 2.5,
+      "avg_best_match": 0.642857142857143,
+      "peak_performance": 0.7142857142857143,
+      "results": [
+        {
+          "series_id": 3138,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5510204081632653
+        },
+        {
+          "series_id": 3139,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5816326530612246
+        },
+        {
+          "series_id": 3140,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5408163265306122
+        },
+        {
+          "series_id": 3141,
+          "best_match": 0.7142857142857143,
+          "avg_match": 0.6122448979591838
+        },
+        {
+          "series_id": 3142,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5714285714285714
+        },
+        {
+          "series_id": 3143,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5306122448979591
+        },
+        {
+          "series_id": 3144,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.49999999999999994
+        },
+        {
+          "series_id": 3145,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5510204081632653
+        },
+        {
+          "series_id": 3147,
+          "best_match": 0.5714285714285714,
+          "avg_match": 0.4897959183673469
+        },
+        {
+          "series_id": 3148,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5612244897959183
+        }
+      ]
+    },
+    {
+      "column_boost": 3.0,
+      "avg_best_match": 0.642857142857143,
+      "peak_performance": 0.7142857142857143,
+      "results": [
+        {
+          "series_id": 3138,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5510204081632653
+        },
+        {
+          "series_id": 3139,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5816326530612246
+        },
+        {
+          "series_id": 3140,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5408163265306122
+        },
+        {
+          "series_id": 3141,
+          "best_match": 0.7142857142857143,
+          "avg_match": 0.6122448979591838
+        },
+        {
+          "series_id": 3142,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5714285714285714
+        },
+        {
+          "series_id": 3143,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5306122448979591
+        },
+        {
+          "series_id": 3144,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.49999999999999994
+        },
+        {
+          "series_id": 3145,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5510204081632653
+        },
+        {
+          "series_id": 3147,
+          "best_match": 0.5714285714285714,
+          "avg_match": 0.4897959183673469
+        },
+        {
+          "series_id": 3148,
+          "best_match": 0.6428571428571429,
+          "avg_match": 0.5612244897959183
+        }
+      ]
+    }
+  ]
+}
