@@ -1,0 +1,33 @@
+{
+  "series_id": 3150,
+  "method": "TrueLearningModel-Phase1-Optimized",
+  "prediction": [
+    1,
+    2,
+    3,
+    4,
+    6,
+    7,
+    10,
+    11,
+    12,
+    14,
+    15,
+    16,
+    19,
+    21
+  ],
+  "prediction_formatted": "01 02 03 04 06 07 10 11 12 14 15 16 19 21",
+  "model_config": {
+    "seed": 999,
+    "lookback": 10,
+    "cold_hot_boost": 30.0,
+    "training_series": 8
+  },
+  "analysis": {
+    "top_weights_count": 10,
+    "critical_count": 8,
+    "hot_count": 0,
+    "cold_count": 0
+  }
+}
