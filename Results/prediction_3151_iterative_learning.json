@@ -1,0 +1,361 @@
+{
+  "series_id": 3151,
+  "method": "IterativeLearningModel",
+  "prediction": [
+    2,
+    3,
+    4,
+    6,
+    7,
+    8,
+    10,
+    11,
+    13,
+    14,
+    15,
+    19,
+    21,
+    22
+  ],
+  "prediction_formatted": "02 03 04 06 07 08 10 11 13 14 15 19 21 22",
+  "learning_summary": {
+    "predictions_made": 3,
+    "learning_events": 2,
+    "top_weights": [
+      [
+        3,
+        "2.004"
+      ],
+      [
+        20,
+        "1.990"
+      ],
+      [
+        1,
+        "1.748"
+      ],
+      [
+        17,
+        "1.746"
+      ],
+      [
+        16,
+        "1.744"
+      ],
+      [
+        25,
+        "1.741"
+      ],
+      [
+        24,
+        "1.730"
+      ],
+      [
+        23,
+        "1.723"
+      ],
+      [
+        8,
+        "1.710"
+      ],
+      [
+        21,
+        "1.706"
+      ]
+    ]
+  },
+  "learning_history": [
+    {
+      "series_id": 3149,
+      "best_match": 10,
+      "total_match": "10/14 (71.4%)",
+      "critical_numbers": [
+        2,
+        3,
+        5,
+        6,
+        8,
+        20,
+        22
+      ],
+      "missed_critical": [
+        3,
+        8,
+        20,
+        22
+      ],
+      "adjustments": {
+        "missed_01": {
+          "old": "1.034",
+          "new": "1.344",
+          "reason": "Number we missed"
+        },
+        "missed_critical_03": {
+          "old": "1.028",
+          "new": "1.542",
+          "reason": "CRITICAL number we missed!"
+        },
+        "missed_critical_08": {
+          "old": "1.036",
+          "new": "1.554",
+          "reason": "CRITICAL number we missed!"
+        },
+        "missed_14": {
+          "old": "1.033",
+          "new": "1.343",
+          "reason": "Number we missed"
+        },
+        "missed_16": {
+          "old": "1.032",
+          "new": "1.342",
+          "reason": "Number we missed"
+        },
+        "missed_17": {
+          "old": "1.033",
+          "new": "1.343",
+          "reason": "Number we missed"
+        },
+        "missed_critical_20": {
+          "old": "1.021",
+          "new": "1.531",
+          "reason": "CRITICAL number we missed!"
+        },
+        "missed_critical_22": {
+          "old": "1.028",
+          "new": "1.542",
+          "reason": "CRITICAL number we missed!"
+        },
+        "missed_23": {
+          "old": "1.020",
+          "new": "1.325",
+          "reason": "Number we missed"
+        },
+        "missed_24": {
+          "old": "1.024",
+          "new": "1.331",
+          "reason": "Number we missed"
+        },
+        "missed_25": {
+          "old": "1.030",
+          "new": "1.339",
+          "reason": "Number we missed"
+        },
+        "correct_02": {
+          "old": "1.037",
+          "new": "1.141",
+          "reason": "Correctly predicted"
+        },
+        "correct_04": {
+          "old": "1.035",
+          "new": "1.139",
+          "reason": "Correctly predicted"
+        },
+        "correct_05": {
+          "old": "1.033",
+          "new": "1.136",
+          "reason": "Correctly predicted"
+        },
+        "correct_06": {
+          "old": "1.034",
+          "new": "1.138",
+          "reason": "Correctly predicted"
+        },
+        "correct_07": {
+          "old": "1.039",
+          "new": "1.143",
+          "reason": "Correctly predicted"
+        },
+        "correct_09": {
+          "old": "1.035",
+          "new": "1.139",
+          "reason": "Correctly predicted"
+        },
+        "correct_10": {
+          "old": "1.032",
+          "new": "1.135",
+          "reason": "Correctly predicted"
+        },
+        "correct_11": {
+          "old": "1.039",
+          "new": "1.143",
+          "reason": "Correctly predicted"
+        },
+        "correct_12": {
+          "old": "1.035",
+          "new": "1.139",
+          "reason": "Correctly predicted"
+        },
+        "correct_13": {
+          "old": "1.036",
+          "new": "1.140",
+          "reason": "Correctly predicted"
+        },
+        "correct_15": {
+          "old": "1.037",
+          "new": "1.141",
+          "reason": "Correctly predicted"
+        },
+        "correct_18": {
+          "old": "1.030",
+          "new": "1.133",
+          "reason": "Correctly predicted"
+        },
+        "correct_19": {
+          "old": "1.034",
+          "new": "1.138",
+          "reason": "Correctly predicted"
+        },
+        "correct_21": {
+          "old": "1.034",
+          "new": "1.138",
+          "reason": "Correctly predicted"
+        }
+      }
+    },
+    {
+      "series_id": 3150,
+      "best_match": 9,
+      "total_match": "9/14 (64.3%)",
+      "critical_numbers": [
+        2,
+        4,
+        9,
+        10,
+        14,
+        21,
+        22
+      ],
+      "missed_critical": [
+        10,
+        21
+      ],
+      "adjustments": {
+        "missed_01": {
+          "old": "1.344",
+          "new": "1.748",
+          "reason": "Number we missed"
+        },
+        "missed_03": {
+          "old": "1.542",
+          "new": "2.004",
+          "reason": "Number we missed"
+        },
+        "missed_critical_10": {
+          "old": "1.135",
+          "new": "1.703",
+          "reason": "CRITICAL number we missed!"
+        },
+        "missed_16": {
+          "old": "1.342",
+          "new": "1.744",
+          "reason": "Number we missed"
+        },
+        "missed_17": {
+          "old": "1.343",
+          "new": "1.746",
+          "reason": "Number we missed"
+        },
+        "missed_18": {
+          "old": "1.133",
+          "new": "1.473",
+          "reason": "Number we missed"
+        },
+        "missed_20": {
+          "old": "1.531",
+          "new": "1.990",
+          "reason": "Number we missed"
+        },
+        "missed_critical_21": {
+          "old": "1.138",
+          "new": "1.706",
+          "reason": "CRITICAL number we missed!"
+        },
+        "missed_23": {
+          "old": "1.325",
+          "new": "1.723",
+          "reason": "Number we missed"
+        },
+        "missed_24": {
+          "old": "1.331",
+          "new": "1.730",
+          "reason": "Number we missed"
+        },
+        "missed_25": {
+          "old": "1.339",
+          "new": "1.741",
+          "reason": "Number we missed"
+        },
+        "correct_02": {
+          "old": "1.141",
+          "new": "1.255",
+          "reason": "Correctly predicted"
+        },
+        "correct_04": {
+          "old": "1.139",
+          "new": "1.253",
+          "reason": "Correctly predicted"
+        },
+        "correct_05": {
+          "old": "1.136",
+          "new": "1.250",
+          "reason": "Correctly predicted"
+        },
+        "correct_06": {
+          "old": "1.138",
+          "new": "1.251",
+          "reason": "Correctly predicted"
+        },
+        "correct_07": {
+          "old": "1.143",
+          "new": "1.258",
+          "reason": "Correctly predicted"
+        },
+        "correct_08": {
+          "old": "1.554",
+          "new": "1.710",
+          "reason": "Correctly predicted"
+        },
+        "correct_09": {
+          "old": "1.139",
+          "new": "1.253",
+          "reason": "Correctly predicted"
+        },
+        "correct_11": {
+          "old": "1.143",
+          "new": "1.258",
+          "reason": "Correctly predicted"
+        },
+        "correct_12": {
+          "old": "1.139",
+          "new": "1.253",
+          "reason": "Correctly predicted"
+        },
+        "correct_13": {
+          "old": "1.140",
+          "new": "1.254",
+          "reason": "Correctly predicted"
+        },
+        "correct_14": {
+          "old": "1.343",
+          "new": "1.477",
+          "reason": "Correctly predicted"
+        },
+        "correct_15": {
+          "old": "1.141",
+          "new": "1.255",
+          "reason": "Correctly predicted"
+        },
+        "correct_19": {
+          "old": "1.138",
+          "new": "1.251",
+          "reason": "Correctly predicted"
+        },
+        "correct_22": {
+          "old": "1.542",
+          "new": "1.696",
+          "reason": "Correctly predicted"
+        }
+      }
+    }
+  ]
+}
