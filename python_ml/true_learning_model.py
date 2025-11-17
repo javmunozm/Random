@@ -32,8 +32,8 @@ class TrueLearningModel:
     NUMBERS_PER_COMBINATION = 14
     UNIQUENESS_LOOKBACK = 151
 
-    # Hybrid balanced strategy (OPTIMIZED: 8-series lookback Nov 10, 2025)
-    RECENT_SERIES_LOOKBACK = 10  # OPTIMIZED: Comprehensive test showed 10 achieves 73.5% avg, 78.6% peak (+5.1% over 8)
+    # Hybrid balanced strategy (OPTIMIZED: 9-series lookback Nov 17, 2025)
+    RECENT_SERIES_LOOKBACK = 9  # OPTIMIZED: Testing on Series 3146-3150 showed 9-series achieves 67.1% vs 64.3% for 10-series (+2.9%)
     COLD_NUMBER_COUNT = 7
     HOT_NUMBER_COUNT = 7
 
