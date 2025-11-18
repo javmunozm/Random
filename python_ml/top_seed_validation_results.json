@@ -1,0 +1,211 @@
+{
+  "test_date": "2025-11-18",
+  "validation_type": "top_seed_extended_validation",
+  "test_ranges": {
+    "5_series": [
+      3146,
+      3147,
+      3148,
+      3149,
+      3150
+    ],
+    "10_series": [
+      3141,
+      3142,
+      3143,
+      3144,
+      3145,
+      3146,
+      3147,
+      3148,
+      3149,
+      3150
+    ]
+  },
+  "results": {
+    "Original test (5 series)": [
+      {
+        "seed": 650,
+        "description": "Best overall (71.43% on 5 series)",
+        "accuracy": 71.43,
+        "matches": [
+          11,
+          10,
+          10,
+          9,
+          10
+        ]
+      },
+      {
+        "seed": 950,
+        "description": "Most consistent (71.43% on 5 series)",
+        "accuracy": 71.43,
+        "matches": [
+          10,
+          10,
+          10,
+          10,
+          10
+        ]
+      },
+      {
+        "seed": 456,
+        "description": "Previously identified best (70.0%)",
+        "accuracy": 70.0,
+        "matches": [
+          10,
+          11,
+          10,
+          9,
+          9
+        ]
+      },
+      {
+        "seed": 4096,
+        "description": "Tied with 456 (70.0%)",
+        "accuracy": 70.0,
+        "matches": [
+          10,
+          11,
+          10,
+          9,
+          9
+        ]
+      },
+      {
+        "seed": 555,
+        "description": "Tied with 456 (70.0%)",
+        "accuracy": 70.0,
+        "matches": [
+          9,
+          10,
+          10,
+          10,
+          10
+        ]
+      },
+      {
+        "seed": null,
+        "description": "No seed - Python default (70.0%)",
+        "accuracy": 64.29,
+        "matches": [
+          9,
+          9,
+          9,
+          9,
+          9
+        ]
+      }
+    ],
+    "Extended test (10 series)": [
+      {
+        "seed": 650,
+        "description": "Best overall (71.43% on 5 series)",
+        "accuracy": 70.0,
+        "matches": [
+          11,
+          10,
+          10,
+          10,
+          9,
+          10,
+          10,
+          9,
+          11,
+          8
+        ]
+      },
+      {
+        "seed": 950,
+        "description": "Most consistent (71.43% on 5 series)",
+        "accuracy": 65.0,
+        "matches": [
+          10,
+          9,
+          9,
+          9,
+          10,
+          9,
+          9,
+          9,
+          9,
+          8
+        ]
+      },
+      {
+        "seed": 456,
+        "description": "Previously identified best (70.0%)",
+        "accuracy": 65.71,
+        "matches": [
+          10,
+          10,
+          9,
+          8,
+          9,
+          9,
+          10,
+          9,
+          9,
+          9
+        ]
+      },
+      {
+        "seed": 4096,
+        "description": "Tied with 456 (70.0%)",
+        "accuracy": 67.14,
+        "matches": [
+          10,
+          10,
+          10,
+          9,
+          10,
+          9,
+          9,
+          8,
+          8,
+          11
+        ]
+      },
+      {
+        "seed": 555,
+        "description": "Tied with 456 (70.0%)",
+        "accuracy": 68.57,
+        "matches": [
+          10,
+          11,
+          10,
+          10,
+          9,
+          9,
+          9,
+          9,
+          10,
+          9
+        ]
+      },
+      {
+        "seed": null,
+        "description": "No seed - Python default (70.0%)",
+        "accuracy": 65.71,
+        "matches": [
+          10,
+          10,
+          10,
+          9,
+          8,
+          9,
+          9,
+          9,
+          9,
+          9
+        ]
+      }
+    ]
+  },
+  "recommendation": {
+    "seed": 650,
+    "reason": "Best overall (71.43% on 5 series)",
+    "performance_10_series": 70.0,
+    "vs_csharp_baseline": -1.4
+  }
+}
