@@ -32,8 +32,8 @@ class TrueLearningModel:
     NUMBERS_PER_COMBINATION = 14
     UNIQUENESS_LOOKBACK = 151
 
-    # Hybrid balanced strategy (OPTIMIZED: 9-series lookback Nov 17, 2025)
-    RECENT_SERIES_LOOKBACK = 9  # OPTIMIZED: Testing on Series 3146-3150 showed 9-series achieves 67.1% vs 64.3% for 10-series (+2.9%)
+    # Hybrid balanced strategy (MATCHED TO C# Nov 17, 2025)
+    RECENT_SERIES_LOOKBACK = 16  # MATCHED TO C# - C# uses 16-series lookback for cold/hot calculation
     COLD_NUMBER_COUNT = 7
     HOT_NUMBER_COUNT = 7
 
@@ -58,9 +58,9 @@ class TrueLearningModel:
     TRIPLET_AFFINITY_MULTIPLIER = 35.0
     CRITICAL_NUMBER_GENERATION_BOOST = 5.0
 
-    # Candidate pool
-    CANDIDATE_POOL_SIZE = 10000
-    CANDIDATES_TO_SCORE = 10000  # OPTIMIZED: 10k candidates for better exploration
+    # Candidate pool (MATCHED TO C# Nov 17, 2025)
+    CANDIDATE_POOL_SIZE = 10000  # Generate 10,000 candidates
+    CANDIDATES_TO_SCORE = 1000   # Score top 1,000 (C# matches this)
 
     # Pattern weights
     PATTERN_WEIGHT_CONSECUTIVE = 0.3
@@ -88,12 +88,10 @@ class TrueLearningModel:
         if pool_size is not None:
             self.CANDIDATE_POOL_SIZE = pool_size
 
-        # Store cold/hot boost (RESTORED: 30x after reevaluation, Nov 11, 2025)
-        # NOTE: 29x showed +1.02% with seed 999 but FAILED comprehensive reevaluation:
-        #   - Not seed-robust: -0.82% average across 5 seeds
-        #   - Not statistically significant: p=0.689
-        #   - Driven by one outlier series (3140)
-        self._cold_hot_boost = cold_hot_boost if cold_hot_boost is not None else 30.0
+        # Store cold/hot boost (MATCHED TO C# Nov 17, 2025)
+        # C# uses 50.0x boost for both cold and hot numbers
+        # This is the CRITICAL parameter that drives hybrid selection
+        self._cold_hot_boost = cold_hot_boost if cold_hot_boost is not None else 50.0
 
         self.number_frequency_weights = {i: 1.0 for i in range(self.MIN_NUMBER, self.MAX_NUMBER + 1)}
         self.position_weights = {i: 1.0 for i in range(self.MIN_NUMBER, self.MAX_NUMBER + 1)}
@@ -194,18 +192,12 @@ class TrueLearningModel:
         critical_hit = [num for num in critical_numbers if num in prediction]
         critical_missed = [num for num in critical_numbers if num not in prediction]
 
-        # FIX #2: Accumulate critical numbers with decay (don't clear)
-        # Add new critical numbers to the set
+        # MATCHED TO C#: Clear and replace critical numbers each iteration
+        # C# does: recentCriticalNumbers.Clear() then adds current critical numbers
+        # This is reactive learning - focuses only on most recent patterns
+        self.recent_critical_numbers.clear()
         for cn in critical_numbers:
             self.recent_critical_numbers.add(cn)
-
-        # Apply decay: Keep only the most recent ~15 critical numbers
-        # This maintains historical knowledge while preventing unbounded growth
-        if len(self.recent_critical_numbers) > 15:
-            # Keep numbers that appeared in current series, remove others
-            # This is a simple LRU-like approach
-            self.recent_critical_numbers = set(critical_numbers) | \
-                set(list(self.recent_critical_numbers - set(critical_numbers))[:7])
 
         print(f"🔥 Critical numbers (5+ events): {' '.join(f'{n:02d}' for n in sorted(critical_numbers))}")
         print(f"   ✅ Hit: {len(critical_hit)}/{len(critical_numbers)} - {' '.join(f'{n:02d}' for n in sorted(critical_hit))}")
@@ -250,14 +242,14 @@ class TrueLearningModel:
         # Learn from actual results
         self.learn_from_series(series_id, actual_results)
 
-        # Normalize weights to prevent explosion (FIX #1)
-        self._normalize_weights()
+        # MATCHED TO C#: No weight normalization (C# doesn't normalize)
+        # self._normalize_weights()  # DISABLED - Not in C# implementation
 
-        # Apply weight decay every 10 validations to prevent overfitting (FIX #4)
-        self._validation_counter += 1
-        if self._validation_counter % 10 == 0:
-            self.apply_weight_decay(decay_rate=0.999)
-            print(f"   🔄 Weight decay applied (iteration {self._validation_counter})")
+        # MATCHED TO C#: No weight decay (C# doesn't decay)
+        # self._validation_counter += 1
+        # if self._validation_counter % 10 == 0:
+        #     self.apply_weight_decay(decay_rate=0.999)
+        #     print(f"   🔄 Weight decay applied (iteration {self._validation_counter})")
 
         # Display top weights
         top_weights = sorted(self.number_frequency_weights.items(), key=lambda x: x[1], reverse=True)[:8]
