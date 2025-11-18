@@ -482,3 +482,7 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+# Python ML simulation output files (generated, not source)
+*simulation*output.txt
+python_ml/simulation_results_10k.json
