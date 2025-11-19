@@ -188,17 +188,17 @@ def iterative_search_best_match(all_series_data, training_series_ids,
             best_result = result
 
             combo_str = ' '.join(f"{n:02d}" for n in combo)
-            print(f"  🎯 Try {try_count:>4}: NEW BEST! {result['percentage']:>6.2f}% "
-                  f"(+{result['percentage']-prev_best:.2f}%) | Seed {seed:>4} | {combo_str}")
+            print(f"  🎯 Try {try_count:>6}: NEW BEST! {result['percentage']:>6.2f}% "
+                  f"(+{result['percentage']-prev_best:.2f}%) | Seed {seed:>6} | {combo_str}")
 
             # Record milestone
             pct_int = int(result['percentage'])
             if pct_int not in milestone_tries:
                 milestone_tries[pct_int] = try_count
         else:
-            # Progress update every 100 tries
-            if try_count % 100 == 0:
-                print(f"  ... Try {try_count:>4}: {result['percentage']:>6.2f}% | "
+            # Progress update every 1000 tries
+            if try_count % 1000 == 0:
+                print(f"  ... Try {try_count:>6}: {result['percentage']:>6.2f}% | "
                       f"Best so far: {best_percentage:.2f}%")
 
         # Check if target reached
@@ -300,11 +300,11 @@ def main():
     print()
 
     # Run iterative search
-    # Try up to 2000 different seeds to find the absolute best match
+    # Try up to 600,000 different seeds to find the absolute best match
     result = iterative_search_best_match(
         all_series_data,
         training_series_ids,
-        max_tries=2000,
+        max_tries=600000,
         target_percentage=None  # Find absolute best, no threshold
     )
 
