@@ -10,10 +10,23 @@ import json
 from datetime import datetime
 from itertools import combinations as iter_combinations
 
-def load_all_series_data():
-    """Load full series data from JSON file"""
+def load_all_series_data(min_series=2982):
+    """
+    Load full series data from JSON file
+
+    Args:
+        min_series: Minimum series ID to include (default: 2982)
+
+    Returns:
+        Dictionary of series data, filtered to only include series >= min_series
+    """
     with open('full_series_data.json', 'r') as f:
-        return json.load(f)
+        all_data = json.load(f)
+
+    # Filter to only include series >= min_series
+    filtered_data = {k: v for k, v in all_data.items() if int(k) >= min_series}
+
+    return filtered_data
 
 def combination_to_tuple(combination):
     """Convert combination to sorted tuple for hashing"""
@@ -213,9 +226,9 @@ def main():
     print("Result: Pure exploration of untested search space")
     print("="*80)
 
-    # Load data
-    all_data = load_all_series_data()
-    print(f"\n✅ Loaded {len(all_data)} series")
+    # Load data (series 2982 onwards only)
+    all_data = load_all_series_data(min_series=2982)
+    print(f"\n✅ Loaded {len(all_data)} series (2982-3150)")
 
     # Count total historical combinations
     total_historical = sum(len(events) for events in all_data.values())

@@ -10,10 +10,23 @@ import json
 from collections import Counter
 from datetime import datetime
 
-def load_all_series_data():
-    """Load full series data from JSON file"""
+def load_all_series_data(min_series=2982):
+    """
+    Load full series data from JSON file
+
+    Args:
+        min_series: Minimum series ID to include (default: 2982)
+
+    Returns:
+        Dictionary of series data, filtered to only include series >= min_series
+    """
     with open('full_series_data.json', 'r') as f:
-        return json.load(f)
+        all_data = json.load(f)
+
+    # Filter to only include series >= min_series
+    filtered_data = {k: v for k, v in all_data.items() if int(k) >= min_series}
+
+    return filtered_data
 
 def combination_to_tuple(combination):
     """Convert combination list to sorted tuple for hashing"""
@@ -200,9 +213,9 @@ def main():
     print("Strategy: If combinations never repeat, exclude all previous winners")
     print("="*80)
 
-    # Load data
-    all_data = load_all_series_data()
-    print(f"\n✅ Loaded {len(all_data)} series")
+    # Load data (series 2982 onwards only)
+    all_data = load_all_series_data(min_series=2982)
+    print(f"\n✅ Loaded {len(all_data)} series (2982-3150)")
 
     # Step 1: Analyze repetitions
     analysis = analyze_combination_repetitions(all_data)
