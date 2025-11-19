@@ -300,11 +300,11 @@ def main():
     print()
 
     # Run iterative search
-    # Try up to 600,000 different seeds to find the absolute best match
+    # Try up to 10,000 different seeds for thorough exploration
     result = iterative_search_best_match(
         all_series_data,
         training_series_ids,
-        max_tries=600000,
+        max_tries=10000,
         target_percentage=None  # Find absolute best, no threshold
     )
 
