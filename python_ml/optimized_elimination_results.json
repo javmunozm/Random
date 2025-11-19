@@ -1,0 +1,51 @@
+{
+  "test_date": "2025-11-19 04:00:26",
+  "exclusion_count": 1183,
+  "novel_search_space": 4456217,
+  "series_tested": [
+    3141,
+    3142,
+    3143
+  ],
+  "results": [
+    {
+      "series_id": 3141,
+      "baseline": {
+        "tries": 1000000,
+        "found": false,
+        "best_match": 92.85714285714286
+      },
+      "optimized": {
+        "tries": 1000000,
+        "found": false,
+        "best_match": 92.85714285714286
+      }
+    },
+    {
+      "series_id": 3142,
+      "baseline": {
+        "tries": 83462,
+        "found": true,
+        "best_match": 100.0
+      },
+      "optimized": {
+        "tries": 83444,
+        "found": true,
+        "best_match": 100.0
+      }
+    },
+    {
+      "series_id": 3143,
+      "baseline": {
+        "tries": 1000000,
+        "found": false,
+        "best_match": 92.85714285714286
+      },
+      "optimized": {
+        "tries": 1000000,
+        "found": false,
+        "best_match": 92.85714285714286
+      }
+    }
+  ]
+}
