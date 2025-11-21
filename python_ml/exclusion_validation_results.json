@@ -1,0 +1,1659 @@
+{
+  "test_range": "3147-3151",
+  "lookback_count": 5,
+  "overall_summary": {
+    "total_exact_matches": 0,
+    "total_events": 35,
+    "overall_exact_rate": 0.0,
+    "avg_coverage": 11.62857142857143,
+    "avg_coverage_pct": 83.06122448979593,
+    "avg_pool_size": 21.0
+  },
+  "detailed_results": [
+    {
+      "target_series": 3147,
+      "lookback_series": [
+        3142,
+        3143,
+        3144,
+        3145,
+        3146
+      ],
+      "exclusion_list": [
+        23,
+        5,
+        19,
+        24
+      ],
+      "inclusion_pool": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        20,
+        21,
+        22,
+        25
+      ],
+      "pool_size": 21,
+      "total_combinations": 116280,
+      "coverage_results": [
+        {
+          "event": 1,
+          "actual": [
+            1,
+            3,
+            5,
+            7,
+            10,
+            12,
+            14,
+            15,
+            17,
+            18,
+            20,
+            21,
+            22,
+            25
+          ],
+          "overlap": [
+            1,
+            3,
+            7,
+            10,
+            12,
+            14,
+            15,
+            17,
+            18,
+            20,
+            21,
+            22,
+            25
+          ],
+          "coverage": 13,
+          "coverage_pct": 92.85714285714286,
+          "exact_match": false,
+          "excluded_in_actual": [
+            5
+          ]
+        },
+        {
+          "event": 2,
+          "actual": [
+            2,
+            5,
+            7,
+            8,
+            9,
+            10,
+            11,
+            15,
+            16,
+            17,
+            18,
+            21,
+            22,
+            25
+          ],
+          "overlap": [
+            2,
+            7,
+            8,
+            9,
+            10,
+            11,
+            15,
+            16,
+            17,
+            18,
+            21,
+            22,
+            25
+          ],
+          "coverage": 13,
+          "coverage_pct": 92.85714285714286,
+          "exact_match": false,
+          "excluded_in_actual": [
+            5
+          ]
+        },
+        {
+          "event": 3,
+          "actual": [
+            1,
+            3,
+            4,
+            5,
+            7,
+            10,
+            12,
+            14,
+            16,
+            19,
+            21,
+            22,
+            23,
+            25
+          ],
+          "overlap": [
+            1,
+            3,
+            4,
+            7,
+            10,
+            12,
+            14,
+            16,
+            21,
+            22,
+            25
+          ],
+          "coverage": 11,
+          "coverage_pct": 78.57142857142857,
+          "exact_match": false,
+          "excluded_in_actual": [
+            5,
+            19,
+            23
+          ]
+        },
+        {
+          "event": 4,
+          "actual": [
+            1,
+            2,
+            3,
+            4,
+            7,
+            10,
+            11,
+            13,
+            14,
+            16,
+            18,
+            19,
+            23,
+            25
+          ],
+          "overlap": [
+            1,
+            2,
+            3,
+            4,
+            7,
+            10,
+            11,
+            13,
+            14,
+            16,
+            18,
+            25
+          ],
+          "coverage": 12,
+          "coverage_pct": 85.71428571428571,
+          "exact_match": false,
+          "excluded_in_actual": [
+            19,
+            23
+          ]
+        },
+        {
+          "event": 5,
+          "actual": [
+            1,
+            6,
+            7,
+            8,
+            11,
+            12,
+            14,
+            15,
+            16,
+            18,
+            21,
+            22,
+            23,
+            24
+          ],
+          "overlap": [
+            1,
+            6,
+            7,
+            8,
+            11,
+            12,
+            14,
+            15,
+            16,
+            18,
+            21,
+            22
+          ],
+          "coverage": 12,
+          "coverage_pct": 85.71428571428571,
+          "exact_match": false,
+          "excluded_in_actual": [
+            23,
+            24
+          ]
+        },
+        {
+          "event": 6,
+          "actual": [
+            1,
+            3,
+            4,
+            5,
+            8,
+            11,
+            12,
+            15,
+            18,
+            19,
+            20,
+            22,
+            23,
+            24
+          ],
+          "overlap": [
+            1,
+            3,
+            4,
+            8,
+            11,
+            12,
+            15,
+            18,
+            20,
+            22
+          ],
+          "coverage": 10,
+          "coverage_pct": 71.42857142857143,
+          "exact_match": false,
+          "excluded_in_actual": [
+            5,
+            19,
+            23,
+            24
+          ]
+        },
+        {
+          "event": 7,
+          "actual": [
+            6,
+            7,
+            10,
+            13,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            25
+          ],
+          "overlap": [
+            6,
+            7,
+            10,
+            13,
+            15,
+            16,
+            17,
+            18,
+            20,
+            21,
+            22,
+            25
+          ],
+          "coverage": 12,
+          "coverage_pct": 85.71428571428571,
+          "exact_match": false,
+          "excluded_in_actual": [
+            19,
+            23
+          ]
+        }
+      ],
+      "summary": {
+        "avg_coverage": 11.857142857142858,
+        "avg_coverage_pct": 84.6938775510204,
+        "exact_matches": 0,
+        "exact_match_rate": 0.0
+      }
+    },
+    {
+      "target_series": 3148,
+      "lookback_series": [
+        3143,
+        3144,
+        3145,
+        3146,
+        3147
+      ],
+      "exclusion_list": [
+        2,
+        5,
+        9,
+        20
+      ],
+      "inclusion_pool": [
+        1,
+        3,
+        4,
+        6,
+        7,
+        8,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "pool_size": 21,
+      "total_combinations": 116280,
+      "coverage_results": [
+        {
+          "event": 1,
+          "actual": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            7,
+            8,
+            10,
+            15,
+            16,
+            19,
+            22,
+            23,
+            25
+          ],
+          "overlap": [
+            1,
+            3,
+            4,
+            7,
+            8,
+            10,
+            15,
+            16,
+            19,
+            22,
+            23,
+            25
+          ],
+          "coverage": 12,
+          "coverage_pct": 85.71428571428571,
+          "exact_match": false,
+          "excluded_in_actual": [
+            2,
+            5
+          ]
+        },
+        {
+          "event": 2,
+          "actual": [
+            2,
+            3,
+            6,
+            7,
+            10,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            19,
+            21,
+            23
+          ],
+          "overlap": [
+            3,
+            6,
+            7,
+            10,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            19,
+            21,
+            23
+          ],
+          "coverage": 13,
+          "coverage_pct": 92.85714285714286,
+          "exact_match": false,
+          "excluded_in_actual": [
+            2
+          ]
+        },
+        {
+          "event": 3,
+          "actual": [
+            1,
+            2,
+            4,
+            5,
+            6,
+            8,
+            10,
+            12,
+            14,
+            15,
+            17,
+            18,
+            20,
+            22
+          ],
+          "overlap": [
+            1,
+            4,
+            6,
+            8,
+            10,
+            12,
+            14,
+            15,
+            17,
+            18,
+            22
+          ],
+          "coverage": 11,
+          "coverage_pct": 78.57142857142857,
+          "exact_match": false,
+          "excluded_in_actual": [
+            2,
+            5,
+            20
+          ]
+        },
+        {
+          "event": 4,
+          "actual": [
+            2,
+            3,
+            4,
+            5,
+            8,
+            10,
+            12,
+            13,
+            14,
+            15,
+            18,
+            20,
+            21,
+            25
+          ],
+          "overlap": [
+            3,
+            4,
+            8,
+            10,
+            12,
+            13,
+            14,
+            15,
+            18,
+            21,
+            25
+          ],
+          "coverage": 11,
+          "coverage_pct": 78.57142857142857,
+          "exact_match": false,
+          "excluded_in_actual": [
+            2,
+            5,
+            20
+          ]
+        },
+        {
+          "event": 5,
+          "actual": [
+            3,
+            4,
+            6,
+            7,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            19,
+            20,
+            21,
+            24
+          ],
+          "overlap": [
+            3,
+            4,
+            6,
+            7,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            19,
+            21,
+            24
+          ],
+          "coverage": 13,
+          "coverage_pct": 92.85714285714286,
+          "exact_match": false,
+          "excluded_in_actual": [
+            20
+          ]
+        },
+        {
+          "event": 6,
+          "actual": [
+            2,
+            3,
+            4,
+            5,
+            9,
+            10,
+            12,
+            14,
+            15,
+            16,
+            17,
+            18,
+            22,
+            25
+          ],
+          "overlap": [
+            3,
+            4,
+            10,
+            12,
+            14,
+            15,
+            16,
+            17,
+            18,
+            22,
+            25
+          ],
+          "coverage": 11,
+          "coverage_pct": 78.57142857142857,
+          "exact_match": false,
+          "excluded_in_actual": [
+            2,
+            5,
+            9
+          ]
+        },
+        {
+          "event": 7,
+          "actual": [
+            1,
+            4,
+            6,
+            7,
+            9,
+            11,
+            12,
+            14,
+            16,
+            19,
+            20,
+            21,
+            23,
+            25
+          ],
+          "overlap": [
+            1,
+            4,
+            6,
+            7,
+            11,
+            12,
+            14,
+            16,
+            19,
+            21,
+            23,
+            25
+          ],
+          "coverage": 12,
+          "coverage_pct": 85.71428571428571,
+          "exact_match": false,
+          "excluded_in_actual": [
+            9,
+            20
+          ]
+        }
+      ],
+      "summary": {
+        "avg_coverage": 11.857142857142858,
+        "avg_coverage_pct": 84.6938775510204,
+        "exact_matches": 0,
+        "exact_match_rate": 0.0
+      }
+    },
+    {
+      "target_series": 3149,
+      "lookback_series": [
+        3144,
+        3145,
+        3146,
+        3147,
+        3148
+      ],
+      "exclusion_list": [
+        24,
+        2,
+        5,
+        9
+      ],
+      "inclusion_pool": [
+        1,
+        3,
+        4,
+        6,
+        7,
+        8,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        25
+      ],
+      "pool_size": 21,
+      "total_combinations": 116280,
+      "coverage_results": [
+        {
+          "event": 1,
+          "actual": [
+            2,
+            3,
+            5,
+            6,
+            7,
+            8,
+            10,
+            12,
+            17,
+            19,
+            20,
+            22,
+            23,
+            25
+          ],
+          "overlap": [
+            3,
+            6,
+            7,
+            8,
+            10,
+            12,
+            17,
+            19,
+            20,
+            22,
+            23,
+            25
+          ],
+          "coverage": 12,
+          "coverage_pct": 85.71428571428571,
+          "exact_match": false,
+          "excluded_in_actual": [
+            2,
+            5
+          ]
+        },
+        {
+          "event": 2,
+          "actual": [
+            2,
+            3,
+            5,
+            6,
+            8,
+            10,
+            14,
+            15,
+            16,
+            17,
+            18,
+            23,
+            24,
+            25
+          ],
+          "overlap": [
+            3,
+            6,
+            8,
+            10,
+            14,
+            15,
+            16,
+            17,
+            18,
+            23,
+            25
+          ],
+          "coverage": 11,
+          "coverage_pct": 78.57142857142857,
+          "exact_match": false,
+          "excluded_in_actual": [
+            2,
+            5,
+            24
+          ]
+        },
+        {
+          "event": 3,
+          "actual": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            11,
+            12,
+            13,
+            14,
+            15,
+            18,
+            19,
+            21,
+            22
+          ],
+          "overlap": [
+            1,
+            3,
+            4,
+            11,
+            12,
+            13,
+            14,
+            15,
+            18,
+            19,
+            21,
+            22
+          ],
+          "coverage": 12,
+          "coverage_pct": 85.71428571428571,
+          "exact_match": false,
+          "excluded_in_actual": [
+            2,
+            5
+          ]
+        },
+        {
+          "event": 4,
+          "actual": [
+            1,
+            2,
+            4,
+            6,
+            8,
+            10,
+            12,
+            14,
+            16,
+            18,
+            20,
+            22,
+            23,
+            24
+          ],
+          "overlap": [
+            1,
+            4,
+            6,
+            8,
+            10,
+            12,
+            14,
+            16,
+            18,
+            20,
+            22,
+            23
+          ],
+          "coverage": 12,
+          "coverage_pct": 85.71428571428571,
+          "exact_match": false,
+          "excluded_in_actual": [
+            2,
+            24
+          ]
+        },
+        {
+          "event": 5,
+          "actual": [
+            3,
+            4,
+            5,
+            6,
+            8,
+            9,
+            11,
+            12,
+            16,
+            17,
+            20,
+            21,
+            22,
+            24
+          ],
+          "overlap": [
+            3,
+            4,
+            6,
+            8,
+            11,
+            12,
+            16,
+            17,
+            20,
+            21,
+            22
+          ],
+          "coverage": 11,
+          "coverage_pct": 78.57142857142857,
+          "exact_match": false,
+          "excluded_in_actual": [
+            5,
+            9,
+            24
+          ]
+        },
+        {
+          "event": 6,
+          "actual": [
+            1,
+            2,
+            3,
+            5,
+            6,
+            8,
+            11,
+            13,
+            14,
+            19,
+            20,
+            21,
+            24,
+            25
+          ],
+          "overlap": [
+            1,
+            3,
+            6,
+            8,
+            11,
+            13,
+            14,
+            19,
+            20,
+            21,
+            25
+          ],
+          "coverage": 11,
+          "coverage_pct": 78.57142857142857,
+          "exact_match": false,
+          "excluded_in_actual": [
+            2,
+            5,
+            24
+          ]
+        },
+        {
+          "event": 7,
+          "actual": [
+            3,
+            4,
+            7,
+            9,
+            10,
+            11,
+            13,
+            15,
+            18,
+            19,
+            20,
+            21,
+            22,
+            25
+          ],
+          "overlap": [
+            3,
+            4,
+            7,
+            10,
+            11,
+            13,
+            15,
+            18,
+            19,
+            20,
+            21,
+            22,
+            25
+          ],
+          "coverage": 13,
+          "coverage_pct": 92.85714285714286,
+          "exact_match": false,
+          "excluded_in_actual": [
+            9
+          ]
+        }
+      ],
+      "summary": {
+        "avg_coverage": 11.714285714285714,
+        "avg_coverage_pct": 83.67346938775509,
+        "exact_matches": 0,
+        "exact_match_rate": 0.0
+      }
+    },
+    {
+      "target_series": 3150,
+      "lookback_series": [
+        3145,
+        3146,
+        3147,
+        3148,
+        3149
+      ],
+      "exclusion_list": [
+        24,
+        9,
+        2,
+        23
+      ],
+      "inclusion_pool": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        25
+      ],
+      "pool_size": 21,
+      "total_combinations": 116280,
+      "coverage_results": [
+        {
+          "event": 1,
+          "actual": [
+            1,
+            2,
+            4,
+            6,
+            8,
+            10,
+            12,
+            13,
+            15,
+            17,
+            19,
+            21,
+            22,
+            23
+          ],
+          "overlap": [
+            1,
+            4,
+            6,
+            8,
+            10,
+            12,
+            13,
+            15,
+            17,
+            19,
+            21,
+            22
+          ],
+          "coverage": 12,
+          "coverage_pct": 85.71428571428571,
+          "exact_match": false,
+          "excluded_in_actual": [
+            2,
+            23
+          ]
+        },
+        {
+          "event": 2,
+          "actual": [
+            1,
+            2,
+            3,
+            4,
+            9,
+            10,
+            11,
+            15,
+            17,
+            19,
+            20,
+            21,
+            24,
+            25
+          ],
+          "overlap": [
+            1,
+            3,
+            4,
+            10,
+            11,
+            15,
+            17,
+            19,
+            20,
+            21,
+            25
+          ],
+          "coverage": 11,
+          "coverage_pct": 78.57142857142857,
+          "exact_match": false,
+          "excluded_in_actual": [
+            2,
+            9,
+            24
+          ]
+        },
+        {
+          "event": 3,
+          "actual": [
+            2,
+            3,
+            4,
+            6,
+            7,
+            10,
+            14,
+            15,
+            16,
+            19,
+            20,
+            21,
+            22,
+            23
+          ],
+          "overlap": [
+            3,
+            4,
+            6,
+            7,
+            10,
+            14,
+            15,
+            16,
+            19,
+            20,
+            21,
+            22
+          ],
+          "coverage": 12,
+          "coverage_pct": 85.71428571428571,
+          "exact_match": false,
+          "excluded_in_actual": [
+            2,
+            23
+          ]
+        },
+        {
+          "event": 4,
+          "actual": [
+            2,
+            7,
+            9,
+            10,
+            12,
+            13,
+            14,
+            17,
+            18,
+            20,
+            21,
+            22,
+            23,
+            24
+          ],
+          "overlap": [
+            7,
+            10,
+            12,
+            13,
+            14,
+            17,
+            18,
+            20,
+            21,
+            22
+          ],
+          "coverage": 10,
+          "coverage_pct": 71.42857142857143,
+          "exact_match": false,
+          "excluded_in_actual": [
+            2,
+            9,
+            23,
+            24
+          ]
+        },
+        {
+          "event": 5,
+          "actual": [
+            2,
+            4,
+            6,
+            8,
+            9,
+            10,
+            11,
+            12,
+            14,
+            16,
+            17,
+            18,
+            21,
+            22
+          ],
+          "overlap": [
+            4,
+            6,
+            8,
+            10,
+            11,
+            12,
+            14,
+            16,
+            17,
+            18,
+            21,
+            22
+          ],
+          "coverage": 12,
+          "coverage_pct": 85.71428571428571,
+          "exact_match": false,
+          "excluded_in_actual": [
+            2,
+            9
+          ]
+        },
+        {
+          "event": 6,
+          "actual": [
+            1,
+            3,
+            4,
+            5,
+            7,
+            9,
+            10,
+            12,
+            14,
+            15,
+            19,
+            23,
+            24,
+            25
+          ],
+          "overlap": [
+            1,
+            3,
+            4,
+            5,
+            7,
+            10,
+            12,
+            14,
+            15,
+            19,
+            25
+          ],
+          "coverage": 11,
+          "coverage_pct": 78.57142857142857,
+          "exact_match": false,
+          "excluded_in_actual": [
+            9,
+            23,
+            24
+          ]
+        },
+        {
+          "event": 7,
+          "actual": [
+            5,
+            6,
+            7,
+            9,
+            10,
+            11,
+            13,
+            14,
+            16,
+            18,
+            21,
+            22,
+            24,
+            25
+          ],
+          "overlap": [
+            5,
+            6,
+            7,
+            10,
+            11,
+            13,
+            14,
+            16,
+            18,
+            21,
+            22,
+            25
+          ],
+          "coverage": 12,
+          "coverage_pct": 85.71428571428571,
+          "exact_match": false,
+          "excluded_in_actual": [
+            9,
+            24
+          ]
+        }
+      ],
+      "summary": {
+        "avg_coverage": 11.428571428571429,
+        "avg_coverage_pct": 81.63265306122449,
+        "exact_matches": 0,
+        "exact_match_rate": 0.0
+      }
+    },
+    {
+      "target_series": 3151,
+      "lookback_series": [
+        3146,
+        3147,
+        3148,
+        3149,
+        3150
+      ],
+      "exclusion_list": [
+        9,
+        24,
+        11,
+        13
+      ],
+      "inclusion_pool": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        10,
+        12,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        25
+      ],
+      "pool_size": 21,
+      "total_combinations": 116280,
+      "coverage_results": [
+        {
+          "event": 1,
+          "actual": [
+            1,
+            2,
+            3,
+            4,
+            7,
+            8,
+            11,
+            13,
+            15,
+            16,
+            19,
+            20,
+            23,
+            24
+          ],
+          "overlap": [
+            1,
+            2,
+            3,
+            4,
+            7,
+            8,
+            15,
+            16,
+            19,
+            20,
+            23
+          ],
+          "coverage": 11,
+          "coverage_pct": 78.57142857142857,
+          "exact_match": false,
+          "excluded_in_actual": [
+            11,
+            13,
+            24
+          ]
+        },
+        {
+          "event": 2,
+          "actual": [
+            2,
+            4,
+            7,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            20,
+            21,
+            23,
+            24,
+            25
+          ],
+          "overlap": [
+            2,
+            4,
+            7,
+            14,
+            15,
+            16,
+            17,
+            18,
+            20,
+            21,
+            23,
+            25
+          ],
+          "coverage": 12,
+          "coverage_pct": 85.71428571428571,
+          "exact_match": false,
+          "excluded_in_actual": [
+            13,
+            24
+          ]
+        },
+        {
+          "event": 3,
+          "actual": [
+            2,
+            4,
+            6,
+            7,
+            11,
+            12,
+            13,
+            17,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24
+          ],
+          "overlap": [
+            2,
+            4,
+            6,
+            7,
+            12,
+            17,
+            19,
+            20,
+            21,
+            22,
+            23
+          ],
+          "coverage": 11,
+          "coverage_pct": 78.57142857142857,
+          "exact_match": false,
+          "excluded_in_actual": [
+            11,
+            13,
+            24
+          ]
+        },
+        {
+          "event": 4,
+          "actual": [
+            1,
+            2,
+            4,
+            5,
+            6,
+            8,
+            9,
+            11,
+            13,
+            14,
+            15,
+            20,
+            21,
+            25
+          ],
+          "overlap": [
+            1,
+            2,
+            4,
+            5,
+            6,
+            8,
+            14,
+            15,
+            20,
+            21,
+            25
+          ],
+          "coverage": 11,
+          "coverage_pct": 78.57142857142857,
+          "exact_match": false,
+          "excluded_in_actual": [
+            9,
+            11,
+            13
+          ]
+        },
+        {
+          "event": 5,
+          "actual": [
+            1,
+            4,
+            6,
+            8,
+            9,
+            13,
+            14,
+            15,
+            16,
+            19,
+            20,
+            21,
+            22,
+            24
+          ],
+          "overlap": [
+            1,
+            4,
+            6,
+            8,
+            14,
+            15,
+            16,
+            19,
+            20,
+            21,
+            22
+          ],
+          "coverage": 11,
+          "coverage_pct": 78.57142857142857,
+          "exact_match": false,
+          "excluded_in_actual": [
+            9,
+            13,
+            24
+          ]
+        },
+        {
+          "event": 6,
+          "actual": [
+            1,
+            3,
+            4,
+            6,
+            8,
+            9,
+            10,
+            16,
+            18,
+            20,
+            22,
+            23,
+            24,
+            25
+          ],
+          "overlap": [
+            1,
+            3,
+            4,
+            6,
+            8,
+            10,
+            16,
+            18,
+            20,
+            22,
+            23,
+            25
+          ],
+          "coverage": 12,
+          "coverage_pct": 85.71428571428571,
+          "exact_match": false,
+          "excluded_in_actual": [
+            9,
+            24
+          ]
+        },
+        {
+          "event": 7,
+          "actual": [
+            2,
+            3,
+            4,
+            5,
+            7,
+            9,
+            10,
+            11,
+            12,
+            19,
+            21,
+            23,
+            24,
+            25
+          ],
+          "overlap": [
+            2,
+            3,
+            4,
+            5,
+            7,
+            10,
+            12,
+            19,
+            21,
+            23,
+            25
+          ],
+          "coverage": 11,
+          "coverage_pct": 78.57142857142857,
+          "exact_match": false,
+          "excluded_in_actual": [
+            9,
+            11,
+            24
+          ]
+        }
+      ],
+      "summary": {
+        "avg_coverage": 11.285714285714286,
+        "avg_coverage_pct": 80.61224489795919,
+        "exact_matches": 0,
+        "exact_match_rate": 0.0
+      }
+    }
+  ]
+}
