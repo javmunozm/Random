@@ -1,0 +1,30 @@
+{
+  "series_id": 3152,
+  "reduced_pool_size": 21,
+  "total_combinations": 116280,
+  "theoretical": {
+    "best": 1,
+    "average_if_in_pool": 16611,
+    "median": 58140,
+    "worst": 116280
+  },
+  "historical_performance": {
+    "average": 45922,
+    "median": 26991,
+    "min": 396,
+    "max": 378918,
+    "std_dev": 79732
+  },
+  "prediction_3152": {
+    "expected_tries": 45922,
+    "median_tries": 26991,
+    "confidence_range_68pct": [
+      -33810,
+      125655
+    ],
+    "probability_10pct": 1065,
+    "probability_50pct": 26991,
+    "probability_90pct": 79558,
+    "success_probability": 0.9166666666666666
+  }
+}
