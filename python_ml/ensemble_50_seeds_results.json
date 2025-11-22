@@ -1,0 +1,79 @@
+{
+  "num_seeds": 50,
+  "jackpots": 0,
+  "total_series": 10,
+  "jackpot_rate": 0.0,
+  "avg_best_peak": 12.8,
+  "results": [
+    {
+      "series": 3141,
+      "jackpot": false,
+      "best_peak": 13,
+      "jackpot_seed": null,
+      "seeds_tested": 50
+    },
+    {
+      "series": 3142,
+      "jackpot": false,
+      "best_peak": 13,
+      "jackpot_seed": null,
+      "seeds_tested": 50
+    },
+    {
+      "series": 3143,
+      "jackpot": false,
+      "best_peak": 13,
+      "jackpot_seed": null,
+      "seeds_tested": 50
+    },
+    {
+      "series": 3144,
+      "jackpot": false,
+      "best_peak": 13,
+      "jackpot_seed": null,
+      "seeds_tested": 50
+    },
+    {
+      "series": 3145,
+      "jackpot": false,
+      "best_peak": 13,
+      "jackpot_seed": null,
+      "seeds_tested": 50
+    },
+    {
+      "series": 3146,
+      "jackpot": false,
+      "best_peak": 12,
+      "jackpot_seed": null,
+      "seeds_tested": 50
+    },
+    {
+      "series": 3147,
+      "jackpot": false,
+      "best_peak": 13,
+      "jackpot_seed": null,
+      "seeds_tested": 50
+    },
+    {
+      "series": 3148,
+      "jackpot": false,
+      "best_peak": 13,
+      "jackpot_seed": null,
+      "seeds_tested": 50
+    },
+    {
+      "series": 3149,
+      "jackpot": false,
+      "best_peak": 13,
+      "jackpot_seed": null,
+      "seeds_tested": 50
+    },
+    {
+      "series": 3150,
+      "jackpot": false,
+      "best_peak": 12,
+      "jackpot_seed": null,
+      "seeds_tested": 50
+    }
+  ]
+}
