@@ -113,7 +113,7 @@ class WinningStrategy:
             'found': len(jackpots_found) > 0
         }
 
-    def random_fallback(self, target_events, exclusion_combos, max_tries=1000000):
+    def random_fallback(self, target_events, exclusion_combos, max_tries=5000000):
         """
         Phase 3: Random sampling fallback (if exhaustive fails)
 
@@ -179,20 +179,20 @@ class WinningStrategy:
         # Phase 1: Identify reduced search space using ML
         print("[Phase 1] Identifying reduced search space using ML pattern recognition...")
         reduced_pool = self.identify_reduced_space(target_events)
-        print(f"  ✓ Reduced space: {len(reduced_pool)} numbers (from 25)")
-        print(f"  ✓ Numbers: {reduced_pool}")
-        print(f"  ✓ Combinations to check: {len(list(combinations(reduced_pool, 14))):,}")
+        print(f"  -> Reduced space: {len(reduced_pool)} numbers (from 25)")
+        print(f"  -> Numbers: {reduced_pool}")
+        print(f"  -> Combinations to check: {len(list(combinations(reduced_pool, 14))):,}")
 
         # Phase 2: Exhaustive search
         print(f"\n[Phase 2] Exhaustive search on reduced space...")
         result = self.exhaustive_search(target_events, reduced_pool)
 
-        print(f"  ✓ Tries: {result['tries']:,}")
-        print(f"  ✓ Time: {result['time_seconds']:.3f} seconds")
-        print(f"  ✓ Jackpot found: {'YES' if result['found'] else 'NO'}")
+        print(f"  -> Tries: {result['tries']:,}")
+        print(f"  -> Time: {result['time_seconds']:.3f} seconds")
+        print(f"  -> Jackpot found: {'YES' if result['found'] else 'NO'}")
 
         if result['found']:
-            print(f"  ✓ SUCCESS - Found jackpot: {result['jackpots_found'][0]}")
+            print(f"  -> SUCCESS - Found jackpot: {result['jackpots_found'][0]}")
             self.stats = result
             return result
 
@@ -203,16 +203,21 @@ class WinningStrategy:
             # Build exclusion set from exhaustive phase
             exhaustive_combos = set(combinations(reduced_pool, 14))
 
-            fallback_result = self.random_fallback(target_events, exhaustive_combos)
+            # Adaptive fallback limit based on pool size
+            # Larger pools mean more combinations were checked, so fewer remaining
+            # Smaller pools mean jackpot might be outside, need more fallback tries
+            adaptive_limit = 10000000 if len(reduced_pool) <= 21 else 5000000
+
+            fallback_result = self.random_fallback(target_events, exhaustive_combos, max_tries=adaptive_limit)
 
             # Combine results
             total_tries = result['tries'] + fallback_result['tries']
             total_time = result['time_seconds'] + fallback_result['time_seconds']
             jackpot = fallback_result['jackpots_found'][0] if fallback_result['found'] else None
 
-            print(f"  ✓ Fallback tries: {fallback_result['tries']:,}")
-            print(f"  ✓ Total tries: {total_tries:,}")
-            print(f"  ✓ Total time: {total_time:.3f} seconds")
+            print(f"  -> Fallback tries: {fallback_result['tries']:,}")
+            print(f"  -> Total tries: {total_tries:,}")
+            print(f"  -> Total time: {total_time:.3f} seconds")
 
             combined_result = {
                 'phase': 'hybrid_fallback',
@@ -226,9 +231,9 @@ class WinningStrategy:
             }
 
             if combined_result['found']:
-                print(f"  ✓ SUCCESS - Found jackpot with fallback: {jackpot}")
+                print(f"  -> SUCCESS - Found jackpot with fallback: {jackpot}")
             else:
-                print(f"  ✗ FAILED - No jackpot found in {total_tries:,} tries")
+                print(f"  -> FAILED - No jackpot found in {total_tries:,} tries")
 
             self.stats = combined_result
             return combined_result
@@ -304,7 +309,7 @@ class WinningStrategy:
 
 def load_series_data():
     """Load all series data from JSON"""
-    with open('all_series_data.json', 'r') as f:
+    with open('full_series_data.json', 'r') as f:
         return json.load(f)
 
 

@@ -486,3 +486,9 @@ $RECYCLE.BIN/
 # Python ML simulation output files (generated, not source)
 *simulation*output.txt
 python_ml/simulation_results_10k.json
+
+# Archive folder
+old documents/
+
+# Claude Code
+.claude/

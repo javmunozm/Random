@@ -10,7 +10,8 @@
       "Bash(csc:*)",
       "Bash(python:*)",
       "Bash(findstr:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(pip install:*)"
     ],
     "deny": [],
     "ask": [],
