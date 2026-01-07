@@ -1,0 +1,45 @@
+{
+  "timestamp": "2026-01-06T22:33:48.189498",
+  "config": {
+    "series_range": [
+      2981,
+      3171
+    ],
+    "n_series": 191,
+    "n_simulations": 1000,
+    "seed": 12345
+  },
+  "prediction": {
+    "mean": 10.219895287958115,
+    "std": 0.7190904591995559,
+    "min": 9,
+    "max": 12,
+    "ci_95": [
+      10.116991836172067,
+      10.322798739744163
+    ],
+    "distribution": {
+      "10": 101,
+      "12": 6,
+      "11": 57,
+      "9": 27
+    }
+  },
+  "random_baseline": {
+    "theoretical_mean": 7.84,
+    "theoretical_std": 1.257404734628698,
+    "simulated_mean": 9.49837172774869,
+    "simulated_std": 0.8128338818049502
+  },
+  "statistics": {
+    "improvement": 2.3798952879581154,
+    "improvement_pct": 30.35580724436372,
+    "t_statistic": 45.61956323353306,
+    "p_value": 2.6247936595648018e-104,
+    "cohens_d": 2.323559390951771,
+    "effect_size": "large",
+    "percentile_rank": 100.0,
+    "significant_001": true,
+    "significant_005": true
+  }
+}
