@@ -1,13 +1,13 @@
 {
-  "timestamp": "2026-01-06T22:33:48.189498",
+  "timestamp": "2026-01-07T18:37:26.094294",
   "config": {
     "series_range": [
       2981,
       3171
     ],
     "n_series": 191,
-    "n_simulations": 1000,
-    "seed": 12345
+    "n_simulations": 10000,
+    "seed": 42
   },
   "prediction": {
     "mean": 10.219895287958115,
@@ -28,8 +28,8 @@
   "random_baseline": {
     "theoretical_mean": 7.84,
     "theoretical_std": 1.257404734628698,
-    "simulated_mean": 9.49837172774869,
-    "simulated_std": 0.8128338818049502
+    "simulated_mean": 9.495979581151833,
+    "simulated_std": 0.8109063919753139
   },
   "statistics": {
     "improvement": 2.3798952879581154,
