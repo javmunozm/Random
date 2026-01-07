@@ -1,6 +1,6 @@
 # Lottery Prediction Research
 
-**Status**: PRODUCTION READY | **Updated**: January 6, 2026
+**Status**: PRODUCTION READY | **Updated**: January 7, 2026
 
 ---
 
@@ -34,27 +34,28 @@ Rank  Set                Numbers                                       Type
 
 | Metric | Value |
 |--------|-------|
-| Average | 10.22/14 |
-| Best | 12/14 |
+| Average | 10.15/14 |
+| Best | 13/14 |
 | Worst | 9/14 |
-| 11+ matches | 63 (33%) |
-| 12+ matches | 6 (3.1%) |
+| 11+ matches | 49 (26%) |
+| 12+ matches | 8 (4.2%) |
+| 13+ matches | 1 (0.5%) |
 | 14/14 hits | 0 |
 
 ### Set Performance (ordered by win rate)
 
 | Rank | Set | Strategy | Wins | Rate |
 |------|-----|----------|------|------|
-| 1 | S1 | swap 14<>16 | 77 | 40.3% |
+| 1 | S1 | swap 14<>16 | 87 | 45.5% |
 | 2 | S2 | swap 13<>15 | 52 | 27.2% |
-| 3 | S4 | primary top-14 | 20 | 10.5% |
-| 4 | S5 | ML hot #1 | 10 | 5.2% |
-| 5 | S6 | ML hot #1+#2 | 10 | 5.2% |
-| 6 | S7 | swap 14<>17 | 9 | 4.7% |
-| 7 | S3 | swap 14<>15 | 7 | 3.7% |
-| 8 | S8 | swap 14<>18 | 6 | 3.1% |
+| 3 | S7 | swap 14<>17 | 16 | 8.4% |
+| 4 | S3 | swap 14<>15 | 14 | 7.3% |
+| 5 | S4 | primary top-14 | 12 | 6.3% |
+| 6 | S6 | ML hot #1+#2 | 9 | 4.7% |
+| 7 | S8 | swap 14<>18 | 1 | 0.5% |
+| 8 | S5 | ML hot #1 | 0 | 0% |
 
-**ML helped**: 20 (10.5%) | **Extended helped**: 15 (7.9%)
+**ML helped**: 9 (4.7%) | **Extended helped**: 17 (8.9%)
 
 ### Latest Result (Series 3171)
 
@@ -67,11 +68,13 @@ Rank  Set                Numbers                                       Type
 
 | Test | Value | Interpretation |
 |------|-------|----------------|
-| t-statistic | 45.62 | Extremely high |
-| p-value | 2.62e-104 | Highly significant |
-| Cohen's d | 2.32 | Large effect |
-| 95% CI | [10.12, 10.32] | Tight confidence |
+| t-statistic | ~43 | Extremely high |
+| p-value | <1e-100 | Highly significant |
+| Cohen's d | ~2.2 | Large effect |
+| 95% CI | [10.05, 10.25] | Tight confidence |
 | Percentile | 100% | Beats all random |
+
+*Note: Recency weighting trades -0.07 avg for +1 best (13/14)*
 
 ### Convergence Analysis
 - **Saturation**: ~60 series (model maxed)
@@ -99,29 +102,31 @@ Run: `python ml_models/monte_carlo_validation.py -n 10000`
 
 ```python
 # Prior Event 1 + 8-set hedging (4 std + 2 ML + 2 ext)
-ranked = sorted(1..25, key=lambda n: (-(n in event1), -freq[n]))
+# Ranking: Event1 > recency-weighted freq (decay=0.7) > global freq
+recent_freq = weighted_count(last_5_series, decay=0.7)  # Recent = 2x weight
+ranked = sorted(1..25, key=lambda n: (-(n in event1), -recent_freq[n], -freq[n]))
 
-# Hot non-E1 numbers from recent 5 series
+# Hot non-E1 numbers from recent 5 series (recency-weighted)
 hot_outside = sorted(non_top14, key=lambda n: -recent_freq[n])[:3]
 
 # Sets ordered by implementation (see performance ranking above)
 sets = [
-    ranked[:13] + [ranked[15]],          # S1: swap 14<>16 (40.3% wins)
+    ranked[:13] + [ranked[15]],          # S1: swap 14<>16 (45.5% wins)
     ranked[:12] + [ranked[14], ranked[13]],  # S2: swap 13<>15 (27.2%)
-    ranked[:13] + [ranked[14]],          # S3: swap 14<>15 (3.7%)
-    ranked[:14],                         # S4: primary (10.5%)
-    ranked[:13] + [hot_outside[0]],      # S5: ML hot #1 (5.2%)
-    ranked[:12] + hot_outside[:2],       # S6: ML hot #1+#2 (5.2%)
-    ranked[:13] + [ranked[16]],          # S7: swap 14<>17 (4.7%)
-    ranked[:13] + [ranked[17]],          # S8: swap 14<>18 (3.1%)
+    ranked[:13] + [ranked[14]],          # S3: swap 14<>15 (7.3%)
+    ranked[:14],                         # S4: primary (6.3%)
+    ranked[:13] + [hot_outside[0]],      # S5: ML hot #1 (0%)
+    ranked[:12] + hot_outside[:2],       # S6: ML hot #1+#2 (4.7%)
+    ranked[:13] + [ranked[16]],          # S7: swap 14<>17 (8.4%)
+    ranked[:13] + [ranked[17]],          # S8: swap 14<>18 (0.5%)
 ]
 ```
 
-**Priority**: S1 > S2 > S4 > S5/S6 > S7 > S3 > S8
+**Priority**: S1 > S2 > S7 > S3 > S4 > S6 > S8 > S5
 
 **Jackpot Probability**: ~0.001% per series (~1 in 80,000 series)
 
-**Performance**: 30.4% above random baseline (7.84/14)
+**Performance**: 29.5% above random baseline (7.84/14)
 
 **Jackpot Pool**: Pool-24 (exclude #12), ~1.96M combinations
 

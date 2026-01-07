@@ -25,8 +25,8 @@ LOOKBACK = 5
 DECAY = 0.7  # Recency decay factor (0.7 = recent series weighted ~2x more)
 
 # Performance rank by historical win rate (updated after each series)
-# S1=40.3%, S2=27.2%, S4=10.5%, S5=5.2%, S6=5.2%, S7=4.7%, S3=3.7%, S8=3.1%
-PERF_RANK = [1, 2, 7, 3, 4, 5, 6, 8]  # Index = set-1, value = rank
+# S1=45.5%, S2=27.2%, S7=8.4%, S3=7.3%, S4=6.3%, S6=4.7%, S8=0.5%, S5=0%
+PERF_RANK = [1, 2, 4, 5, 8, 6, 3, 7]  # Index = set-1, value = rank
 
 
 def load_data():
