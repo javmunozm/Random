@@ -6,6 +6,7 @@ Production Predictor
 Goal: Hit 14/14 at least once.
 
 Strategy: Prior Event 1 + 8-set hedging (4 standard + 2 ML + 2 extended).
+Ranking: Event1 membership > recency-weighted freq > global freq.
 Performance: 10.22/14 avg, 30.4% above random baseline.
 """
 
@@ -20,6 +21,8 @@ from collections import Counter
 TOTAL = 25
 PICK = 14
 EXCLUDE = 12
+LOOKBACK = 5
+DECAY = 0.7  # Recency decay factor (0.7 = recent series weighted ~2x more)
 
 # Performance rank by historical win rate (updated after each series)
 # S1=40.3%, S2=27.2%, S4=10.5%, S5=5.2%, S6=5.2%, S7=4.7%, S3=3.7%, S8=3.1%
@@ -74,15 +77,22 @@ def predict(data, series_id):
     freq = Counter(n for events in data.values() for e in events for n in e)
     max_freq = max(freq.values())
 
-    # Rank: Event1 numbers first, then by frequency
+    # Recency-weighted frequency (last 5 series with decay)
+    prev_series = sorted(int(s) for s in data if int(s) < series_id)[-LOOKBACK:]
+    recent_freq = Counter()
+    for i, s in enumerate(prev_series):
+        weight = DECAY ** (len(prev_series) - 1 - i)  # Most recent = weight 1.0
+        for e in data[str(s)]:
+            for n in e:
+                recent_freq[n] += weight
+    max_recent = max(recent_freq.values()) if recent_freq else 1
+
+    # Rank: Event1 first, then recent frequency, then global frequency
     ranked = sorted(range(1, TOTAL + 1),
-                    key=lambda n: (-(n in event1), -freq[n]/max_freq, n))
+                    key=lambda n: (-(n in event1), -recent_freq.get(n, 0)/max_recent,
+                                   -freq[n]/max_freq, n))
 
-    # Recent frequency for ML sets (last 5 series)
-    prev_series = sorted(int(s) for s in data if int(s) < series_id)[-5:]
-    recent_freq = Counter(n for s in prev_series for e in data[str(s)] for n in e)
-
-    # Hot numbers outside top 14
+    # Hot numbers outside top 14 (using recency-weighted frequency)
     non_top14 = [n for n in range(1, TOTAL + 1) if n not in ranked[:14]]
     hot_outside = sorted(non_top14, key=lambda n: -recent_freq.get(n, 0))[:3]
 
