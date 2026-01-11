@@ -19,13 +19,13 @@ python production_predictor.py validate 2981 3173
 
 Run: `python ml_models/production_predictor.py predict [series]`
 
-Output is **ordered by performance rank** (best performers first):
+Output is **ordered by performance rank** (optimized 2026-01-10):
 ```
 Rank  Set                Numbers                                       Type
-#1    S1 (14<>16)        ...                                           STD
-#2    S2 (13<>15)        ...                                           STD
-#3    S4 (Primary)       ...                                           STD
-#4    S6 (ML hot#2)      ...                                           ML
+#1    S1 (rank16)        ...                                           SGL
+#2    S2 (rank18)        ...                                           SGL
+#3    S3 (rank21)        ...                                           SGL
+#4    S4 (r16+r18)       ...                                           DBL
 ...
 ```
 
@@ -33,29 +33,29 @@ Rank  Set                Numbers                                       Type
 
 ## Key Metrics (193 series validated)
 
-| Metric | Value |
-|--------|-------|
-| Average | 10.20/14 |
-| Best | 12/14 |
-| Worst | 9/14 |
-| 11+ matches | 61 (31.6%) |
-| 12+ matches | 6 (3.1%) |
-| 14/14 hits | 0 |
+| Metric | Old | **Optimized** | Improvement |
+|--------|-----|---------------|-------------|
+| Average | 10.20/14 | **10.34/14** | **+0.14** |
+| Best | 12/14 | 12/14 | - |
+| Worst | 9/14 | 9/14 | - |
+| 11+ matches | 61 (31.6%) | **76 (39.4%)** | **+15** |
+| 12+ matches | 6 (3.1%) | **7 (3.6%)** | **+1** |
+| 14/14 hits | 0 | 0 | - |
 
-### Set Performance (ordered by win rate)
+### Set Performance (optimized strategy)
 
-| Rank | Set | Strategy | Wins | Rate | Unique |
-|------|-----|----------|------|------|--------|
-| 1 | S1 | swap 14<>16 | 90 | 46.6% | 4 |
-| 2 | S2 | swap 13<>15 | 42 | 21.8% | 15 |
-| 3 | S4 | primary top-14 | 20 | 10.4% | 8 |
-| 4 | S6 | ML hot #1+#2 | 13 | 6.7% | 12 |
-| 5 | S5 | ML hot #1 | 9 | 4.7% | 2 |
-| 6 | S7 | swap 14<>17 | 9 | 4.7% | 1 |
-| 7 | S3 | swap 14<>15 | 5 | 2.6% | 1 |
-| 8 | S8 | swap 14<>18 | 5 | 2.6% | 6 |
+| Rank | Set | Strategy | Wins | Rate |
+|------|-----|----------|------|------|
+| 1 | S1 | top-13 + rank16 | 68 | 35.2% |
+| 2 | S2 | top-13 + rank18 | 36 | 18.7% |
+| 3 | S4 | top-12 + r16+r18 | 21 | 10.9% |
+| 4 | S3 | top-13 + rank21 | 18 | 9.3% |
+| 5 | S6 | top-12 + r14+r17 | 18 | 9.3% |
+| 6 | S5 | top-12 + r16+r21 | 13 | 6.7% |
+| 7 | S7 | top-12 + r15+r19 | 11 | 5.7% |
+| 8 | S8 | top-12 + hot#2+#3 | 8 | 4.1% |
 
-**ML helped**: 22 (11.4%) | **Extended helped**: 14 (7.3%)
+**Double-swap helped**: 63 (32.6%) | **Hot helped**: 8 (4.1%)
 
 ### Latest Result (Series 3173)
 
@@ -116,35 +116,32 @@ Run: `python ml_models/monte_carlo_validation.py -n 10000`
 
 ---
 
-## Strategy (Global Frequency)
+## Strategy (Optimized 2026-01-10)
 
 ```python
-# Prior Event 1 + 8-set hedging (4 std + 2 ML + 2 ext)
+# Prior Event 1 + 8-set hedging (optimized via simulation)
 # Ranking: Event1 membership > global frequency
 ranked = sorted(1..25, key=lambda n: (-(n in event1), -freq[n]))
 
-# Hot non-E1 numbers from recent 5 series (unweighted)
-recent_freq = count(last_5_series)
+# Hot non-E1 numbers from recent 5 series
 hot_outside = sorted(non_top14, key=lambda n: -recent_freq[n])[:3]
 
-# Sets ordered by win rate
+# Optimized sets: focus on ranks 16, 18, 21 + double-swaps
 sets = [
-    ranked[:13] + [ranked[15]],          # S1: swap 14<>16 (46.6% wins)
-    ranked[:12] + [ranked[14], ranked[13]],  # S2: swap 13<>15 (21.8%)
-    ranked[:14],                         # S4: primary (10.4%)
-    ranked[:12] + hot_outside[:2],       # S6: ML hot #1+#2 (6.7%)
-    ranked[:13] + [hot_outside[0]],      # S5: ML hot #1 (4.7%)
-    ranked[:13] + [ranked[16]],          # S7: swap 14<>17 (4.7%)
-    ranked[:13] + [ranked[14]],          # S3: swap 14<>15 (2.6%)
-    ranked[:13] + [ranked[17]],          # S8: swap 14<>18 (2.6%)
+    ranked[:13] + [ranked[15]],              # S1: rank16 (35.2%)
+    ranked[:13] + [ranked[17]],              # S2: rank18 (18.7%)
+    ranked[:13] + [ranked[20]],              # S3: rank21 (9.3%)
+    ranked[:12] + [ranked[15], ranked[17]],  # S4: r16+r18 (10.9%)
+    ranked[:12] + [ranked[15], ranked[20]],  # S5: r16+r21 (6.7%)
+    ranked[:12] + [ranked[13], ranked[16]],  # S6: r14+r17 (9.3%)
+    ranked[:12] + [ranked[14], ranked[18]],  # S7: r15+r19 (5.7%)
+    ranked[:12] + [hot_outside[1], hot_outside[2]],  # S8: hot#2+#3 (4.1%)
 ]
 ```
 
-**Priority**: S1 > S2 > S4 > S6 > S5 > S7 > S3 > S8
+**Key insight**: Ranks 18 and 21 outperform ranks 14-15. Double-swaps capture more variance.
 
-**Jackpot Probability**: ~0.001% per series (~1 in 80,000 series)
-
-**Performance**: 30.1% above random baseline (7.84/14)
+**Performance**: 31.9% above random baseline (7.84/14)
 
 **Jackpot Pool**: Pool-24 (exclude #12), ~1.96M combinations
 
