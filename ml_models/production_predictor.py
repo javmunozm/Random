@@ -25,8 +25,8 @@ PICK = 14
 EXCLUDE = 12
 
 # Performance rank by historical win rate (optimized strategy)
-# S1=rank16, S2=rank18, S3=rank21, S4=r16+r18, S5=r16+r21, S6=r14+r17, S7=r15+r19, S8=hot
-PERF_RANK = [1, 2, 3, 4, 5, 6, 7, 8]  # Index = set-1, value = rank
+# Rank order: S1(35.2%) > S2(18.7%) > S4(10.9%) > S3(9.3%) > S6(9.3%) > S5(6.7%) > S7(5.7%) > S8(4.1%)
+PERF_RANK = [1, 2, 4, 3, 6, 5, 7, 8]  # Index = set-1, value = rank
 
 
 def load_data():
