@@ -1,6 +1,6 @@
 # Lottery Prediction Research
 
-**Status**: PRODUCTION READY | **Updated**: January 10, 2026
+**Status**: PRODUCTION READY | **Updated**: January 11, 2026
 
 ---
 
@@ -19,14 +19,17 @@ python production_predictor.py validate 2981 3173
 
 Run: `python ml_models/production_predictor.py predict [series]`
 
-Output is **ordered by performance rank** (optimized 2026-01-10):
+Output is **ordered by performance rank** (corrected 2026-01-11):
 ```
 Rank  Set                Numbers                                       Type
 #1    S1 (rank16)        ...                                           SGL
 #2    S2 (rank18)        ...                                           SGL
-#3    S3 (rank21)        ...                                           SGL
-#4    S4 (r16+r18)       ...                                           DBL
-...
+#3    S4 (r16+r18)       ...                                           DBL
+#4    S3 (rank21)        ...                                           SGL
+#5    S6 (r14+r17)       ...                                           DBL
+#6    S5 (r16+r21)       ...                                           DBL
+#7    S7 (r15+r19)       ...                                           DBL
+#8    S8 (hot#2+#3)      ...                                           HOT
 ```
 
 ---
