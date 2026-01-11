@@ -68,10 +68,10 @@ Rank  Set                Numbers                                       Type
 
 | Test | Value | Interpretation |
 |------|-------|----------------|
-| t-statistic | 45.25 | Extremely high |
-| p-value | 2.27e-104 | Highly significant |
-| Cohen's d | 2.30 | Large effect |
-| 95% CI | [10.09, 10.30] | Tight confidence |
+| t-statistic | 50.37 | Extremely high |
+| p-value | 1.30e-112 | Highly significant |
+| Cohen's d | 2.47 | Large effect |
+| 95% CI | [10.24, 10.44] | Tight confidence |
 | Percentile | 100% | Beats all random |
 
 *Reverted from recency-weighted algorithm (overfitting on recent data)*
