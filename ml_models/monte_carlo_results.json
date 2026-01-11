@@ -1,42 +1,42 @@
 {
-  "timestamp": "2026-01-08T10:27:55.780370",
+  "timestamp": "2026-01-10T22:54:37.921431",
   "config": {
     "series_range": [
       2981,
-      3172
+      3173
     ],
-    "n_series": 192,
+    "n_series": 193,
     "n_simulations": 10000,
     "seed": 42
   },
   "prediction": {
-    "mean": 10.213541666666666,
-    "std": 0.722570612418299,
+    "mean": 10.196891191709845,
+    "std": 0.7216781490768973,
     "min": 9,
     "max": 12,
     "ci_95": [
-      10.110414697635372,
-      10.31666863569796
+      10.094163586746115,
+      10.299618796673576
     ],
     "distribution": {
-      "10": 101,
+      "10": 103,
       "12": 6,
-      "11": 57,
-      "9": 28
+      "11": 55,
+      "9": 29
     }
   },
   "random_baseline": {
     "theoretical_mean": 7.84,
     "theoretical_std": 1.257404734628698,
-    "simulated_mean": 9.495884895833333,
-    "simulated_std": 0.8112854661488546
+    "simulated_mean": 9.495965803108808,
+    "simulated_std": 0.8112379683653984
   },
   "statistics": {
-    "improvement": 2.373541666666666,
-    "improvement_pct": 30.27476615646258,
-    "t_statistic": 45.3976371321563,
-    "p_value": 2.8138603606112335e-104,
-    "cohens_d": 2.3145904502385815,
+    "improvement": 2.3568911917098454,
+    "improvement_pct": 30.06238764936027,
+    "t_statistic": 45.252918322935486,
+    "p_value": 2.2662633142381623e-104,
+    "cohens_d": 2.2990581214502464,
     "effect_size": "large",
     "percentile_rank": 100.0,
     "significant_001": true,
