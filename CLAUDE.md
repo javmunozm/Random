@@ -76,6 +76,24 @@ Rank  Set                Numbers                                       Type
 
 *Reverted from recency-weighted algorithm (overfitting on recent data)*
 
+### E1-Correlated Simulation (50K trials)
+
+Models the conditional probability structure: P(position | E1 carryover count)
+
+| E1 Carryover | P(rank-14) | P(rank-16) | Implication |
+|--------------|------------|------------|-------------|
+| 5-6 (low) | 32-42% | 77-81% | S1 strong edge |
+| 7-8 (mode) | 48-50% | 60-65% | S1 moderate edge |
+| 9-10 (high) | 60-64% | 37-47% | S4 catches up |
+
+**Series 3174 Projection**:
+- Mean: 10.15/14
+- P(11+): 30.4%
+- P(12+): 3.0%
+- P(14/14): ~0%
+
+Run: `python ml_models/e1_correlated_simulation.py 10000`
+
 ### Convergence Analysis
 - **Saturation**: ~60 series (model maxed)
 - **Optimal lookback**: 5 series (confirmed)
@@ -136,11 +154,12 @@ sets = [
 
 ```
 ml_models/
-├── production_predictor.py   # ~290 lines, core logic
-├── monte_carlo_validation.py # Statistical validation
-├── bootstrap_analysis.py     # CI estimation
-├── convergence_analysis.py   # Learning curves
-└── stress_test.py            # Performance testing
+├── production_predictor.py      # ~290 lines, core logic
+├── e1_correlated_simulation.py  # E1 correlation model
+├── monte_carlo_validation.py    # Statistical validation
+├── bootstrap_analysis.py        # CI estimation
+├── convergence_analysis.py      # Learning curves
+└── stress_test.py               # Performance testing
 ```
 
 ---
