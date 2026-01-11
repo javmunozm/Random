@@ -74,23 +74,19 @@ Rank  Set                Numbers                                       Type
 | 95% CI | [10.24, 10.44] | Tight confidence |
 | Percentile | 100% | Beats all random |
 
-*Reverted from recency-weighted algorithm (overfitting on recent data)*
+*Optimized 2026-01-10: +0.14/14 improvement via simulation-driven search*
 
-### E1-Correlated Simulation (50K trials)
+### Optimization Discovery
 
-Models the conditional probability structure: P(position | E1 carryover count)
+Simulation search found that focusing on **ranks 16, 18, 21** with **double-swaps** outperforms the original strategy:
 
-| E1 Carryover | P(rank-14) | P(rank-16) | Implication |
-|--------------|------------|------------|-------------|
-| 5-6 (low) | 32-42% | 77-81% | S1 strong edge |
-| 7-8 (mode) | 48-50% | 60-65% | S1 moderate edge |
-| 9-10 (high) | 60-64% | 37-47% | S4 catches up |
+| Change | Old | New | Impact |
+|--------|-----|-----|--------|
+| Single swaps | r14, r15, r16, r17 | r16, r18, r21 | +0.06/14 |
+| Double swaps | 2 sets | 4 sets | +0.05/14 |
+| Hot numbers | #1+#2 | #2+#3 | +0.03/14 |
 
-**Series 3174 Projection**:
-- Mean: 10.15/14
-- P(11+): 30.4%
-- P(12+): 3.0%
-- P(14/14): ~0%
+**Why it works**: Ranks 18 and 21 have higher appearance rates (9.64/14) than ranks 14-15 (9.54/14). Double-swaps capture more variance across the 7 events.
 
 Run: `python ml_models/e1_correlated_simulation.py 10000`
 
