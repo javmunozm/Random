@@ -422,7 +422,7 @@ def test_evaluate_function(data):
             if result is None:
                 errors.append("Result is None")
             else:
-                required_keys = ["series", "set_bests", "best", "winner", "ml_helped", "ext_helped"]
+                required_keys = ["series", "set_bests", "best", "winner", "double_helped", "hot_helped"]
                 for key in required_keys:
                     if key not in result:
                         errors.append(f"Missing key: {key}")
@@ -509,7 +509,7 @@ def test_validate_function(data):
         if result is None:
             errors.append("Result is None")
         else:
-            required_keys = ["tested", "avg", "best", "worst", "wins", "at_11", "at_12", "at_14", "ml_helped", "ext_helped"]
+            required_keys = ["tested", "avg", "best", "worst", "wins", "at_11", "at_12", "at_14", "double_helped", "hot_helped"]
             for key in required_keys:
                 if key not in result:
                     errors.append(f"Missing key: {key}")

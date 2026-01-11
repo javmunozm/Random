@@ -131,30 +131,30 @@ def simulate_event(e1_ranked, non_e1_ranked, structure):
     return selected_e1 | selected_non_e1
 
 def build_sets(ranked, non_e1_ranked):
-    """Build 8 prediction sets in order (S1-S8). Ties go to lowest index."""
+    """Build 8 prediction sets in order (S1-S8). Optimized strategy (2026-01-10)."""
     # Order matters for tie-breaking: first set to achieve max wins
     return [
-        ('S1', set(ranked[:13] + [ranked[15]])),           # swap 14<>16
-        ('S2', set(ranked[:12] + [ranked[14], ranked[13]])),  # swap 13<>15
-        ('S3', set(ranked[:13] + [ranked[14]])),           # swap 14<>15
-        ('S4', set(ranked[:14])),                          # primary
-        ('S5', set(ranked[:13] + [non_e1_ranked[0]])),     # ML hot #1
-        ('S6', set(ranked[:12] + [non_e1_ranked[0], non_e1_ranked[1]])),  # ML hot #1+#2
-        ('S7', set(ranked[:13] + [ranked[16]])),           # swap 14<>17
-        ('S8', set(ranked[:13] + [ranked[17]])),           # swap 14<>18
+        ('S1', set(ranked[:13] + [ranked[15]])),              # top-13 + rank16
+        ('S2', set(ranked[:13] + [ranked[17]])),              # top-13 + rank18
+        ('S3', set(ranked[:13] + [ranked[20]])),              # top-13 + rank21
+        ('S4', set(ranked[:12] + [ranked[15], ranked[17]])),  # top-12 + r16+r18
+        ('S5', set(ranked[:12] + [ranked[15], ranked[20]])),  # top-12 + r16+r21
+        ('S6', set(ranked[:12] + [ranked[13], ranked[16]])),  # top-12 + r14+r17
+        ('S7', set(ranked[:12] + [ranked[14], ranked[18]])),  # top-12 + r15+r19
+        ('S8', set(ranked[:12] + [non_e1_ranked[1], non_e1_ranked[2]])),  # hot #2+#3
     ]
 
 def build_sets_with_ml(ranked, hot_outside):
-    """Build 8 prediction sets with specific hot_outside numbers."""
+    """Build 8 prediction sets with specific hot_outside numbers. Optimized strategy (2026-01-10)."""
     return [
-        ('S1', set(ranked[:13] + [ranked[15]])),           # swap 14<>16
-        ('S2', set(ranked[:12] + [ranked[14], ranked[13]])),  # swap 13<>15
-        ('S3', set(ranked[:13] + [ranked[14]])),           # swap 14<>15
-        ('S4', set(ranked[:14])),                          # primary
-        ('S5', set(ranked[:13] + [hot_outside[0]])),       # ML hot #1
-        ('S6', set(ranked[:12] + hot_outside[:2])),        # ML hot #1+#2
-        ('S7', set(ranked[:13] + [ranked[16]])),           # swap 14<>17
-        ('S8', set(ranked[:13] + [ranked[17]])),           # swap 14<>18
+        ('S1', set(ranked[:13] + [ranked[15]])),              # top-13 + rank16
+        ('S2', set(ranked[:13] + [ranked[17]])),              # top-13 + rank18
+        ('S3', set(ranked[:13] + [ranked[20]])),              # top-13 + rank21
+        ('S4', set(ranked[:12] + [ranked[15], ranked[17]])),  # top-12 + r16+r18
+        ('S5', set(ranked[:12] + [ranked[15], ranked[20]])),  # top-12 + r16+r21
+        ('S6', set(ranked[:12] + [ranked[13], ranked[16]])),  # top-12 + r14+r17
+        ('S7', set(ranked[:12] + [ranked[14], ranked[18]])),  # top-12 + r15+r19
+        ('S8', set(ranked[:12] + [hot_outside[1], hot_outside[2]])),  # hot #2+#3
     ]
 
 def run_simulation(n_sims=10000, seed=42, backtest=False):
@@ -286,8 +286,9 @@ def run_simulation(n_sims=10000, seed=42, backtest=False):
     print("\n" + "=" * 70)
     print("COMPARISON TO HISTORICAL")
     print("=" * 70)
-    historical = {'S1': 46.6, 'S2': 21.8, 'S3': 2.6, 'S4': 10.4,
-                  'S5': 4.7, 'S6': 6.7, 'S7': 4.7, 'S8': 2.6}
+    # Historical win rates from optimized strategy (2026-01-10)
+    historical = {'S1': 35.2, 'S2': 18.7, 'S3': 9.3, 'S4': 10.9,
+                  'S5': 6.7, 'S6': 9.3, 'S7': 5.7, 'S8': 4.1}
 
     print(f"{'Set':<6} {'Historical':>12} {'Simulated':>12} {'Diff':>10}")
     print("-" * 42)

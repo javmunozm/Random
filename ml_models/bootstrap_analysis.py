@@ -22,7 +22,7 @@ from scipy import stats
 N_BOOTSTRAP = 10000
 RANDOM_SEED = 42
 SERIES_START = 2981
-SERIES_END = 3171
+SERIES_END = 3173  # Updated to latest series
 RANDOM_BASELINE = 7.84  # Expected matches for random selection
 
 def load_data():
@@ -62,16 +62,16 @@ def get_all_results(data, start, end):
         non_top14 = [n for n in range(1, TOTAL + 1) if n not in ranked[:14]]
         hot_outside = sorted(non_top14, key=lambda n: -recent_freq.get(n, 0))[:3]
 
-        # 8 prediction sets
+        # 8 prediction sets (optimized strategy 2026-01-10)
         sets = [
-            sorted(ranked[:13] + [ranked[15]]),              # Set 1: swap 14<>16
-            sorted(ranked[:12] + [ranked[14], ranked[13]]),  # Set 2: swap 13<>15
-            sorted(ranked[:13] + [ranked[14]]),              # Set 3: swap 14<>15
-            sorted(ranked[:14]),                             # Set 4: primary
-            sorted(ranked[:13] + [hot_outside[0]]),          # Set 5: ML hot #1
-            sorted(ranked[:12] + hot_outside[:2]),           # Set 6: ML hot #1+#2
-            sorted(ranked[:13] + [ranked[16]]),              # Set 7: swap 14<>17
-            sorted(ranked[:13] + [ranked[17]]),              # Set 8: swap 14<>18
+            sorted(ranked[:13] + [ranked[15]]),              # Set 1: top-13 + rank16
+            sorted(ranked[:13] + [ranked[17]]),              # Set 2: top-13 + rank18
+            sorted(ranked[:13] + [ranked[20]]),              # Set 3: top-13 + rank21
+            sorted(ranked[:12] + [ranked[15], ranked[17]]),  # Set 4: top-12 + r16+r18
+            sorted(ranked[:12] + [ranked[15], ranked[20]]),  # Set 5: top-12 + r16+r21
+            sorted(ranked[:12] + [ranked[13], ranked[16]]),  # Set 6: top-12 + r14+r17
+            sorted(ranked[:12] + [ranked[14], ranked[18]]),  # Set 7: top-12 + r15+r19
+            sorted(ranked[:12] + [hot_outside[1], hot_outside[2]]),  # Set 8: hot #2+#3
         ]
 
         # Evaluate against actual events
