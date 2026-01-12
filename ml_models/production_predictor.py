@@ -5,11 +5,14 @@ Production Predictor
 
 Goal: Hit 14/14 at least once.
 
-Strategy: Prior Event 1 + 8-set hedging (optimized via simulation).
-Performance: 10.34/14 avg, 31.9% above random baseline.
+Strategy: Prior Event 1 + 8-set hedging (r15_heavy strategy).
+Performance: 10.26/14 avg, 11 series with 12+ matches.
 
-Optimized 2026-01-10: Simulation found +0.145/14 improvement by focusing
-on ranks 16, 18, 21 and using double-swaps instead of primary/single-swaps.
+Ranking (2026-01-12): Prioritize 12+ potential over win rate.
+- S4 (r15+r16) leads with 4x 12+ scores
+- S1 (r16) wins often but has 0x 12+ (ceiling limited)
+- r16 correlates with high-top13 events; r15 with low-top13 events
+- r15 value comes from COMBINING with r16 (S4), not as single-swap (S2)
 """
 
 import json
@@ -24,9 +27,10 @@ TOTAL = 25
 PICK = 14
 EXCLUDE = 12
 
-# Performance rank by historical win rate (optimized strategy)
-# Rank order: S1(35.2%) > S2(18.7%) > S4(10.9%) > S3(9.3%) > S6(9.3%) > S5(6.7%) > S7(5.7%) > S8(4.1%)
-PERF_RANK = [1, 2, 4, 3, 6, 5, 7, 8]  # Index = set-1, value = rank
+# Performance rank by 12+ potential (goal: hit 14/14)
+# Rank order: S4(4×12+) > S7(3×12+) > S3(2×12+) > S8(2×12+) > S6(1×12+) > S5(1×12+) > S2(1×12+) > S1(0×12+)
+# Key insight: S1 wins often but never reaches 12+; S4 has highest ceiling
+PERF_RANK = [8, 7, 3, 1, 6, 5, 2, 4]  # Index = set-1, value = rank
 
 
 def load_data():
@@ -49,24 +53,24 @@ def latest(data):
 
 def predict(data, series_id):
     """
-    Generate 8 prediction sets (optimized via simulation).
+    Generate 8 prediction sets (r15_heavy strategy).
 
     Single-swap sets (top-13 + one rank):
-    - Set 1: top-13 + rank16 (best single performer)
-    - Set 2: top-13 + rank18
-    - Set 3: top-13 + rank21
+    - Set 1: top-13 + rank16 (best performer, 40.4%)
+    - Set 2: top-13 + rank15 (8.3%)
+    - Set 3: top-13 + rank18 (15.5%)
 
     Double-swap sets (top-12 + two ranks):
-    - Set 4: top-12 + rank16 + rank18
-    - Set 5: top-12 + rank16 + rank21
-    - Set 6: top-12 + rank14 + rank17
-    - Set 7: top-12 + rank15 + rank19
+    - Set 4: top-12 + r15 + r16 (15.5%)
+    - Set 5: top-12 + r15 + r18 (6.7%)
+    - Set 6: top-12 + r16 + r18 (5.2%)
+    - Set 7: top-12 + r15 + r19 (4.1%)
 
     Hot set:
-    - Set 8: top-12 + hot#2 + hot#3
+    - Set 8: top-12 + hot#2 + hot#3 (4.1%)
 
-    Performance: 10.34/14 avg, 31.9% above random baseline.
-    Optimized 2026-01-10: +0.145/14 vs previous strategy.
+    Performance: 10.28/14 avg, 10 series with 12+ (vs 7 previous).
+    Optimized 2026-01-11: r15_heavy focuses on rank15 to capture near-misses.
     """
     prior = str(series_id - 1)
     if prior not in data:
@@ -90,14 +94,14 @@ def predict(data, series_id):
     non_top14 = [n for n in range(1, TOTAL + 1) if n not in ranked[:14]]
     hot_outside = sorted(non_top14, key=lambda n: -recent_freq.get(n, 0))[:3]
 
-    # 8 sets - optimized via simulation (2026-01-10)
+    # 8 sets - r15_heavy strategy (2026-01-11)
     sets = [
         sorted(ranked[:13] + [ranked[15]]),              # Set 1: top-13 + rank16
-        sorted(ranked[:13] + [ranked[17]]),              # Set 2: top-13 + rank18
-        sorted(ranked[:13] + [ranked[20]]),              # Set 3: top-13 + rank21
-        sorted(ranked[:12] + [ranked[15], ranked[17]]),  # Set 4: top-12 + r16 + r18
-        sorted(ranked[:12] + [ranked[15], ranked[20]]),  # Set 5: top-12 + r16 + r21
-        sorted(ranked[:12] + [ranked[13], ranked[16]]),  # Set 6: top-12 + r14 + r17
+        sorted(ranked[:13] + [ranked[14]]),              # Set 2: top-13 + rank15
+        sorted(ranked[:13] + [ranked[17]]),              # Set 3: top-13 + rank18
+        sorted(ranked[:12] + [ranked[14], ranked[15]]),  # Set 4: top-12 + r15 + r16
+        sorted(ranked[:12] + [ranked[14], ranked[17]]),  # Set 5: top-12 + r15 + r18
+        sorted(ranked[:12] + [ranked[15], ranked[17]]),  # Set 6: top-12 + r16 + r18
         sorted(ranked[:12] + [ranked[14], ranked[18]]),  # Set 7: top-12 + r15 + r19
         sorted(ranked[:12] + [hot_outside[1], hot_outside[2]]),  # Set 8: hot #2+#3
     ]
@@ -246,11 +250,11 @@ def main():
         print("-" * 75)
         labels = [
             "S1 (rank16)",     # Single swap
-            "S2 (rank18)",     # Single swap
-            "S3 (rank21)",     # Single swap
-            "S4 (r16+r18)",    # Double swap
-            "S5 (r16+r21)",    # Double swap
-            "S6 (r14+r17)",    # Double swap
+            "S2 (rank15)",     # Single swap
+            "S3 (rank18)",     # Single swap
+            "S4 (r15+r16)",    # Double swap
+            "S5 (r15+r18)",    # Double swap
+            "S6 (r16+r18)",    # Double swap
             "S7 (r15+r19)",    # Double swap
             "S8 (hot#2+#3)",   # Hot
         ]
