@@ -28,7 +28,7 @@ def analyze():
     print("SET-BY-SET PERFORMANCE ANALYSIS")
     print("=" * 70)
 
-    n_sets = 12  # 12-set multi-event strategy (E1+E3+E6+E7)
+    n_sets = 18  # 18-set multi-event strategy (E1+E3+E6+E7+#12+swaps)
     set_scores = {i: [] for i in range(1, n_sets + 1)}
     set_wins = Counter()
     set_at_12 = Counter()
@@ -49,7 +49,8 @@ def analyze():
     print()
     print(f"{'Set':<6} {'Wins':>6} {'Win%':>8} {'Avg':>8} {'12+':>6} {'13+':>6} {'14':>6}")
     print('-' * 50)
-    labels = ['S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8', 'S9', 'S10', 'S11', 'S12']
+    labels = ['S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8', 'S9', 'S10', 'S11', 'S12',
+              'S13', 'S14', 'S15', 'S16', 'S17', 'S18']
     for i in range(1, n_sets + 1):
         wins = set_wins[i]
         avg = sum(set_scores[i]) / len(set_scores[i]) if set_scores[i] else 0

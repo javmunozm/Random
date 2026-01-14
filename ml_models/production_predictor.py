@@ -28,9 +28,9 @@ PICK = 14
 EXCLUDE = 12
 
 # Performance rank by 13+/12+ potential (goal: hit 14/14)
-# S9 (E6) reached 13/14! E3/E7 add 4 more 12+ opportunities.
-# Rank: S9(13+) > S11(E3,2x12+) > S12(E7,2x12+) > S4(4x12+) > S7(3x12+) > rest
-PERF_RANK = [12, 11, 6, 4, 10, 9, 5, 7, 1, 8, 2, 3]  # Index = set-1, value = rank (12 sets)
+# S9 (E6) reached 13/14! New sets: S13-S14 (#12), S15-S18 (swaps)
+# Rank: S9(13+) > S11/S12(2x12+) > S15-S17(swaps) > S13-S14(#12) > S4(4x12+) > rest
+PERF_RANK = [18, 17, 10, 8, 16, 15, 9, 13, 1, 14, 2, 3, 6, 7, 4, 5, 11, 12]  # 18 sets
 
 
 def load_data():
@@ -48,12 +48,12 @@ def latest(data):
 
 
 # =============================================================================
-# PREDICTION - The 12-set hedge logic lives HERE and ONLY here
+# PREDICTION - The 18-set hedge logic lives HERE and ONLY here
 # =============================================================================
 
 def predict(data, series_id):
     """
-    Generate 12 prediction sets (multi-event E1+E3+E6+E7 strategy).
+    Generate 18 prediction sets (multi-event E1+E3+E6+E7 + #12 inclusion + swaps).
 
     E1-based sets (S1-S8):
     - Set 1-3: Single swaps (top-13 + rank 15/16/18)
@@ -66,7 +66,15 @@ def predict(data, series_id):
     - Set 11: Prior E3 directly (2x 12/14, independent)
     - Set 12: Prior E7 directly (2x 12/14, independent)
 
-    Performance: 10.35/14 avg, 13/14 ceiling, 7x 12+ events.
+    #12 inclusion sets (S13-S14) - #12 in 20% of missed 12+ events:
+    - Set 13: top-12 + #12 + rank16 (force #12)
+    - Set 14: top-12 + #12 + rank15 (force #12)
+
+    Multi-event swap variants (S15-S18) - hot number injection:
+    - Set 15: E6 top-13 + hot outside E6
+    - Set 16: E3 top-13 + hot outside E3
+    - Set 17: E7 top-13 + hot outside E7
+    - Set 18: E3 & E7 intersection + fill from union
     """
     prior = str(series_id - 1)
     if prior not in data:
@@ -99,7 +107,36 @@ def predict(data, series_id):
     remaining = sorted(union - intersection, key=lambda n: -freq[n])
     s10_numbers = list(intersection) + remaining[:14 - len(intersection)]
 
-    # 12 sets - multi-event strategy (2026-01-13)
+    # #12 inclusion sets (S13-S14)
+    # Force #12 into prediction by taking top-12 (excluding #12) + #12 + rank
+    top12_no12 = [n for n in ranked[:14] if n != EXCLUDE][:12]
+    s13_numbers = top12_no12 + [EXCLUDE, ranked[15]]  # +#12 + rank16
+    s14_numbers = top12_no12 + [EXCLUDE, ranked[14]]  # +#12 + rank15
+
+    # Multi-event swap variants (S15-S17)
+    # Rank each event by global frequency, take top-13, add hot outside
+    e6_ranked = sorted(event6, key=lambda n: -freq[n])
+    e3_ranked = sorted(event3, key=lambda n: -freq[n])
+    e7_ranked = sorted(event7, key=lambda n: -freq[n])
+
+    hot_outside_e6 = sorted([n for n in range(1, TOTAL+1) if n not in event6],
+                            key=lambda n: -recent_freq.get(n, 0))[0]
+    hot_outside_e3 = sorted([n for n in range(1, TOTAL+1) if n not in event3],
+                            key=lambda n: -recent_freq.get(n, 0))[0]
+    hot_outside_e7 = sorted([n for n in range(1, TOTAL+1) if n not in event7],
+                            key=lambda n: -recent_freq.get(n, 0))[0]
+
+    s15_numbers = e6_ranked[:13] + [hot_outside_e6]  # E6 top-13 + hot
+    s16_numbers = e3_ranked[:13] + [hot_outside_e3]  # E3 top-13 + hot
+    s17_numbers = e7_ranked[:13] + [hot_outside_e7]  # E7 top-13 + hot
+
+    # E3 & E7 combined set (S18)
+    e3_e7_intersection = event3 & event7
+    e3_e7_union = event3 | event7
+    e3_e7_remaining = sorted(e3_e7_union - e3_e7_intersection, key=lambda n: -freq[n])
+    s18_numbers = list(e3_e7_intersection) + e3_e7_remaining[:14 - len(e3_e7_intersection)]
+
+    # 18 sets - expanded multi-event strategy (2026-01-13)
     sets = [
         sorted(ranked[:13] + [ranked[15]]),              # S1: top-13 + rank16
         sorted(ranked[:13] + [ranked[14]]),              # S2: top-13 + rank15
@@ -113,6 +150,12 @@ def predict(data, series_id):
         sorted(s10_numbers),                              # S10: E1 & E6 combined
         sorted(event3),                                   # S11: E3 directly (2x 12+)
         sorted(event7),                                   # S12: E7 directly (2x 12+)
+        sorted(s13_numbers),                              # S13: top-12 + #12 + r16
+        sorted(s14_numbers),                              # S14: top-12 + #12 + r15
+        sorted(s15_numbers),                              # S15: E6 top-13 + hot
+        sorted(s16_numbers),                              # S16: E3 top-13 + hot
+        sorted(s17_numbers),                              # S17: E7 top-13 + hot
+        sorted(s18_numbers),                              # S18: E3 & E7 combined
     ]
 
     return {"series": series_id, "sets": sets, "ranked": ranked,
@@ -125,7 +168,7 @@ def predict(data, series_id):
 # =============================================================================
 
 def evaluate(data, series_id, pred=None):
-    """Evaluate prediction - best match across 12 sets x 7 events."""
+    """Evaluate prediction - best match across 18 sets x 7 events."""
     sid = str(series_id)
     if sid not in data:
         return None
@@ -143,16 +186,13 @@ def evaluate(data, series_id, pred=None):
 
     best = max(set_bests)
     winner = set_bests.index(best) + 1
-    # S1-S3: single swaps, S4-S7: double swaps, S8: hot, S9-S12: multi-event
-    single_best = max(set_bests[:3])
-    double_helped = winner in [4, 5, 6, 7] and set_bests[winner-1] > single_best
-    hot_helped = winner == 8 and set_bests[7] > max(single_best, max(set_bests[3:7]))
-    e3_helped = winner == 11 and set_bests[10] > max(set_bests[:10])
-    e7_helped = winner == 12 and set_bests[11] > max(set_bests[:11])
+    # Track which category helped
+    base_best = max(set_bests[:12])  # Original 12 sets
+    n12_helped = winner in [13, 14] and set_bests[winner-1] > base_best
+    swap_helped = winner in [15, 16, 17, 18] and set_bests[winner-1] > base_best
 
     return {"series": series_id, "set_bests": set_bests, "best": best, "winner": winner,
-            "double_helped": double_helped, "hot_helped": hot_helped,
-            "e3_helped": e3_helped, "e7_helped": e7_helped}
+            "n12_helped": n12_helped, "swap_helped": swap_helped}
 
 
 # =============================================================================
@@ -210,21 +250,15 @@ def validate(data, start, end):
 
     n = len(results)
     bests = [r["best"] for r in results]
-    wins = [0] * 12  # 12 sets now
-    double_helped_count = 0
-    hot_helped_count = 0
-    e3_helped_count = 0
-    e7_helped_count = 0
+    wins = [0] * 18  # 18 sets now
+    n12_helped_count = 0
+    swap_helped_count = 0
     for r in results:
         wins[r["winner"] - 1] += 1
-        if r.get("double_helped"):
-            double_helped_count += 1
-        if r.get("hot_helped"):
-            hot_helped_count += 1
-        if r.get("e3_helped"):
-            e3_helped_count += 1
-        if r.get("e7_helped"):
-            e7_helped_count += 1
+        if r.get("n12_helped"):
+            n12_helped_count += 1
+        if r.get("swap_helped"):
+            swap_helped_count += 1
 
     return {
         "tested": n,
@@ -235,10 +269,8 @@ def validate(data, start, end):
         "at_11": sum(1 for b in bests if b >= 11),
         "at_12": sum(1 for b in bests if b >= 12),
         "at_14": sum(1 for b in bests if b == 14),
-        "double_helped": double_helped_count,
-        "hot_helped": hot_helped_count,
-        "e3_helped": e3_helped_count,
-        "e7_helped": e7_helped_count,
+        "n12_helped": n12_helped_count,
+        "swap_helped": swap_helped_count,
     }
 
 
@@ -251,11 +283,11 @@ def main():
     last = latest(data)
 
     if len(sys.argv) < 2:
-        print("Production Predictor (12-Set Multi-Event)")
+        print("Production Predictor (18-Set Multi-Event)")
         print("=" * 50)
         print("Goal: Hit 14/14")
         print("\nCommands:")
-        print("  predict [series]  - 12-set prediction (E1+E3+E6+E7)")
+        print("  predict [series]  - 18-set prediction (E1+E3+E6+E7+#12+swaps)")
         print("  find [series]     - Find jackpot")
         print("  validate [s] [e]  - Test accuracy")
         print(f"\nLatest: {last}")
@@ -266,10 +298,10 @@ def main():
     if cmd == "predict":
         sid = int(sys.argv[2]) if len(sys.argv) > 2 else last + 1
         r = predict(data, sid)
-        print(f"\nSeries {sid} Prediction (12-Set Multi-Event)")
-        print("=" * 75)
+        print(f"\nSeries {sid} Prediction (18-Set Multi-Event)")
+        print("=" * 80)
         print(f"{'Rank':<5} {'Set':<18} {'Numbers':<45} {'Type'}")
-        print("-" * 75)
+        print("-" * 80)
         labels = [
             "S1 (rank16)",     # Single swap
             "S2 (rank15)",     # Single swap
@@ -283,15 +315,22 @@ def main():
             "S10 (E1&E6)",     # E1 & E6 combined
             "S11 (E3)",        # Event 3 directly
             "S12 (E7)",        # Event 7 directly
+            "S13 (#12+r16)",   # #12 inclusion
+            "S14 (#12+r15)",   # #12 inclusion
+            "S15 (E6+hot)",    # E6 swap
+            "S16 (E3+hot)",    # E3 swap
+            "S17 (E7+hot)",    # E7 swap
+            "S18 (E3&E7)",     # E3 & E7 combined
         ]
-        types = ["SGL", "SGL", "SGL", "DBL", "DBL", "DBL", "DBL", "HOT", "E6", "MIX", "E3", "E7"]
+        types = ["SGL", "SGL", "SGL", "DBL", "DBL", "DBL", "DBL", "HOT",
+                 "E6", "MIX", "E3", "E7", "#12", "#12", "E6S", "E3S", "E7S", "MIX"]
         # Sort by performance rank for display
-        order = sorted(range(12), key=lambda i: PERF_RANK[i])
+        order = sorted(range(18), key=lambda i: PERF_RANK[i])
         for idx in order:
             s = r["sets"][idx]
             nums = ' '.join(f'{n:02d}' for n in s)
             print(f"#{PERF_RANK[idx]:<4} {labels[idx]:<18} {nums:<45} {types[idx]}")
-        print("-" * 75)
+        print("-" * 80)
         print(f"Hot outside top-14: {r['hot_outside']}")
         print(f"Event 3: {r['event3']}")
         print(f"Event 6: {r['event6']}")
@@ -318,11 +357,13 @@ def main():
             print(f"14/14:   {r['at_14']}")
             w = r['wins']
             print(f"\nSingle:  S1={w[0]} S2={w[1]} S3={w[2]}")
-            print(f"Double:  S4={w[3]} S5={w[4]} S6={w[5]} S7={w[6]} (helped={r['double_helped']})")
-            print(f"Hot:     S8={w[7]} (helped={r['hot_helped']})")
+            print(f"Double:  S4={w[3]} S5={w[4]} S6={w[5]} S7={w[6]}")
+            print(f"Hot:     S8={w[7]}")
             print(f"E6:      S9={w[8]} S10={w[9]}")
-            print(f"E3:      S11={w[10]} (helped={r['e3_helped']})")
-            print(f"E7:      S12={w[11]} (helped={r['e7_helped']})")
+            print(f"E3:      S11={w[10]}")
+            print(f"E7:      S12={w[11]}")
+            print(f"#12:     S13={w[12]} S14={w[13]} (helped={r['n12_helped']})")
+            print(f"Swaps:   S15={w[14]} S16={w[15]} S17={w[16]} S18={w[17]} (helped={r['swap_helped']})")
     else:
         print(f"Unknown: {cmd}")
 

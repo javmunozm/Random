@@ -86,7 +86,7 @@ class MonteCarloValidator:
         n_series = len(series_ids)
 
         print("=" * 70)
-        print("MONTE CARLO VALIDATION - Production Predictor (12-Set)")
+        print("MONTE CARLO VALIDATION - Production Predictor (18-Set)")
         print("=" * 70)
         print(f"Series range: {start}-{end} ({n_series} series)")
         print(f"Simulations:  {n_sims:,}")

@@ -153,7 +153,7 @@ def analyze_errors():
     print("SET CONSISTENCY (Std Dev of Scores)")
     print("-" * 50)
 
-    n_sets = 12  # 12-set multi-event strategy (E1+E3+E6+E7)
+    n_sets = 18  # 18-set multi-event strategy (E1+E3+E6+E7+#12+swaps)
     set_scores = {i: [] for i in range(1, n_sets + 1)}
 
     for r in results:
@@ -161,7 +161,8 @@ def analyze_errors():
             set_scores[i].append(score)
 
     import statistics
-    labels = ['S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8', 'S9', 'S10', 'S11', 'S12']
+    labels = ['S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8', 'S9', 'S10', 'S11', 'S12',
+              'S13', 'S14', 'S15', 'S16', 'S17', 'S18']
     print(f"\n{'Set':<6} {'Mean':>8} {'StdDev':>8} {'CV':>8}")
     print("-" * 35)
     for i in range(1, n_sets + 1):
