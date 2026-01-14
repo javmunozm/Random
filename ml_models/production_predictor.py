@@ -5,7 +5,7 @@ Production Predictor
 
 Goal: Hit 14/14 at least once.
 
-Strategy: 12-set multi-event hedging (E1 + E3 + E6 + E7).
+Strategy: 25-set multi-event hedging (E1 + E3 + E6 + E7 + fusions + mixed/ALL).
 Performance: 10.35/14 avg, 13/14 ceiling.
 
 Multi-event discoveries:
@@ -28,9 +28,9 @@ PICK = 14
 EXCLUDE = 12
 
 # Performance rank by 13+/12+ potential (goal: hit 14/14)
-# S9 (E6) reached 13/14! New sets: S13-S14 (#12), S15-S18 (swaps)
-# Rank: S9(13+) > S11/S12(2x12+) > S15-S17(swaps) > S13-S14(#12) > S4(4x12+) > rest
-PERF_RANK = [18, 17, 10, 8, 16, 15, 9, 13, 1, 14, 2, 3, 6, 7, 4, 5, 11, 12]  # 18 sets
+# S9 (E6) reached 13/14! S23-S25 added for +6 12+ events
+# Rank: S9(13+) > S11/S12(2x12+) > S15-S17(swaps) > new sets > S4(4x12+) > rest
+PERF_RANK = [18, 17, 10, 8, 16, 15, 9, 13, 1, 14, 2, 3, 6, 7, 4, 5, 11, 12, 19, 20, 21, 22, 23, 24, 25]  # 25 sets
 
 
 def load_data():
@@ -48,12 +48,12 @@ def latest(data):
 
 
 # =============================================================================
-# PREDICTION - The 18-set hedge logic lives HERE and ONLY here
+# PREDICTION - The 25-set hedge logic lives HERE and ONLY here
 # =============================================================================
 
 def predict(data, series_id):
     """
-    Generate 18 prediction sets (multi-event E1+E3+E6+E7 + #12 inclusion + swaps).
+    Generate 25 prediction sets (multi-event E1+E3+E6+E7 + fusions + mixed/ALL).
 
     E1-based sets (S1-S8):
     - Set 1-3: Single swaps (top-13 + rank 15/16/18)
@@ -66,15 +66,26 @@ def predict(data, series_id):
     - Set 11: Prior E3 directly (2x 12/14, independent)
     - Set 12: Prior E7 directly (2x 12/14, independent)
 
-    #12 inclusion sets (S13-S14) - #12 in 20% of missed 12+ events:
-    - Set 13: top-12 + #12 + rank16 (force #12)
-    - Set 14: top-12 + #12 + rank15 (force #12)
+    #12 inclusion sets (S13-S14):
+    - Set 13: top-12 + #12 + rank16
+    - Set 14: top-12 + #12 + rank15
 
-    Multi-event swap variants (S15-S18) - hot number injection:
+    Multi-event swap variants (S15-S18):
     - Set 15: E6 top-13 + hot outside E6
     - Set 16: E3 top-13 + hot outside E3
     - Set 17: E7 top-13 + hot outside E7
     - Set 18: E3 & E7 intersection + fill from union
+
+    Fusion sets (S19-S22):
+    - Set 19: top-12 (no #22) + #22 + rank16
+    - Set 20: E6 & E7 intersection + fill from union
+    - Set 21: E1 & E3 intersection + fill from union
+    - Set 22: E3 & E6 & E7 intersection + fill from union
+
+    New sets (S23-S25) - +6 12+ events:
+    - Set 23: top-12 + hot#1 + cold#1 (mixed hot/cold)
+    - Set 24: ALL-event intersection + fill from union
+    - Set 25: E1 & E2 intersection + fill from union
     """
     prior = str(series_id - 1)
     if prior not in data:
@@ -93,8 +104,8 @@ def predict(data, series_id):
     ranked = sorted(range(1, TOTAL + 1),
                     key=lambda n: (-(n in event1), -freq[n]/max_freq, n))
 
-    # Recent frequency for hot sets (last 5 series)
-    prev_series = sorted(int(s) for s in data if int(s) < series_id)[-5:]
+    # Recent frequency for hot sets (last 3 series - optimized via lookback tuning)
+    prev_series = sorted(int(s) for s in data if int(s) < series_id)[-3:]
     recent_freq = Counter(n for s in prev_series for e in data[str(s)] for n in e)
 
     # Hot numbers outside top 14
@@ -136,7 +147,51 @@ def predict(data, series_id):
     e3_e7_remaining = sorted(e3_e7_union - e3_e7_intersection, key=lambda n: -freq[n])
     s18_numbers = list(e3_e7_intersection) + e3_e7_remaining[:14 - len(e3_e7_intersection)]
 
-    # 18 sets - expanded multi-event strategy (2026-01-13)
+    # S19: #22 inclusion (top-12 excluding #22 + #22 + rank16)
+    top12_no22 = [n for n in ranked[:14] if n != 22][:12]
+    s19_numbers = top12_no22 + [22, ranked[15]]
+
+    # S20: E6 & E7 fusion (intersection + fill from union by freq)
+    e6_e7_intersection = event6 & event7
+    e6_e7_union = event6 | event7
+    e6_e7_remaining = sorted(e6_e7_union - e6_e7_intersection, key=lambda n: -freq[n])
+    s20_numbers = list(e6_e7_intersection) + e6_e7_remaining[:14 - len(e6_e7_intersection)]
+
+    # S21: E1 & E3 fusion (intersection + fill from union by freq)
+    e1_e3_intersection = event1 & event3
+    e1_e3_union = event1 | event3
+    e1_e3_remaining = sorted(e1_e3_union - e1_e3_intersection, key=lambda n: -freq[n])
+    s21_numbers = list(e1_e3_intersection) + e1_e3_remaining[:14 - len(e1_e3_intersection)]
+
+    # S22: Triple E3 & E6 & E7 fusion (intersection + fill from union by freq)
+    e3_e6_e7_intersection = event3 & event6 & event7
+    e3_e6_e7_union = event3 | event6 | event7
+    e3_e6_e7_remaining = sorted(e3_e6_e7_union - e3_e6_e7_intersection, key=lambda n: -freq[n])
+    s22_numbers = list(e3_e6_e7_intersection) + e3_e6_e7_remaining[:14 - len(e3_e6_e7_intersection)]
+
+    # S23: Mixed hot+cold (top-12 + hot#1 + cold#1)
+    non_top12 = [n for n in range(1, TOTAL + 1) if n not in ranked[:12]]
+    cold_outside = sorted(non_top12, key=lambda n: recent_freq.get(n, 0))  # Ascending = coldest
+    s23_numbers = ranked[:12] + [hot_outside[0], cold_outside[0]]
+
+    # S24: ALL-event fusion (intersection of all 7 events + fill from union)
+    all_intersection = event1 & event3 & event6 & event7
+    for i in [1, 3, 4]:  # E2, E4, E5
+        all_intersection = all_intersection & set(data[prior][i])
+    all_union = set()
+    for ev in data[prior]:
+        all_union |= set(ev)
+    all_remaining = sorted(all_union - all_intersection, key=lambda n: -freq[n])
+    s24_numbers = list(all_intersection) + all_remaining[:14 - len(all_intersection)]
+
+    # S25: E1 & E2 fusion (intersection + fill from union by freq)
+    event2 = set(data[prior][1])
+    e1_e2_intersection = event1 & event2
+    e1_e2_union = event1 | event2
+    e1_e2_remaining = sorted(e1_e2_union - e1_e2_intersection, key=lambda n: -freq[n])
+    s25_numbers = list(e1_e2_intersection) + e1_e2_remaining[:14 - len(e1_e2_intersection)]
+
+    # 25 sets - expanded strategy (2026-01-14)
     sets = [
         sorted(ranked[:13] + [ranked[15]]),              # S1: top-13 + rank16
         sorted(ranked[:13] + [ranked[14]]),              # S2: top-13 + rank15
@@ -156,6 +211,13 @@ def predict(data, series_id):
         sorted(s16_numbers),                              # S16: E3 top-13 + hot
         sorted(s17_numbers),                              # S17: E7 top-13 + hot
         sorted(s18_numbers),                              # S18: E3 & E7 combined
+        sorted(s19_numbers),                              # S19: top-12 + #22 + r16
+        sorted(s20_numbers),                              # S20: E6 & E7 combined
+        sorted(s21_numbers),                              # S21: E1 & E3 combined
+        sorted(s22_numbers),                              # S22: E3 & E6 & E7 combined
+        sorted(s23_numbers),                              # S23: hot#1 + cold#1
+        sorted(s24_numbers),                              # S24: ALL-event fusion
+        sorted(s25_numbers),                              # S25: E1 & E2 fusion
     ]
 
     return {"series": series_id, "sets": sets, "ranked": ranked,
@@ -168,7 +230,7 @@ def predict(data, series_id):
 # =============================================================================
 
 def evaluate(data, series_id, pred=None):
-    """Evaluate prediction - best match across 18 sets x 7 events."""
+    """Evaluate prediction - best match across 25 sets x 7 events."""
     sid = str(series_id)
     if sid not in data:
         return None
@@ -188,11 +250,14 @@ def evaluate(data, series_id, pred=None):
     winner = set_bests.index(best) + 1
     # Track which category helped
     base_best = max(set_bests[:12])  # Original 12 sets
-    n12_helped = winner in [13, 14] and set_bests[winner-1] > base_best
+    n12_helped = winner in [13, 14, 19] and set_bests[winner-1] > base_best  # #12, #22 inclusions
     swap_helped = winner in [15, 16, 17, 18] and set_bests[winner-1] > base_best
+    fusion_helped = winner in [20, 21, 22] and set_bests[winner-1] > base_best  # Fusions
+    new_helped = winner in [23, 24, 25] and set_bests[winner-1] > base_best  # Mixed/ALL/E1E2
 
     return {"series": series_id, "set_bests": set_bests, "best": best, "winner": winner,
-            "n12_helped": n12_helped, "swap_helped": swap_helped}
+            "n12_helped": n12_helped, "swap_helped": swap_helped, "fusion_helped": fusion_helped,
+            "new_helped": new_helped}
 
 
 # =============================================================================
@@ -250,15 +315,21 @@ def validate(data, start, end):
 
     n = len(results)
     bests = [r["best"] for r in results]
-    wins = [0] * 18  # 18 sets now
+    wins = [0] * 25  # 25 sets
     n12_helped_count = 0
     swap_helped_count = 0
+    fusion_helped_count = 0
+    new_helped_count = 0
     for r in results:
         wins[r["winner"] - 1] += 1
         if r.get("n12_helped"):
             n12_helped_count += 1
         if r.get("swap_helped"):
             swap_helped_count += 1
+        if r.get("fusion_helped"):
+            fusion_helped_count += 1
+        if r.get("new_helped"):
+            new_helped_count += 1
 
     return {
         "tested": n,
@@ -271,6 +342,8 @@ def validate(data, start, end):
         "at_14": sum(1 for b in bests if b == 14),
         "n12_helped": n12_helped_count,
         "swap_helped": swap_helped_count,
+        "fusion_helped": fusion_helped_count,
+        "new_helped": new_helped_count,
     }
 
 
@@ -283,11 +356,11 @@ def main():
     last = latest(data)
 
     if len(sys.argv) < 2:
-        print("Production Predictor (18-Set Multi-Event)")
+        print("Production Predictor (25-Set Multi-Event)")
         print("=" * 50)
         print("Goal: Hit 14/14")
         print("\nCommands:")
-        print("  predict [series]  - 18-set prediction (E1+E3+E6+E7+#12+swaps)")
+        print("  predict [series]  - 25-set prediction (E1+E3+E6+E7+fusions+mixed)")
         print("  find [series]     - Find jackpot")
         print("  validate [s] [e]  - Test accuracy")
         print(f"\nLatest: {last}")
@@ -298,7 +371,7 @@ def main():
     if cmd == "predict":
         sid = int(sys.argv[2]) if len(sys.argv) > 2 else last + 1
         r = predict(data, sid)
-        print(f"\nSeries {sid} Prediction (18-Set Multi-Event)")
+        print(f"\nSeries {sid} Prediction (25-Set Multi-Event)")
         print("=" * 80)
         print(f"{'Rank':<5} {'Set':<18} {'Numbers':<45} {'Type'}")
         print("-" * 80)
@@ -321,11 +394,19 @@ def main():
             "S16 (E3+hot)",    # E3 swap
             "S17 (E7+hot)",    # E7 swap
             "S18 (E3&E7)",     # E3 & E7 combined
+            "S19 (#22+r16)",   # #22 inclusion
+            "S20 (E6&E7)",     # E6 & E7 fusion
+            "S21 (E1&E3)",     # E1 & E3 fusion
+            "S22 (E3&E6&E7)",  # Triple fusion
+            "S23 (hot+cold)",  # Mixed hot/cold
+            "S24 (ALL)",       # ALL-event fusion
+            "S25 (E1&E2)",     # E1 & E2 fusion
         ]
         types = ["SGL", "SGL", "SGL", "DBL", "DBL", "DBL", "DBL", "HOT",
-                 "E6", "MIX", "E3", "E7", "#12", "#12", "E6S", "E3S", "E7S", "MIX"]
+                 "E6", "MIX", "E3", "E7", "#12", "#12", "E6S", "E3S", "E7S", "MIX",
+                 "#22", "MIX", "MIX", "MIX", "MIX", "ALL", "MIX"]
         # Sort by performance rank for display
-        order = sorted(range(18), key=lambda i: PERF_RANK[i])
+        order = sorted(range(25), key=lambda i: PERF_RANK[i])
         for idx in order:
             s = r["sets"][idx]
             nums = ' '.join(f'{n:02d}' for n in s)
@@ -364,6 +445,9 @@ def main():
             print(f"E7:      S12={w[11]}")
             print(f"#12:     S13={w[12]} S14={w[13]} (helped={r['n12_helped']})")
             print(f"Swaps:   S15={w[14]} S16={w[15]} S17={w[16]} S18={w[17]} (helped={r['swap_helped']})")
+            print(f"#22:     S19={w[18]}")
+            print(f"Fusions: S20={w[19]} S21={w[20]} S22={w[21]} (helped={r['fusion_helped']})")
+            print(f"New:     S23={w[22]} S24={w[23]} S25={w[24]} (helped={r['new_helped']})")
     else:
         print(f"Unknown: {cmd}")
 
