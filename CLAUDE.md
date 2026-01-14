@@ -78,13 +78,13 @@ Rank  Set                Numbers                                       Type
 
 | Test | Value | Interpretation |
 |------|-------|----------------|
-| t-statistic | 58.74 | Extremely high |
-| p-value | 4.36e-125 | Highly significant |
-| Cohen's d | 2.77 | Large effect |
-| 95% CI | [10.53, 10.71] | Tight confidence |
+| t-statistic | 60.73 | Extremely high |
+| p-value | 9.83e-128 | Highly significant |
+| Cohen's d | 2.89 | Large effect |
+| 95% CI | [10.66, 10.85] | Tight confidence |
 | Percentile | 100% | Beats all random |
 
-*Updated 2026-01-13: 10.75/14 avg, +37.1% above 7.84 baseline*
+*Updated 2026-01-13: 10.75/14 avg, +37.2% above 7.84 baseline (10,000 simulations)*
 
 ### Ceiling Analysis
 
