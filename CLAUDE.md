@@ -85,13 +85,13 @@ Rank  Set                Numbers                                       Type
 
 | Test | Value | Interpretation |
 |------|-------|----------------|
-| t-statistic | 52.30 | Extremely high |
-| p-value | <1e-100 | Highly significant |
-| Cohen's d | 2.58 | Large effect |
-| 95% CI | [10.37, 10.56] | Tight confidence |
+| t-statistic | 58.74 | Extremely high |
+| p-value | 4.36e-125 | Highly significant |
+| Cohen's d | 2.77 | Large effect |
+| 95% CI | [10.53, 10.71] | Tight confidence |
 | Percentile | 100% | Beats all random |
 
-*Updated 2026-01-13: 10.62/14 avg, +35.5% above 7.84 baseline*
+*Updated 2026-01-13: 10.62/14 avg, +35.4% above 7.84 baseline (10,000 simulations)*
 
 ### Key Discovery (2026-01-13)
 
