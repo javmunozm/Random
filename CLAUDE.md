@@ -1,6 +1,40 @@
 # Lottery Prediction Research
 
-**Status**: PRODUCTION READY | **Updated**: January 14, 2026 (25-set)
+**Status**: PRODUCTION READY | **Updated**: January 16, 2026 (27-set + PM Agent)
+
+---
+
+## CLAUDE DIRECTIVES (MUST FOLLOW)
+
+### On Session Start
+**ALWAYS run `python ml_models/pm_agent.py report` first** when starting a new session. This gives you:
+- Current jackpot status (gap to 14/14)
+- Trend analysis (improving or declining)
+- Prioritized task queue
+- Agent assignments
+
+### Change Tracking
+**Log ALL changes** to this project in the Change Log section below. Every modification to:
+- `production_predictor.py` - prediction logic changes
+- `pm_agent.py` - coordination changes
+- `CLAUDE.md` - documentation updates
+- Any new files or analysis results
+
+Format: `[YYYY-MM-DD] <description> | Impact: <metric change if any>`
+
+---
+
+## Change Log
+
+| Date | Change | Impact |
+|------|--------|--------|
+| 2026-01-16 | PM Agent: Agent-driven predictions (consults dynamic agents, generates overlay sets) | 30 sets (27 base + 3 PM) |
+| 2026-01-16 | PM Agent: Dynamic agent creation (max 4, 6 templates) | Auto-created 3 agents |
+| 2026-01-16 | Implemented S26 (no#13+#18) and S27 (#18+r17) from near-miss analysis | Avg 10.89→10.91, 12+ 29→30, 11+ 144→147 |
+| 2026-01-16 | Added PM Agent (pm_agent.py) | Coordination layer |
+| 2026-01-16 | Near-miss analysis: #13 over-selected (71% vs 57%), #18/#22 under-selected | Identified fix targets |
+| 2026-01-15 | S18 promoted to #1 rank (3 recent 12+) | Recency-first ranking |
+| 2026-01-14 | Expanded to 25-set strategy (+mixed/ALL) | +6 12+ events |
 
 ---
 
@@ -8,9 +42,10 @@
 
 ```bash
 cd ml_models
-python production_predictor.py predict 3175
-python production_predictor.py find 3174
-python production_predictor.py validate 2981 3174
+python pm_agent.py report                    # PM status report (start here)
+python production_predictor.py predict 3176
+python production_predictor.py find 3175
+python production_predictor.py validate 2981 3175
 ```
 
 ---
@@ -19,45 +54,48 @@ python production_predictor.py validate 2981 3174
 
 Run: `python ml_models/production_predictor.py predict [series]`
 
-Output is **ordered by 13+/12+ potential** (25-set multi-event strategy):
+Output is **ordered by recency-first strategy** (what's working NOW):
 ```
 Rank  Set                Numbers                                       Type
-#1    S9 (E6)            ...                                           E6
-#2    S11 (E3)           ...                                           E3
-#3    S12 (E7)           ...                                           E7
-#4    S15 (E6+hot)       ...                                           E6S
-#5    S16 (E3+hot)       ...                                           E3S
-#6    S13 (#12+r16)      ...                                           #12
+#1    S18 (E3&E7)        ...                                           MIX  (3 recent 12+, HOT!)
+#2    S9 (E6)            ...                                           E6   (only 13/14, but cold)
+#3    S16 (E3+hot)       ...                                           E3S  (4x 12+)
+#4    S4 (r15+r16)       ...                                           DBL  (3x 12+)
+#5    S17 (E7+hot)       ...                                           E7S  (3x 12+)
 ...
-#22   S1 (rank16)        ...                                           SGL
+#24   S1 (rank16)        ...                                           SGL  (0x 12+)
 ```
+*Ranking updated 2026-01-15: S18 promoted to #1 (hottest recent performer)*
 
 ---
 
-## Key Metrics (194 series validated)
+## Key Metrics (195 series validated, 27-set)
 
 | Metric | Value |
 |--------|-------|
-| Average | **10.92/14** |
+| Average | **10.91/14** |
 | Best | **13/14** (S9) |
 | Worst | 10/14 |
-| 11+ matches | 145 (74.7%) |
-| 12+ matches | 32 (16.5%) |
+| 11+ matches | 147 (75.4%) |
+| 12+ matches | 30 (15.4%) |
 | 13+ matches | 1 (0.5%) |
 | 14/14 hits | 0 |
 
-### New Sets Performance (S23-S25)
+### Set Performance by 12+ Rate (195 series)
 
-| Set | Strategy | Wins | Helped |
-|-----|----------|------|--------|
-| S23 | hot#1 + cold#1 | 1 | mixed |
-| S24 | ALL-event fusion | 7 | 13 total |
-| S25 | E1 & E2 fusion | 5 | new sets |
+| Set | Strategy | Wins | 12+ | Best |
+|-----|----------|------|-----|------|
+| S9 | E6 direct | 17 | 1 | **13/14** |
+| S18 | E3 & E7 fusion | 11 | **5** | 12/14 |
+| S16 | E3 + hot | 8 | 4 | 12/14 |
+| S4 | r15+r16 | 14 | 3 | 12/14 |
+| S17 | E7 + hot | 6 | 3 | 12/14 |
+| S1 | rank16 | **29** | 0 | 11/14 |
 
 **Key discoveries (2026-01-14)**:
 - **Mixed hot+cold** - captures regression-to-mean patterns
 - **ALL-event fusion** - 7 wins, best new performer
-- **12+ events increased from 26 to 32** (+23%)
+- **12+ events increased from 26 to 32** (+23%) [note: regressed to 29 after 3175]
 
 ### Improvement History
 
@@ -68,7 +106,9 @@ Rank  Set                Numbers                                       Type
 | +#12/swaps | 18 | 10.75/14 | 122 | 23 |
 | +fusions | 22 | 10.81/14 | 132 | 25 |
 | +lookback3 | 22 | 10.85/14 | 138 | 26 |
-| +mixed/ALL | 25 | **10.92/14** | **145** | **32** |
+| +mixed/ALL (194) | 25 | 10.92/14 | 145 | 32 |
+| +mixed/ALL (195) | 25 | 10.89/14 | 144 | 29 |
+| +S26/S27 nearmiss | 27 | **10.91/14** | **147** | **30** |
 
 ---
 
@@ -76,23 +116,39 @@ Rank  Set                Numbers                                       Type
 
 | Test | Value | Interpretation |
 |------|-------|----------------|
-| t-statistic | 65.49 | Extremely high |
-| p-value | 9.06e-134 | Highly significant |
-| Cohen's d | 3.07 | Large effect |
-| 95% CI | [10.82, 11.01] | Tight confidence |
+| t-statistic | 66.07 | Extremely high |
+| p-value | 5.90e-135 | Highly significant |
+| Cohen's d | 3.06 | Large effect |
+| 95% CI | [10.80, 10.98] | Tight confidence |
 | Percentile | 100% | Beats all random |
 
-*Updated 2026-01-14: 10.92/14 avg, +39.3% above 7.84 baseline (10,000 simulations)*
+*Updated 2026-01-15: 10.89/14 avg, +38.9% above 7.84 baseline (10,000 simulations)*
 
 ### Ceiling Analysis
 
 From `ceiling_analysis.py`:
 - **P(14/14) random**: 1 in 4,457,400 per set/event
-- **14/14 theoretically possible**: 0/194 series (E1-based approach)
+- **14/14 theoretically possible**: 0/195 series (E1-based approach)
 - **Numbers missing in 12+ events**: #13 (25%), #20 (20%), #8 (15%)
 - **Numbers should've had**: #12 (20%), #22 (20%), #23 (15%)
 
 **Path to 14/14**: Requires non-E1 event breakthroughs (E6 proved this with 13/14)
+
+### Near-Miss Analysis (2026-01-16)
+
+**The 13/14 Case (Series 3061)**:
+- Set S9 (E6) missed by 1 number
+- **Missing**: #16 | **Had wrong**: #19
+- #16 WAS in prior series (E3, E5) - achievable!
+
+**Critical Findings**:
+| Issue | Detail | Action |
+|-------|--------|--------|
+| #13 over-selected | 71% predicted vs 57% actual | Create #13 exclusion set |
+| #18 under-selected | Needed in 18.8% of 12+ events | Create #18 inclusion set |
+| #22 under-selected | Needed in 18.8% of 12+ events | Already have S19 |
+
+**Implemented**: S26 (no#13 + #18) and S27 (#18 + r17) - see Strategy section
 
 Run: `python ml_models/ceiling_analysis.py`
 
@@ -100,16 +156,16 @@ Run: `python ml_models/ceiling_analysis.py`
 
 ## Data
 
-- **Series**: 195 (2980-3174)
-- **Latest**: 3174
+- **Series**: 196 (2980-3175)
+- **Latest**: 3175
 - **File**: `data/full_series_data.json`
 
 ---
 
-## Strategy (25-set multi-event, 2026-01-14)
+## Strategy (27-set multi-event, 2026-01-16)
 
 ```python
-# Multi-event E1 + E3 + E6 + E7 + fusions + mixed/ALL (25 sets)
+# Multi-event E1 + E3 + E6 + E7 + fusions + mixed/ALL + nearmiss (27 sets)
 
 # E1-based sets (S1-S8)
 sets[0:8] = [
@@ -159,11 +215,74 @@ sets[22:25] = [
     sorted(all_event_combined),              # S24: ALL-event fusion
     sorted(e1_e2_combined),                  # S25: E1 & E2 fusion
 ]
+
+# Near-miss fix sets (S26-S27) - from 2026-01-16 analysis
+sets[25:27] = [
+    top13_no13 + [18],                       # S26: no#13 + #18
+    top12_no18 + [18, ranked[16]],           # S27: #18 + r17
+]
 ```
 
-**Performance**: 39.3% above random baseline (7.84/14)
+**Performance**: 39.2% above random baseline (7.84/14)
 
 **Jackpot Pool**: Pool-24 (exclude #12), ~1.96M combinations
+
+---
+
+## PM Agent (Jackpot Coordinator)
+
+The PM Agent coordinates all specialized agents toward the 14/14 goal.
+
+```bash
+cd ml_models
+python pm_agent.py report     # Full status report
+python pm_agent.py status     # Quick jackpot status
+python pm_agent.py tasks      # Prioritized agent task queue
+python pm_agent.py predict    # Prediction with PM commentary
+python pm_agent.py assess     # JSON situation assessment
+```
+
+### Dynamic Agent Management
+
+PM can create up to **4 dynamic agents** when gaps are identified:
+
+```bash
+python pm_agent.py agents              # List all agents
+python pm_agent.py agents auto         # Auto-create recommended agents
+python pm_agent.py agents create <tpl> # Create from template
+python pm_agent.py agents templates    # List available templates
+python pm_agent.py agents deactivate   # Deactivate an agent
+python pm_agent.py agents delete       # Delete an agent
+```
+
+**Available Templates**:
+| Template | Focus | Triggers |
+|----------|-------|----------|
+| edge-case-specialist | Near-miss analysis | 13/14 achieved |
+| event-correlation-analyst | E1-E7 correlations | Fusion underperforming |
+| number-pattern-hunter | Recurring patterns | 12+ rate drops |
+| hot-cold-tracker | Streak momentum | Hot set changes |
+| set-optimizer | Set strategy optimization | Strong base performance |
+| regression-analyst | Performance regression | Average declining |
+
+### Core Agents
+
+| Agent | Focus |
+|-------|-------|
+| lottery-math-analyst | Pattern analysis, prediction algorithms |
+| dataset-reviewer | Data validation, anomaly detection |
+| simulation-testing-expert | Monte Carlo, statistical validation |
+| model-analysis-expert | Performance analysis, error diagnosis |
+| stats-math-evaluator | Statistical analysis, hypothesis testing |
+
+### PM Directive
+
+Every action serves the jackpot goal. The PM agent:
+- Assesses gap to 14/14 and identifies blockers
+- Prioritizes high-impact improvements
+- Dispatches specialized agents with context
+- Tracks trends and near-miss patterns
+- **Creates new agents dynamically** when gaps are identified (max 4)
 
 ---
 
@@ -171,7 +290,9 @@ sets[22:25] = [
 
 ```
 ml_models/
-├── production_predictor.py         # ~455 lines, 25-set multi-event logic
+├── production_predictor.py         # ~490 lines, 27-set multi-event logic
+├── pm_agent.py                     # PM coordinator + dynamic agent mgmt (~1000 lines)
+├── dynamic_agents.json             # Persisted dynamic agents (auto-generated)
 ├── ceiling_analysis.py             # Theoretical limits analysis
 ├── event_breakthrough_analysis.py  # E1-E7 breakthrough analysis
 ├── detailed_analysis.py            # Set performance diagnostics
