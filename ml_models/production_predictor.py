@@ -35,7 +35,7 @@ EXCLUDE = 12
 # S18 #1 (3 recent 12+, HOT!) | S9 #2 (only 13/14 ever, but cold 114 series)
 # Prioritizes what's working NOW over historical one-time breakthrough
 # Updated 2026-01-16: Added S26 (#13 excl) and S27 (#18 incl) from near-miss analysis
-PERF_RANK = [24, 20, 9, 4, 8, 7, 12, 16, 2, 25, 14, 13, 18, 6, 21, 3, 5, 1, 17, 23, 22, 19, 10, 15, 11, 26, 27]  # 27 sets
+PERF_RANK = [24, 20, 9, 4, 8, 7, 12, 16, 2, 25, 14, 13, 18, 6, 21, 3, 5, 1, 17, 23, 22, 19, 10, 15, 11, 26, 27, 28]  # 28 sets
 
 
 def load_data():
@@ -58,7 +58,7 @@ def latest(data):
 
 def predict(data, series_id):
     """
-    Generate 27 prediction sets (multi-event E1+E3+E6+E7 + fusions + mixed/ALL + near-miss fixes).
+    Generate 28 prediction sets (multi-event E1+E3+E5+E6+E7 + fusions + mixed/ALL + near-miss fixes).
 
     E1-based sets (S1-S8):
     - Set 1-3: Single swaps (top-13 + rank 15/16/18)
@@ -95,6 +95,9 @@ def predict(data, series_id):
     Near-miss fix sets (S26-S27) - from 2026-01-16 analysis:
     - Set 26: top-13 (no #13) + #18 (#13 over-selected 71% vs 57%)
     - Set 27: top-12 (no #18) + #18 + rank17 (#18 under-selected in 18.8% of 12+)
+
+    E5-direct set (S28) - from 2026-01-17 analysis:
+    - Set 28: Prior E5 directly (addresses frequency bias gap)
     """
     prior = str(series_id - 1)
     if prior not in data:
@@ -102,6 +105,7 @@ def predict(data, series_id):
 
     event1 = set(data[prior][0])
     event3 = set(data[prior][2])
+    event5 = set(data[prior][4])
     event6 = set(data[prior][5])
     event7 = set(data[prior][6])
 
@@ -213,7 +217,7 @@ def predict(data, series_id):
     top12_no18 = [n for n in ranked[:14] if n != 18][:12]
     s27_numbers = top12_no18 + [18, ranked[16]]  # rank17 instead of rank16 for diversity
 
-    # 27 sets - expanded strategy (2026-01-16)
+    # 28 sets - expanded strategy (2026-01-17)
     sets = [
         sorted(ranked[:13] + [ranked[15]]),              # S1: top-13 + rank16
         sorted(ranked[:13] + [ranked[14]]),              # S2: top-13 + rank15
@@ -242,11 +246,13 @@ def predict(data, series_id):
         sorted(s25_numbers),                              # S25: E1 & E2 fusion
         sorted(s26_numbers),                              # S26: no#13 + #18 (near-miss fix)
         sorted(s27_numbers),                              # S27: #18 inclusion (near-miss fix)
+        sorted(event5),                                   # S28: E5 directly (freq bias fix)
     ]
 
     return {"series": series_id, "sets": sets, "ranked": ranked,
             "hot_outside": hot_outside, "event3": sorted(event3),
-            "event6": sorted(event6), "event7": sorted(event7)}
+            "event5": sorted(event5), "event6": sorted(event6),
+            "event7": sorted(event7)}
 
 
 # =============================================================================
@@ -445,7 +451,7 @@ def validate(data, start, end):
 
     n = len(results)
     bests = [r["best"] for r in results]
-    wins = [0] * 27  # 27 sets
+    wins = [0] * 28  # 28 sets
     n12_helped_count = 0
     swap_helped_count = 0
     fusion_helped_count = 0
@@ -512,7 +518,7 @@ def main():
         r = predict(data, sid)
         pm_overlay = generate_pm_overlays(data, sid) if use_pm else None
 
-        set_count = 31 if use_pm else 27
+        set_count = 32 if use_pm else 28
         print(f"\nSeries {sid} Prediction ({set_count}-Set {'+ PM Jackpot Pursuit' if use_pm else 'Multi-Event'})")
         print("=" * 80)
         print(f"{'Rank':<5} {'Set':<18} {'Numbers':<45} {'Type'}")
@@ -545,12 +551,13 @@ def main():
             "S25 (E1&E2)",     # E1 & E2 fusion
             "S26 (no#13+#18)", # Near-miss fix: #13 exclusion
             "S27 (#18+r17)",   # Near-miss fix: #18 inclusion
+            "S28 (E5)",        # Event 5 directly (freq bias fix)
         ]
         types = ["SGL", "SGL", "SGL", "DBL", "DBL", "DBL", "DBL", "HOT",
                  "E6", "MIX", "E3", "E7", "#12", "#12", "E6S", "E3S", "E7S", "MIX",
-                 "#22", "MIX", "MIX", "MIX", "MIX", "ALL", "MIX", "NMF", "NMF"]
+                 "#22", "MIX", "MIX", "MIX", "MIX", "ALL", "MIX", "NMF", "NMF", "E5"]
         # Sort by performance rank for display
-        order = sorted(range(27), key=lambda i: PERF_RANK[i])
+        order = sorted(range(28), key=lambda i: PERF_RANK[i])
         for idx in order:
             s = r["sets"][idx]
             nums = ' '.join(f'{n:02d}' for n in s)
@@ -560,7 +567,7 @@ def main():
             print("-" * 80)
             print("PM OVERLAY SETS (Jackpot Pursuit)")
             print("-" * 80)
-            pm_labels = ["S28 (PM-RESCUE)", "S29 (PM-LUCKY)", "S30 (PM-E1E6)", "S31 (PM-ANTI)"]
+            pm_labels = ["S29 (PM-RESCUE)", "S30 (PM-LUCKY)", "S31 (PM-E1E6)", "S32 (PM-ANTI)"]
             pm_rationale = [
                 "rescue #20,#7,#14,#23",
                 "#23+#20 (12+ freq)",
@@ -569,13 +576,14 @@ def main():
             ]
             for i, (pm_set, name) in enumerate(zip(pm_overlay["sets"], pm_overlay["names"])):
                 nums = ' '.join(f'{n:02d}' for n in pm_set)
-                label = pm_labels[i] if i < len(pm_labels) else f"S{28+i} ({name})"
+                label = pm_labels[i] if i < len(pm_labels) else f"S{29+i} ({name})"
                 rat = pm_rationale[i] if i < len(pm_rationale) else "PM"
                 print(f"{'--':<5} {label:<18} {nums:<45} {rat}")
 
         print("-" * 80)
         print(f"Hot outside top-14: {r['hot_outside']}")
         print(f"Event 3: {r['event3']}")
+        print(f"Event 5: {r['event5']}")
         print(f"Event 6: {r['event6']}")
         print(f"Event 7: {r['event7']}")
         print(f"Pool-24: Exclude #{EXCLUDE}")
@@ -613,6 +621,7 @@ def main():
             print(f"Fusions: S20={w[19]} S21={w[20]} S22={w[21]} (helped={r['fusion_helped']})")
             print(f"New:     S23={w[22]} S24={w[23]} S25={w[24]} (helped={r['new_helped']})")
             print(f"NMFix:   S26={w[25]} S27={w[26]} (helped={r['nearmiss_helped']})")
+            print(f"E5:      S28={w[27]}")
     else:
         print(f"Unknown: {cmd}")
 
