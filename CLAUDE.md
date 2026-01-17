@@ -1,6 +1,6 @@
 # Lottery Prediction Research
 
-**Status**: PRODUCTION READY | **Updated**: January 16, 2026 (27-set + PM Agent)
+**Status**: PRODUCTION READY | **Updated**: January 17, 2026 (27-set + PM Agent)
 
 ---
 
@@ -28,9 +28,10 @@ Format: `[YYYY-MM-DD] <description> | Impact: <metric change if any>`
 
 | Date | Change | Impact |
 |------|--------|--------|
+| 2026-01-17 | Added series 3176 (best: 11/14, S2 won); fixed 12+ count docs (was 30, actual 28) | 196 series, avg 10.91, 11+ 149, 12+ 28 |
 | 2026-01-16 | PM Agent: Agent-driven predictions (consults dynamic agents, generates overlay sets) | 30 sets (27 base + 3 PM) |
 | 2026-01-16 | PM Agent: Dynamic agent creation (max 4, 6 templates) | Auto-created 3 agents |
-| 2026-01-16 | Implemented S26 (no#13+#18) and S27 (#18+r17) from near-miss analysis | Avg 10.89→10.91, 12+ 29→30, 11+ 144→147 |
+| 2026-01-16 | Implemented S26 (no#13+#18) and S27 (#18+r17) from near-miss analysis | Avg 10.91, 12+ 27→28 (S26 +1), 11+ 148 |
 | 2026-01-16 | Added PM Agent (pm_agent.py) | Coordination layer |
 | 2026-01-16 | Near-miss analysis: #13 over-selected (71% vs 57%), #18/#22 under-selected | Identified fix targets |
 | 2026-01-15 | S18 promoted to #1 rank (3 recent 12+) | Recency-first ranking |
@@ -43,9 +44,9 @@ Format: `[YYYY-MM-DD] <description> | Impact: <metric change if any>`
 ```bash
 cd ml_models
 python pm_agent.py report                    # PM status report (start here)
-python production_predictor.py predict 3176
-python production_predictor.py find 3175
-python production_predictor.py validate 2981 3175
+python production_predictor.py predict 3177
+python production_predictor.py find 3176
+python production_predictor.py validate 2981 3176
 ```
 
 ---
@@ -69,19 +70,19 @@ Rank  Set                Numbers                                       Type
 
 ---
 
-## Key Metrics (195 series validated, 27-set)
+## Key Metrics (196 series validated, 27-set)
 
 | Metric | Value |
 |--------|-------|
 | Average | **10.91/14** |
 | Best | **13/14** (S9) |
 | Worst | 10/14 |
-| 11+ matches | 147 (75.4%) |
-| 12+ matches | 30 (15.4%) |
+| 11+ matches | 149 (76.0%) |
+| 12+ matches | 28 (14.3%) |
 | 13+ matches | 1 (0.5%) |
 | 14/14 hits | 0 |
 
-### Set Performance by 12+ Rate (195 series)
+### Set Performance by 12+ Rate (196 series)
 
 | Set | Strategy | Wins | 12+ | Best |
 |-----|----------|------|-----|------|
@@ -95,7 +96,7 @@ Rank  Set                Numbers                                       Type
 **Key discoveries (2026-01-14)**:
 - **Mixed hot+cold** - captures regression-to-mean patterns
 - **ALL-event fusion** - 7 wins, best new performer
-- **12+ events increased from 26 to 32** (+23%) [note: regressed to 29 after 3175]
+- **S26 (no#13+#18)** - added 1 new 12+ event (series 3144)
 
 ### Improvement History
 
@@ -106,9 +107,9 @@ Rank  Set                Numbers                                       Type
 | +#12/swaps | 18 | 10.75/14 | 122 | 23 |
 | +fusions | 22 | 10.81/14 | 132 | 25 |
 | +lookback3 | 22 | 10.85/14 | 138 | 26 |
-| +mixed/ALL (194) | 25 | 10.92/14 | 145 | 32 |
-| +mixed/ALL (195) | 25 | 10.89/14 | 144 | 29 |
-| +S26/S27 nearmiss | 27 | **10.91/14** | **147** | **30** |
+| +mixed/ALL (194) | 25 | 10.91/14 | 146 | 27 |
+| +S26/S27 (195) | 27 | 10.91/14 | 148 | 28 |
+| 196 series | 27 | **10.91/14** | **149** | **28** |
 
 ---
 
@@ -116,13 +117,13 @@ Rank  Set                Numbers                                       Type
 
 | Test | Value | Interpretation |
 |------|-------|----------------|
-| t-statistic | 66.07 | Extremely high |
-| p-value | 5.90e-135 | Highly significant |
-| Cohen's d | 3.06 | Large effect |
-| 95% CI | [10.80, 10.98] | Tight confidence |
+| t-statistic | 68.65 | Extremely high |
+| p-value | 1.53e-138 | Highly significant |
+| Cohen's d | 3.09 | Large effect |
+| 95% CI | [10.82, 11.00] | Tight confidence |
 | Percentile | 100% | Beats all random |
 
-*Updated 2026-01-15: 10.89/14 avg, +38.9% above 7.84 baseline (10,000 simulations)*
+*Updated 2026-01-17: 10.91/14 avg, +39.1% above 7.84 baseline (10,000 simulations, 196 series)*
 
 ### Ceiling Analysis
 
@@ -156,8 +157,8 @@ Run: `python ml_models/ceiling_analysis.py`
 
 ## Data
 
-- **Series**: 196 (2980-3175)
-- **Latest**: 3175
+- **Series**: 197 (2980-3176)
+- **Latest**: 3176
 - **File**: `data/full_series_data.json`
 
 ---
@@ -223,7 +224,7 @@ sets[25:27] = [
 ]
 ```
 
-**Performance**: 39.2% above random baseline (7.84/14)
+**Performance**: 39.1% above random baseline (7.84/14)
 
 **Jackpot Pool**: Pool-24 (exclude #12), ~1.96M combinations
 
