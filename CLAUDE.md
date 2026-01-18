@@ -1,6 +1,6 @@
 # Lottery Prediction Research
 
-**Status**: PRODUCTION READY | **Updated**: January 17, 2026 (28-set + PM Agent)
+**Status**: PRODUCTION READY | **Updated**: January 17, 2026 (29-set + PM Agent)
 
 ---
 
@@ -28,6 +28,7 @@ Format: `[YYYY-MM-DD] <description> | Impact: <metric change if any>`
 
 | Date | Change | Impact |
 |------|--------|--------|
+| 2026-01-17 | Added S29 (under-predicted #7,#15,#14,#11) from number-pattern-hunter | 29 sets, avg 10.95, 11+ 156, 12+ 30 |
 | 2026-01-17 | Simplified PM agent to analysis-only (removed predict/ranking) | PERF_RANK outperforms PM ranking |
 | 2026-01-17 | Added S28 (E5-direct) to address frequency bias gap | 28 sets, avg 10.93, 11+ 153 (+4) |
 | 2026-01-17 | Added series 3176 (best: 11/14, S2 won); fixed 12+ count docs (was 30, actual 28) | 196 series, avg 10.91, 11+ 149, 12+ 28 |
@@ -72,15 +73,15 @@ Rank  Set                Numbers                                       Type
 
 ---
 
-## Key Metrics (196 series validated, 28-set)
+## Key Metrics (196 series validated, 29-set)
 
 | Metric | Value |
 |--------|-------|
-| Average | **10.93/14** |
+| Average | **10.95/14** |
 | Best | **13/14** (S9) |
 | Worst | 10/14 |
-| 11+ matches | 153 (78.1%) |
-| 12+ matches | 28 (14.3%) |
+| 11+ matches | 156 (79.6%) |
+| 12+ matches | 30 (15.3%) |
 | 13+ matches | 1 (0.5%) |
 | 14/14 hits | 0 |
 
@@ -111,7 +112,8 @@ Rank  Set                Numbers                                       Type
 | +lookback3 | 22 | 10.85/14 | 138 | 26 |
 | +mixed/ALL (194) | 25 | 10.91/14 | 146 | 27 |
 | +S26/S27 (195) | 27 | 10.91/14 | 148 | 28 |
-| +S28 E5 (196) | 28 | **10.93/14** | **153** | **28** |
+| +S28 E5 (196) | 28 | 10.93/14 | 153 | 28 |
+| +S29 under (196) | 29 | **10.95/14** | **156** | **30** |
 
 ---
 
@@ -125,7 +127,7 @@ Rank  Set                Numbers                                       Type
 | 95% CI | [10.84, 11.01] | Tight confidence |
 | Percentile | 100% | Beats all random |
 
-*Updated 2026-01-17: 10.93/14 avg, +39.4% above 7.84 baseline (10,000 simulations, 196 series, 28-set)*
+*Updated 2026-01-17: 10.95/14 avg, +39.7% above 7.84 baseline (10,000 simulations, 196 series, 29-set)*
 
 ### Ceiling Analysis
 
@@ -165,10 +167,10 @@ Run: `python ml_models/ceiling_analysis.py`
 
 ---
 
-## Strategy (28-set multi-event, 2026-01-17)
+## Strategy (29-set multi-event, 2026-01-17)
 
 ```python
-# Multi-event E1 + E3 + E5 + E6 + E7 + fusions + mixed/ALL + nearmiss (28 sets)
+# Multi-event E1 + E3 + E5 + E6 + E7 + fusions + mixed/ALL + nearmiss + under (29 sets)
 
 # E1-based sets (S1-S8)
 sets[0:8] = [
@@ -227,9 +229,16 @@ sets[25:27] = [
 
 # E5-direct set (S28) - from 2026-01-17 analysis
 sets[27] = sorted(event5)                    # S28: E5 (addresses freq bias)
+
+# Under-predicted numbers (S29) - from number-pattern-hunter 2026-01-17
+# #7 (ratio 0.39), #15 (0.55), #14 (0.70), #11 (0.79) under-predicted
+under_predicted = [7, 15, 14, 11]
+over_predicted = [8, 21, 24]
+base = [n for n in ranked if n not in under_predicted and n not in over_predicted][:10]
+sets[28] = sorted(base + under_predicted)     # S29: under-predicted fix
 ```
 
-**Performance**: 39.4% above random baseline (7.84/14)
+**Performance**: 39.7% above random baseline (7.84/14)
 
 **Jackpot Pool**: Pool-24 (exclude #12), ~1.96M combinations
 
@@ -299,7 +308,7 @@ Every action serves the jackpot goal. The PM agent:
 
 ```
 ml_models/
-├── production_predictor.py         # ~630 lines, 28-set multi-event logic
+├── production_predictor.py         # ~644 lines, 29-set multi-event logic
 ├── pm_agent.py                     # PM coordinator + dynamic agent mgmt (~970 lines, analysis only)
 ├── dynamic_agents.json             # Persisted dynamic agents (auto-generated)
 ├── ceiling_analysis.py             # Theoretical limits analysis

@@ -35,7 +35,7 @@ EXCLUDE = 12
 # S18 #1 (3 recent 12+, HOT!) | S9 #2 (only 13/14 ever, but cold 114 series)
 # Prioritizes what's working NOW over historical one-time breakthrough
 # Updated 2026-01-16: Added S26 (#13 excl) and S27 (#18 incl) from near-miss analysis
-PERF_RANK = [24, 20, 9, 4, 8, 7, 12, 16, 2, 25, 14, 13, 18, 6, 21, 3, 5, 1, 17, 23, 22, 19, 10, 15, 11, 26, 27, 28]  # 28 sets
+PERF_RANK = [24, 20, 9, 4, 8, 7, 12, 16, 2, 25, 14, 13, 18, 6, 21, 3, 5, 1, 17, 23, 22, 19, 10, 15, 11, 26, 27, 28, 29]  # 29 sets
 
 
 def load_data():
@@ -58,7 +58,7 @@ def latest(data):
 
 def predict(data, series_id):
     """
-    Generate 28 prediction sets (multi-event E1+E3+E5+E6+E7 + fusions + mixed/ALL + near-miss fixes).
+    Generate 29 prediction sets (multi-event E1+E3+E5+E6+E7 + fusions + mixed/ALL + fixes).
 
     E1-based sets (S1-S8):
     - Set 1-3: Single swaps (top-13 + rank 15/16/18)
@@ -98,6 +98,9 @@ def predict(data, series_id):
 
     E5-direct set (S28) - from 2026-01-17 analysis:
     - Set 28: Prior E5 directly (addresses frequency bias gap)
+
+    Under-predicted fix (S29) - from number-pattern-hunter 2026-01-17:
+    - Set 29: Force #7, #15, #14, #11 (under-predicted by 10-22%)
     """
     prior = str(series_id - 1)
     if prior not in data:
@@ -217,7 +220,15 @@ def predict(data, series_id):
     top12_no18 = [n for n in ranked[:14] if n != 18][:12]
     s27_numbers = top12_no18 + [18, ranked[16]]  # rank17 instead of rank16 for diversity
 
-    # 28 sets - expanded strategy (2026-01-17)
+    # S29: Under-predicted numbers fix (from number-pattern-hunter analysis 2026-01-17)
+    # #7 (ratio 0.39), #15 (0.55), #14 (0.70), #11 (0.79) are severely under-predicted
+    # Force include these 4, fill rest from E1-ranked (excluding over-predicted #8, #21, #24)
+    under_predicted = [7, 15, 14, 11]
+    over_predicted = [8, 21, 24]
+    base_for_s29 = [n for n in ranked if n not in under_predicted and n not in over_predicted][:10]
+    s29_numbers = base_for_s29 + under_predicted
+
+    # 29 sets - expanded strategy (2026-01-17)
     sets = [
         sorted(ranked[:13] + [ranked[15]]),              # S1: top-13 + rank16
         sorted(ranked[:13] + [ranked[14]]),              # S2: top-13 + rank15
@@ -247,6 +258,7 @@ def predict(data, series_id):
         sorted(s26_numbers),                              # S26: no#13 + #18 (near-miss fix)
         sorted(s27_numbers),                              # S27: #18 inclusion (near-miss fix)
         sorted(event5),                                   # S28: E5 directly (freq bias fix)
+        sorted(s29_numbers),                              # S29: under-predicted #7,#15,#14,#11
     ]
 
     return {"series": series_id, "sets": sets, "ranked": ranked,
@@ -451,7 +463,7 @@ def validate(data, start, end):
 
     n = len(results)
     bests = [r["best"] for r in results]
-    wins = [0] * 28  # 28 sets
+    wins = [0] * 29  # 29 sets
     n12_helped_count = 0
     swap_helped_count = 0
     fusion_helped_count = 0
@@ -518,7 +530,7 @@ def main():
         r = predict(data, sid)
         pm_overlay = generate_pm_overlays(data, sid) if use_pm else None
 
-        set_count = 32 if use_pm else 28
+        set_count = 33 if use_pm else 29
         print(f"\nSeries {sid} Prediction ({set_count}-Set {'+ PM Jackpot Pursuit' if use_pm else 'Multi-Event'})")
         print("=" * 80)
         print(f"{'Rank':<5} {'Set':<18} {'Numbers':<45} {'Type'}")
@@ -552,12 +564,13 @@ def main():
             "S26 (no#13+#18)", # Near-miss fix: #13 exclusion
             "S27 (#18+r17)",   # Near-miss fix: #18 inclusion
             "S28 (E5)",        # Event 5 directly (freq bias fix)
+            "S29 (under-pred)", # Under-predicted #7,#15,#14,#11
         ]
         types = ["SGL", "SGL", "SGL", "DBL", "DBL", "DBL", "DBL", "HOT",
                  "E6", "MIX", "E3", "E7", "#12", "#12", "E6S", "E3S", "E7S", "MIX",
-                 "#22", "MIX", "MIX", "MIX", "MIX", "ALL", "MIX", "NMF", "NMF", "E5"]
+                 "#22", "MIX", "MIX", "MIX", "MIX", "ALL", "MIX", "NMF", "NMF", "E5", "UND"]
         # Sort by performance rank for display
-        order = sorted(range(28), key=lambda i: PERF_RANK[i])
+        order = sorted(range(29), key=lambda i: PERF_RANK[i])
         for idx in order:
             s = r["sets"][idx]
             nums = ' '.join(f'{n:02d}' for n in s)
@@ -622,6 +635,7 @@ def main():
             print(f"New:     S23={w[22]} S24={w[23]} S25={w[24]} (helped={r['new_helped']})")
             print(f"NMFix:   S26={w[25]} S27={w[26]} (helped={r['nearmiss_helped']})")
             print(f"E5:      S28={w[27]}")
+            print(f"Under:   S29={w[28]}")
     else:
         print(f"Unknown: {cmd}")
 

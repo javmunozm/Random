@@ -15,8 +15,8 @@
     "created_at": "2026-01-16T13:43:13.536897",
     "created_by": "pm-agent",
     "status": "active",
-    "tasks_completed": 5,
-    "last_used": "2026-01-16T18:17:57.280361"
+    "tasks_completed": 6,
+    "last_used": "2026-01-17T21:01:32.757432"
   },
   "event-correlation-analyst": {
     "name": "event-correlation-analyst",
@@ -34,8 +34,8 @@
     "created_at": "2026-01-16T13:43:13.537409",
     "created_by": "pm-agent",
     "status": "active",
-    "tasks_completed": 5,
-    "last_used": "2026-01-16T18:17:57.280416"
+    "tasks_completed": 6,
+    "last_used": "2026-01-17T21:01:32.757503"
   },
   "set-optimizer": {
     "name": "set-optimizer",
@@ -53,7 +53,26 @@
     "created_at": "2026-01-16T13:43:13.537709",
     "created_by": "pm-agent",
     "status": "active",
-    "tasks_completed": 5,
-    "last_used": "2026-01-16T18:17:57.318191"
+    "tasks_completed": 6,
+    "last_used": "2026-01-17T21:01:32.789075"
+  },
+  "number-pattern-hunter": {
+    "name": "number-pattern-hunter",
+    "focus": "Identify recurring number patterns and sequences",
+    "description": "[DYNAMIC] Identify recurring number patterns and sequences",
+    "tools": [
+      "Grep",
+      "Read",
+      "Bash"
+    ],
+    "trigger_conditions": [
+      "12+ rate drops",
+      "specific numbers consistently missing"
+    ],
+    "created_at": "2026-01-17T21:12:22.585061",
+    "created_by": "pm-agent",
+    "status": "active",
+    "tasks_completed": 0,
+    "last_used": null
   }
 }
