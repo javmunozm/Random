@@ -1,6 +1,6 @@
 # Lottery Prediction Research
 
-**Status**: PRODUCTION READY | **Updated**: January 18, 2026 (31-set + PM Agent)
+**Status**: PRODUCTION READY | **Updated**: January 18, 2026 (12-set core strategy)
 
 ---
 
@@ -28,6 +28,7 @@ Format: `[YYYY-MM-DD] <description> | Impact: <metric change if any>`
 
 | Date | Change | Impact |
 |------|--------|--------|
+| 2026-01-18 | **PRUNED to 12-set core strategy** (removed 19 dead-weight sets) | 61% fewer sets, L30 avg 10.90 (was 11.00) |
 | 2026-01-18 | Added S30 (E3&E6 fusion) and S31 (anti-#10) from edge-case analysis | 31 sets, avg 10.97, 11+ 160 (+4), 12+ 30 |
 | 2026-01-17 | Added S29 (under-predicted #7,#15,#14,#11) from number-pattern-hunter | 29 sets, avg 10.95, 11+ 156, 12+ 30 |
 | 2026-01-17 | Simplified PM agent to analysis-only (removed predict/ranking) | PERF_RANK outperforms PM ranking |
@@ -36,10 +37,6 @@ Format: `[YYYY-MM-DD] <description> | Impact: <metric change if any>`
 | 2026-01-16 | PM Agent: Agent-driven predictions (consults dynamic agents, generates overlay sets) | 30 sets (27 base + 3 PM) |
 | 2026-01-16 | PM Agent: Dynamic agent creation (max 4, 6 templates) | Auto-created 3 agents |
 | 2026-01-16 | Implemented S26 (no#13+#18) and S27 (#18+r17) from near-miss analysis | Avg 10.91, 12+ 27→28 (S26 +1), 11+ 148 |
-| 2026-01-16 | Added PM Agent (pm_agent.py) | Coordination layer |
-| 2026-01-16 | Near-miss analysis: #13 over-selected (71% vs 57%), #18/#22 under-selected | Identified fix targets |
-| 2026-01-15 | S18 promoted to #1 rank (3 recent 12+) | Recency-first ranking |
-| 2026-01-14 | Expanded to 25-set strategy (+mixed/ALL) | +6 12+ events |
 
 ---
 
@@ -59,106 +56,103 @@ python production_predictor.py validate 2981 3176
 
 Run: `python ml_models/production_predictor.py predict [series]`
 
-Output is **ordered by recency-first strategy** (what's working NOW):
+Output is **ordered by recent performance** (L30 wins):
 ```
-Rank  Set                Numbers                                       Type
-#1    S18 (E3&E7)        ...                                           MIX  (3 recent 12+, HOT!)
-#2    S9 (E6)            ...                                           E6   (only 13/14, but cold)
-#3    S16 (E3+hot)       ...                                           E3S  (4x 12+)
-#4    S4 (r15+r16)       ...                                           DBL  (3x 12+)
-#5    S17 (E7+hot)       ...                                           E7S  (3x 12+)
+Rank  Set             Numbers                                       Type
+#1    S1 (rank16)     ...                                           E1   (5 wins L30)
+#2    S7 (E3)         ...                                           E3   (3 wins L30)
+#3    S4 (r15+r16)    ...                                           E1   (3 wins L30)
+#4    S5 (E6)         ...                                           E6   (2 wins, 13/14 achiever)
 ...
-#24   S1 (rank16)        ...                                           SGL  (0x 12+)
 ```
-*Ranking updated 2026-01-15: S18 promoted to #1 (hottest recent performer)*
 
 ---
 
-## Key Metrics (196 series validated, 31-set)
+## Key Metrics (196 series validated, 12-set core)
 
 | Metric | Value |
 |--------|-------|
-| Average | **10.97/14** |
-| Best | **13/14** (S9) |
+| Average | **10.72/14** (full), **10.90/14** (L30) |
+| Best | **13/14** (S5 E6) |
 | Worst | 10/14 |
-| 11+ matches | 160 (81.6%) |
-| 12+ matches | 30 (15.3%) |
-| 13+ matches | 1 (0.5%) |
+| 11+ matches | 121 (62%) full, 24 (80%) L30 |
+| 12+ matches | 19 (10%) full, 3 (10%) L30 |
 | 14/14 hits | 0 |
 
-### Set Performance by Wins (196 series)
+### Why 12 Sets Instead of 31?
 
-| Set | Strategy | Wins | 12+ | Best |
-|-----|----------|------|-----|------|
-| S9 | E6 direct | 17 | 1 | **13/14** |
-| S18 | E3 & E7 fusion | 11 | **5** | 12/14 |
-| S16 | E3 + hot | 8 | 4 | 12/14 |
-| S4 | r15+r16 | 14 | 3 | 12/14 |
-| S17 | E7 + hot | 6 | 3 | 12/14 |
-| S1 | rank16 | **29** | 0 | 11/14 |
+**Problem with accumulating sets:**
+- Historical analysis → add set → repeat = brute force, not intelligence
+- Sets S28-S31 had **0 wins in last 50 series** (dead weight)
+- 40/50 recent series had **ties** for best score (redundancy)
 
-**Key discoveries (2026-01-14)**:
-- **Mixed hot+cold** - captures regression-to-mean patterns
-- **ALL-event fusion** - 7 wins, best new performer
-- **S26 (no#13+#18)** - added 1 new 12+ event (series 3144)
+**Pruning criteria:**
+- Keep sets with **wins in L30** or **rising trends**
+- Remove sets with 0 wins recently or falling trends
+- Result: 61% fewer sets, 97% of recent performance retained
 
-### Improvement History
+### Performance by Time Window
 
-| Version | Sets | Average | 11+ | 12+ |
-|---------|------|---------|-----|-----|
-| E1 only | 8 | 10.39/14 | 61 | 11 |
-| +E3/E6/E7 | 12 | 10.62/14 | 102 | 17 |
-| +#12/swaps | 18 | 10.75/14 | 122 | 23 |
-| +fusions | 22 | 10.81/14 | 132 | 25 |
-| +lookback3 | 22 | 10.85/14 | 138 | 26 |
-| +mixed/ALL (194) | 25 | 10.91/14 | 146 | 27 |
-| +S26/S27 (195) | 27 | 10.91/14 | 148 | 28 |
-| +S28 E5 (196) | 28 | 10.93/14 | 153 | 28 |
-| +S29 under (196) | 29 | 10.95/14 | 156 | 30 |
-| +S30/S31 edge (196) | 31 | **10.97/14** | **160** | **30** |
+| Window | Sets | Average | 11+ Rate |
+|--------|------|---------|----------|
+| L30 | 12 | 10.90 | 80% |
+| L30 | 31 | 11.00 | 90% |
+| **Loss** | | **-0.10** | **-10%** |
+
+### Core 12 Sets (ranked by L30 wins)
+
+| Rank | Set | Strategy | L30 Wins | Trend |
+|------|-----|----------|----------|-------|
+| #1 | S1 | rank16 | 5 | STABLE |
+| #2 | S7 | E3 direct | 3 | RISING |
+| #3 | S4 | r15+r16 | 3 | RISING |
+| #4 | S5 | E6 direct | 2 | STABLE (13/14!) |
+| #5 | S2 | rank15 | 2 | RISING |
+| #6 | S10 | E7+hot | 2 | RISING |
+| #7 | S11 | E3&E7 | 3 | RISING |
+| #8 | S12 | E6&E7 | 2 | RISING |
+| #9 | S8 | E7 direct | 1 | STABLE |
+| #10 | S3 | rank18 | 1 | FALLING |
+| #11 | S6 | E1&E6 | 1 | STABLE |
+| #12 | S9 | E6+hot | 1 | STABLE |
 
 ---
 
-## Statistical Validation (Monte Carlo)
+## Strategy (12-set core, 2026-01-18)
 
-| Test | Value | Interpretation |
-|------|-------|----------------|
-| t-statistic | 71.46 | Extremely high |
-| p-value | 8.26e-142 | Highly significant |
-| Cohen's d | 3.15 | Large effect |
-| 95% CI | [10.87, 11.04] | Tight confidence |
-| Percentile | 100% | Beats all random |
+```python
+# 12-set core strategy - validated on recent data
 
-*Updated 2026-01-17: 10.95/14 avg, +39.7% above 7.84 baseline (10,000 simulations, 196 series, 29-set)*
+# E1-based sets (S1-S4)
+sets[0:4] = [
+    ranked[:13] + [ranked[15]],              # S1: rank16 (5 wins L30)
+    ranked[:13] + [ranked[14]],              # S2: rank15 (2 wins L30)
+    ranked[:13] + [ranked[17]],              # S3: rank18 (1 win L30)
+    ranked[:12] + [ranked[14], ranked[15]],  # S4: r15+r16 (3 wins L30)
+]
 
-### Ceiling Analysis
+# Multi-event direct (S5, S7, S8)
+sets[4] = sorted(event6)                     # S5: E6 (13/14 achiever!)
+sets[6] = sorted(event3)                     # S7: E3 (3 wins L30)
+sets[7] = sorted(event7)                     # S8: E7 (1 win L30)
 
-From `ceiling_analysis.py`:
-- **P(14/14) random**: 1 in 4,457,400 per set/event
-- **14/14 theoretically possible**: 0/195 series (E1-based approach)
-- **Numbers missing in 12+ events**: #13 (25%), #20 (20%), #8 (15%)
-- **Numbers should've had**: #12 (20%), #22 (20%), #23 (15%)
+# Multi-event fusions (S6, S9-S12)
+sets[5] = sorted(e1_e6_fusion)               # S6: E1 & E6 fusion
+sets[8] = e6_ranked[:13] + [hot_outside_e6]  # S9: E6 + hot
+sets[9] = e7_ranked[:13] + [hot_outside_e7]  # S10: E7 + hot
+sets[10] = sorted(e3_e7_fusion)              # S11: E3 & E7 fusion
+sets[11] = sorted(e6_e7_fusion)              # S12: E6 & E7 fusion
+```
 
-**Path to 14/14**: Requires non-E1 event breakthroughs (E6 proved this with 13/14)
+### Sets REMOVED (19 dead-weight sets)
 
-### Near-Miss Analysis (2026-01-16)
-
-**The 13/14 Case (Series 3061)**:
-- Set S9 (E6) missed by 1 number
-- **Missing**: #16 | **Had wrong**: #19
-- #16 WAS in prior series (E3, E5) - achievable!
-
-**Critical Findings**:
-| Issue | Detail | Action |
-|-------|--------|--------|
-| #13 over-selected | 71% predicted vs 57% actual | S26: #13 exclusion set |
-| #10 over-selected | 10.6% of wrong inclusions | S31: #10 exclusion set |
-| #18 under-selected | Needed in 18.8% of 12+ events | S26/S27: #18 inclusion |
-| #22 under-selected | Needed in 18.8% of 12+ events | S19/S31: #22 inclusion |
-
-**Implemented**: S26 (no#13), S27 (#18+r17), S30 (E3&E6), S31 (no#10) - see Strategy section
-
-Run: `python ml_models/ceiling_analysis.py`
+| Set | Reason |
+|-----|--------|
+| S5-S8 (old) | Redundant with core E1 sets |
+| S13-S14 | #12 inclusion - 0 wins L50 |
+| S16 | E3+hot - falling trend |
+| S19-S25 | Fusions/mixed - 0-1 wins L30 |
+| S26-S31 | Near-miss fixes - 0 wins L50 |
 
 ---
 
@@ -167,87 +161,6 @@ Run: `python ml_models/ceiling_analysis.py`
 - **Series**: 197 (2980-3176)
 - **Latest**: 3176
 - **File**: `data/full_series_data.json`
-
----
-
-## Strategy (31-set multi-event, 2026-01-18)
-
-```python
-# Multi-event E1 + E3 + E5 + E6 + E7 + fusions + mixed/ALL + nearmiss + edge (31 sets)
-
-# E1-based sets (S1-S8)
-sets[0:8] = [
-    ranked[:13] + [ranked[15]],              # S1: rank16
-    ranked[:13] + [ranked[14]],              # S2: rank15
-    ranked[:13] + [ranked[17]],              # S3: rank18
-    ranked[:12] + [ranked[14], ranked[15]],  # S4: r15+r16
-    ranked[:12] + [ranked[14], ranked[17]],  # S5: r15+r18
-    ranked[:12] + [ranked[15], ranked[17]],  # S6: r16+r18
-    ranked[:12] + [ranked[14], ranked[18]],  # S7: r15+r19
-    ranked[:12] + [hot[1], hot[2]],          # S8: hot#2+#3
-]
-
-# Multi-event direct (S9-S12)
-sets[8:12] = [
-    sorted(event6),                          # S9: E6 (13/14!)
-    sorted(e1_e6_combined),                  # S10: E1 & E6
-    sorted(event3),                          # S11: E3 (2x 12+)
-    sorted(event7),                          # S12: E7 (2x 12+)
-]
-
-# #12/#22 inclusion (S13-S14, S19)
-sets[12:14] = [
-    top12_no12 + [12, ranked[15]],           # S13: +#12 +r16
-    top12_no12 + [12, ranked[14]],           # S14: +#12 +r15
-]
-
-# Multi-event swaps (S15-S18)
-sets[14:18] = [
-    e6_ranked[:13] + [hot_outside_e6],       # S15: E6 +hot
-    e3_ranked[:13] + [hot_outside_e3],       # S16: E3 +hot
-    e7_ranked[:13] + [hot_outside_e7],       # S17: E7 +hot
-    sorted(e3_e7_combined),                  # S18: E3 & E7
-]
-
-# Fusion sets (S19-S22)
-sets[18:22] = [
-    top12_no22 + [22, ranked[15]],           # S19: +#22 +r16
-    sorted(e6_e7_combined),                  # S20: E6 & E7
-    sorted(e1_e3_combined),                  # S21: E1 & E3
-    sorted(e3_e6_e7_combined),               # S22: E3 & E6 & E7
-]
-
-# New sets (S23-S25) - +6 12+ events
-sets[22:25] = [
-    ranked[:12] + [hot[0], cold[0]],         # S23: hot#1 + cold#1
-    sorted(all_event_combined),              # S24: ALL-event fusion
-    sorted(e1_e2_combined),                  # S25: E1 & E2 fusion
-]
-
-# Near-miss fix sets (S26-S27) - from 2026-01-16 analysis
-sets[25:27] = [
-    top13_no13 + [18],                       # S26: no#13 + #18
-    top12_no18 + [18, ranked[16]],           # S27: #18 + r17
-]
-
-# E5-direct set (S28) - from 2026-01-17 analysis
-sets[27] = sorted(event5)                    # S28: E5 (addresses freq bias)
-
-# Under-predicted numbers (S29) - from number-pattern-hunter 2026-01-17
-# #7 (ratio 0.39), #15 (0.55), #14 (0.70), #11 (0.79) under-predicted
-under_predicted = [7, 15, 14, 11]
-over_predicted = [8, 21, 24]
-base = [n for n in ranked if n not in under_predicted and n not in over_predicted][:10]
-sets[28] = sorted(base + under_predicted)     # S29: under-predicted fix
-
-# Edge-case sets (S30-S31) - from edge-case analysis 2026-01-18
-sets[29] = sorted(e3_e6_combined)             # S30: E3 & E6 fusion (13/14 fix attempt)
-sets[30] = sorted(base_no10 + [18, 22])       # S31: no#10 + under-selected (anti-#10)
-```
-
-**Performance**: 39.7% above random baseline (7.84/14)
-
-**Jackpot Pool**: Pool-24 (exclude #12), ~1.96M combinations
 
 ---
 
@@ -264,50 +177,7 @@ python pm_agent.py assess     # JSON situation assessment
 ```
 
 **Note:** PM agent focuses on analysis and agent management. Predictions use
-`production_predictor.py` with PERF_RANK (historical performance ranking),
-which outperforms dynamic PM ranking on validation data.
-
-### Dynamic Agent Management
-
-PM can create up to **4 dynamic agents** when gaps are identified:
-
-```bash
-python pm_agent.py agents              # List all agents
-python pm_agent.py agents auto         # Auto-create recommended agents
-python pm_agent.py agents create <tpl> # Create from template
-python pm_agent.py agents templates    # List available templates
-python pm_agent.py agents deactivate   # Deactivate an agent
-python pm_agent.py agents delete       # Delete an agent
-```
-
-**Available Templates**:
-| Template | Focus | Triggers |
-|----------|-------|----------|
-| edge-case-specialist | Near-miss analysis | 13/14 achieved |
-| event-correlation-analyst | E1-E7 correlations | Fusion underperforming |
-| number-pattern-hunter | Recurring patterns | 12+ rate drops |
-| hot-cold-tracker | Streak momentum | Hot set changes |
-| set-optimizer | Set strategy optimization | Strong base performance |
-| regression-analyst | Performance regression | Average declining |
-
-### Core Agents
-
-| Agent | Focus |
-|-------|-------|
-| lottery-math-analyst | Pattern analysis, prediction algorithms |
-| dataset-reviewer | Data validation, anomaly detection |
-| simulation-testing-expert | Monte Carlo, statistical validation |
-| model-analysis-expert | Performance analysis, error diagnosis |
-| stats-math-evaluator | Statistical analysis, hypothesis testing |
-
-### PM Directive
-
-Every action serves the jackpot goal. The PM agent:
-- Assesses gap to 14/14 and identifies blockers
-- Prioritizes high-impact improvements
-- Dispatches specialized agents with context
-- Tracks trends and near-miss patterns
-- **Creates new agents dynamically** when gaps are identified (max 4)
+`production_predictor.py` with PERF_RANK (historical performance ranking).
 
 ---
 
@@ -315,15 +185,11 @@ Every action serves the jackpot goal. The PM agent:
 
 ```
 ml_models/
-├── production_predictor.py         # ~676 lines, 31-set multi-event logic
-├── pm_agent.py                     # PM coordinator + dynamic agent mgmt (~970 lines, analysis only)
-├── dynamic_agents.json             # Persisted dynamic agents (auto-generated)
+├── production_predictor.py         # ~330 lines, 12-set core strategy
+├── pm_agent.py                     # PM coordinator + dynamic agent mgmt
+├── dynamic_agents.json             # Persisted dynamic agents
 ├── ceiling_analysis.py             # Theoretical limits analysis
-├── event_breakthrough_analysis.py  # E1-E7 breakthrough analysis
-├── detailed_analysis.py            # Set performance diagnostics
-├── error_analysis.py               # Error pattern analysis
-├── monte_carlo_validation.py       # Statistical validation
-└── e1_correlated_simulation.py     # Correlation model
+└── monte_carlo_validation.py       # Statistical validation
 ```
 
 ---
@@ -331,6 +197,57 @@ ml_models/
 ## Goal
 
 Hit **14/14** at least once.
+
+---
+
+## Design Principle (2026-01-18)
+
+**DON'T accumulate sets based on historical edge cases.**
+
+Instead:
+1. Analyze historical data for **patterns**
+2. Validate patterns work on **recent data** (L30)
+3. Keep only sets with **recent wins or rising trends**
+4. Prune dead weight regularly
+
+---
+
+## PREDICTOR IMPROVEMENT DIRECTIVE
+
+**ALL agents MUST follow these rules when suggesting predictor changes:**
+
+### Rule 1: Validate on Recent Data FIRST
+- Any proposed set/strategy MUST be tested on L30 (last 30 series) before adding
+- If L30 performance is worse than existing sets, REJECT the proposal
+- Historical edge cases are NOT sufficient justification
+
+### Rule 2: Replace, Don't Accumulate
+- New sets should REPLACE underperforming sets, not add to total count
+- Target: Keep set count at **10-15 sets maximum**
+- If adding a set, identify which set to remove
+
+### Rule 3: Measure What Matters
+- Primary metric: **L30 wins** (what's working NOW)
+- Secondary metric: **L30 average**
+- Tertiary metric: Full historical average (least important)
+
+### Rule 4: Prune Regularly
+- Sets with **0 wins in L50** should be removed
+- Sets with **falling trends** should be reviewed for removal
+- Run pruning analysis monthly
+
+### Rule 5: Document Rationale
+- Every set must have: L30 wins, trend direction, why it's kept
+- Log all changes in Change Log with impact metrics
+
+### Agent Application
+| Agent | How This Applies |
+|-------|------------------|
+| lottery-math-analyst | Propose replacements, not additions |
+| model-analysis-expert | Evaluate L30 performance first |
+| set-optimizer | Optimize existing sets, prune dead weight |
+| number-pattern-hunter | Validate patterns on L30 before proposing |
+| edge-case-specialist | Edge cases need L30 validation too |
 
 ---
 
