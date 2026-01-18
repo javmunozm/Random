@@ -28,6 +28,7 @@ Format: `[YYYY-MM-DD] <description> | Impact: <metric change if any>`
 
 | Date | Change | Impact |
 |------|--------|--------|
+| 2026-01-17 | Simplified PM agent to analysis-only (removed predict/ranking) | PERF_RANK outperforms PM ranking |
 | 2026-01-17 | Added S28 (E5-direct) to address frequency bias gap | 28 sets, avg 10.93, 11+ 153 (+4) |
 | 2026-01-17 | Added series 3176 (best: 11/14, S2 won); fixed 12+ count docs (was 30, actual 28) | 196 series, avg 10.91, 11+ 149, 12+ 28 |
 | 2026-01-16 | PM Agent: Agent-driven predictions (consults dynamic agents, generates overlay sets) | 30 sets (27 base + 3 PM) |
@@ -243,9 +244,12 @@ cd ml_models
 python pm_agent.py report     # Full status report
 python pm_agent.py status     # Quick jackpot status
 python pm_agent.py tasks      # Prioritized agent task queue
-python pm_agent.py predict    # Prediction with PM commentary
 python pm_agent.py assess     # JSON situation assessment
 ```
+
+**Note:** PM agent focuses on analysis and agent management. Predictions use
+`production_predictor.py` with PERF_RANK (historical performance ranking),
+which outperforms dynamic PM ranking on validation data.
 
 ### Dynamic Agent Management
 
@@ -296,7 +300,7 @@ Every action serves the jackpot goal. The PM agent:
 ```
 ml_models/
 ├── production_predictor.py         # ~630 lines, 28-set multi-event logic
-├── pm_agent.py                     # PM coordinator + dynamic agent mgmt (~1000 lines)
+├── pm_agent.py                     # PM coordinator + dynamic agent mgmt (~970 lines, analysis only)
 ├── dynamic_agents.json             # Persisted dynamic agents (auto-generated)
 ├── ceiling_analysis.py             # Theoretical limits analysis
 ├── event_breakthrough_analysis.py  # E1-E7 breakthrough analysis
