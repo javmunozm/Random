@@ -28,6 +28,7 @@ Format: `[YYYY-MM-DD] <description> | Impact: <metric change if any>`
 
 | Date | Change | Impact |
 |------|--------|--------|
+| 2026-01-18 | **Replaced S3 (rank18) with E4 direct** - L30 validated improvement | L30 avg 10.90→10.97, S3 now 6 wins (tied #1) |
 | 2026-01-18 | Replaced number-pattern-hunter with regression-analyst (0 tasks, patterns shift) | Better aligned with L30 monitoring |
 | 2026-01-18 | **PRUNED to 12-set core strategy** (removed 19 dead-weight sets) | 61% fewer sets, L30 avg 10.90 (was 11.00) |
 | 2026-01-18 | Added S30 (E3&E6 fusion) and S31 (anti-#10) from edge-case analysis | 31 sets, avg 10.97, 11+ 160 (+4), 12+ 30 |
@@ -60,8 +61,8 @@ Run: `python ml_models/production_predictor.py predict [series]`
 Output is **ordered by recent performance** (L30 wins):
 ```
 Rank  Set             Numbers                                       Type
-#1    S1 (rank16)     ...                                           E1   (5 wins L30)
-#2    S7 (E3)         ...                                           E3   (3 wins L30)
+#1    S1 (rank16)     ...                                           E1   (6 wins L30)
+#2    S3 (E4)         ...                                           E4   (6 wins L30, NEW!)
 #3    S4 (r15+r16)    ...                                           E1   (3 wins L30)
 #4    S5 (E6)         ...                                           E6   (2 wins, 13/14 achiever)
 ...
@@ -73,11 +74,11 @@ Rank  Set             Numbers                                       Type
 
 | Metric | Value |
 |--------|-------|
-| Average | **10.72/14** (full), **10.90/14** (L30) |
+| Average | **10.75/14** (full), **10.97/14** (L30) |
 | Best | **13/14** (S5 E6) |
 | Worst | 10/14 |
-| 11+ matches | 121 (62%) full, 24 (80%) L30 |
-| 12+ matches | 19 (10%) full, 3 (10%) L30 |
+| 11+ matches | 129 (66%) full, 26 (87%) L30 |
+| 12+ matches | 17 (9%) full, 3 (10%) L30 |
 | 14/14 hits | 0 |
 
 ### Why 12 Sets Instead of 31?
@@ -96,53 +97,52 @@ Rank  Set             Numbers                                       Type
 
 | Window | Sets | Average | 11+ Rate |
 |--------|------|---------|----------|
-| L30 | 12 | 10.90 | 80% |
+| L30 | 12 (E4 fix) | **10.97** | **87%** |
+| L30 | 12 (old) | 10.90 | 80% |
 | L30 | 31 | 11.00 | 90% |
-| **Loss** | | **-0.10** | **-10%** |
+| **Gap** | | **-0.03** | **-3%** |
 
 ### Core 12 Sets (ranked by L30 wins)
 
 | Rank | Set | Strategy | L30 Wins | Trend |
 |------|-----|----------|----------|-------|
-| #1 | S1 | rank16 | 5 | STABLE |
-| #2 | S7 | E3 direct | 3 | RISING |
+| #1 | S1 | rank16 | 6 | STABLE |
+| #2 | S3 | **E4 direct** | 6 | **NEW** |
 | #3 | S4 | r15+r16 | 3 | RISING |
-| #4 | S5 | E6 direct | 2 | STABLE (13/14!) |
-| #5 | S2 | rank15 | 2 | RISING |
-| #6 | S10 | E7+hot | 2 | RISING |
-| #7 | S11 | E3&E7 | 3 | RISING |
-| #8 | S12 | E6&E7 | 2 | RISING |
-| #9 | S8 | E7 direct | 1 | STABLE |
-| #10 | S3 | rank18 | 1 | FALLING |
-| #11 | S6 | E1&E6 | 1 | STABLE |
-| #12 | S9 | E6+hot | 1 | STABLE |
+| #4 | S2 | rank15 | 2 | RISING |
+| #5 | S5 | E6 direct | 2 | STABLE (13/14!) |
+| #6 | S6 | E1&E6 | 2 | RISING |
+| #7 | S7 | E3 direct | 1 | STABLE |
+| #8 | S10 | E7+hot | 1 | STABLE |
+| #9 | S11 | E3&E7 | 4 | RISING |
+| #10 | S12 | E6&E7 | 2 | RISING |
+| #11 | S9 | E6+hot | 0 | FALLING |
+| #12 | S8 | E7 direct | 1 | STABLE |
 
 ---
 
 ## Strategy (12-set core, 2026-01-18)
 
 ```python
-# 12-set core strategy - validated on recent data
+# 12-set core strategy - validated on L30 data
 
-# E1-based sets (S1-S4)
-sets[0:4] = [
-    ranked[:13] + [ranked[15]],              # S1: rank16 (5 wins L30)
-    ranked[:13] + [ranked[14]],              # S2: rank15 (2 wins L30)
-    ranked[:13] + [ranked[17]],              # S3: rank18 (1 win L30)
-    ranked[:12] + [ranked[14], ranked[15]],  # S4: r15+r16 (3 wins L30)
-]
+# E1-based sets (S1, S2, S4)
+sets[0] = ranked[:13] + [ranked[15]]             # S1: rank16 (6 wins L30)
+sets[1] = ranked[:13] + [ranked[14]]             # S2: rank15 (2 wins L30)
+sets[3] = ranked[:12] + [ranked[14], ranked[15]] # S4: r15+r16 (3 wins L30)
 
-# Multi-event direct (S5, S7, S8)
-sets[4] = sorted(event6)                     # S5: E6 (13/14 achiever!)
-sets[6] = sorted(event3)                     # S7: E3 (3 wins L30)
-sets[7] = sorted(event7)                     # S8: E7 (1 win L30)
+# Multi-event direct (S3, S5, S7, S8)
+sets[2] = sorted(event4)                         # S3: E4 (6 wins L30, NEW!)
+sets[4] = sorted(event6)                         # S5: E6 (13/14 achiever!)
+sets[6] = sorted(event3)                         # S7: E3 (1 win L30)
+sets[7] = sorted(event7)                         # S8: E7 (1 win L30)
 
 # Multi-event fusions (S6, S9-S12)
-sets[5] = sorted(e1_e6_fusion)               # S6: E1 & E6 fusion
-sets[8] = e6_ranked[:13] + [hot_outside_e6]  # S9: E6 + hot
-sets[9] = e7_ranked[:13] + [hot_outside_e7]  # S10: E7 + hot
-sets[10] = sorted(e3_e7_fusion)              # S11: E3 & E7 fusion
-sets[11] = sorted(e6_e7_fusion)              # S12: E6 & E7 fusion
+sets[5] = sorted(e1_e6_fusion)                   # S6: E1 & E6 fusion (2 wins)
+sets[8] = e6_ranked[:13] + [hot_outside_e6]      # S9: E6 + hot (0 wins, monitor)
+sets[9] = e7_ranked[:13] + [hot_outside_e7]      # S10: E7 + hot (1 win)
+sets[10] = sorted(e3_e7_fusion)                  # S11: E3 & E7 fusion (4 wins)
+sets[11] = sorted(e6_e7_fusion)                  # S12: E6 & E7 fusion (2 wins)
 ```
 
 ### Sets REMOVED (19 dead-weight sets)

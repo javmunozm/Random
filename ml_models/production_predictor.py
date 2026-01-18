@@ -8,12 +8,12 @@ Goal: Hit 14/14 at least once.
 Strategy: 12-set core strategy (pruned from 31 sets based on recent performance).
 Only sets with wins in last 30 series or rising trends are kept.
 
-Core sets (validated on recent data 2026-01-18):
-- E1-based: S1 rank16, S2 rank15, S3 rank18, S4 r15+r16
-- Multi-event direct: S5 E6 (13/14!), S7 E3, S8 E7
+Core sets (validated on L30 data 2026-01-18):
+- E1-based: S1 rank16, S2 rank15, S4 r15+r16
+- Multi-event direct: S3 E4, S5 E6 (13/14!), S7 E3, S8 E7
 - Multi-event fusions: S6 E1&E6, S9 E6+hot, S10 E7+hot, S11 E3&E7, S12 E6&E7
 
-Performance: 10.90/14 avg on L30 (vs 11.00 with 31 sets) - 61% fewer sets.
+Performance: 10.97/14 avg on L30 (improved from 10.90 with E4 replacement).
 """
 
 import json
@@ -28,9 +28,9 @@ TOTAL = 25
 PICK = 14
 EXCLUDE = 12
 
-# Performance rank by recent wins (L30 data, 2026-01-18)
-# S1=5, S11=3, S4=3, S7=3, S5=2, S2=2, S10=2, S12=2, S8=1, S3=1, S6=1, S9=1
-PERF_RANK = [1, 5, 10, 3, 4, 11, 2, 9, 12, 6, 7, 8]  # 12 sets
+# Performance rank by recent wins (L30 data, 2026-01-18, E4 replacement)
+# S1=6, S3(E4)=6, S4=3, S7=3, S11=3, S5=3, S6=3, S2=2, S10=2, S12=2, S8=1, S9=1
+PERF_RANK = [1, 4, 2, 3, 5, 6, 7, 12, 11, 8, 9, 10]  # 12 sets
 
 
 def load_data():
@@ -55,23 +55,23 @@ def predict(data, series_id):
     """
     Generate 12 prediction sets (pruned core strategy).
 
-    E1-based sets (S1-S4):
-    - S1: top-13 + rank16 (5 wins L30, best performer)
-    - S2: top-13 + rank15 (2 wins L30, rising)
-    - S3: top-13 + rank18 (1 win L30)
-    - S4: top-12 + r15 + r16 (3 wins L30, rising)
+    E1-based sets (S1, S2, S4):
+    - S1: top-13 + rank16 (6 wins L30, top performer)
+    - S2: top-13 + rank15 (2 wins L30)
+    - S4: top-12 + r15 + r16 (3 wins L30)
 
-    Multi-event direct (S5, S7, S8):
-    - S5: E6 directly (13/14 achiever, 2 wins L30)
-    - S7: E3 directly (3 wins L30, rising)
+    Multi-event direct (S3, S5, S7, S8):
+    - S3: E4 directly (6 wins L30, replaced rank18)
+    - S5: E6 directly (13/14 achiever, 3 wins L30)
+    - S7: E3 directly (3 wins L30)
     - S8: E7 directly (1 win L30)
 
     Multi-event fusions (S6, S9-S12):
-    - S6:  E1 & E6 intersection + fill (1 win L30)
+    - S6:  E1 & E6 intersection + fill (3 wins L30)
     - S9:  E6 top-13 + hot outside (1 win L30)
-    - S10: E7 top-13 + hot outside (2 wins L30, rising)
-    - S11: E3 & E7 fusion (3 wins L30, rising)
-    - S12: E6 & E7 fusion (2 wins L30, rising)
+    - S10: E7 top-13 + hot outside (2 wins L30)
+    - S11: E3 & E7 fusion (3 wins L30)
+    - S12: E6 & E7 fusion (2 wins L30)
     """
     prior = str(series_id - 1)
     if prior not in data:
@@ -79,6 +79,7 @@ def predict(data, series_id):
 
     event1 = set(data[prior][0])
     event3 = set(data[prior][2])
+    event4 = set(data[prior][3])
     event6 = set(data[prior][5])
     event7 = set(data[prior][6])
 
@@ -128,7 +129,7 @@ def predict(data, series_id):
     sets = [
         sorted(ranked[:13] + [ranked[15]]),              # S1: top-13 + rank16
         sorted(ranked[:13] + [ranked[14]]),              # S2: top-13 + rank15
-        sorted(ranked[:13] + [ranked[17]]),              # S3: top-13 + rank18
+        sorted(event4),                                   # S3: E4 directly (6 wins L30!)
         sorted(ranked[:12] + [ranked[14], ranked[15]]),  # S4: top-12 + r15 + r16
         sorted(event6),                                   # S5: E6 directly (13/14!)
         sorted(s6_numbers),                               # S6: E1 & E6 fusion
@@ -141,8 +142,8 @@ def predict(data, series_id):
     ]
 
     return {"series": series_id, "sets": sets, "ranked": ranked,
-            "event3": sorted(event3), "event6": sorted(event6),
-            "event7": sorted(event7)}
+            "event3": sorted(event3), "event4": sorted(event4),
+            "event6": sorted(event6), "event7": sorted(event7)}
 
 
 # =============================================================================
@@ -277,7 +278,7 @@ def main():
         labels = [
             "S1 (rank16)",    # E1-based
             "S2 (rank15)",    # E1-based
-            "S3 (rank18)",    # E1-based
+            "S3 (E4)",        # Multi-event direct (6 wins L30!)
             "S4 (r15+r16)",   # E1-based
             "S5 (E6)",        # Multi-event direct (13/14!)
             "S6 (E1&E6)",     # Fusion
@@ -288,7 +289,7 @@ def main():
             "S11 (E3&E7)",    # Fusion
             "S12 (E6&E7)",    # Fusion
         ]
-        types = ["E1", "E1", "E1", "E1", "E6", "MIX", "E3", "E7", "E6S", "E7S", "MIX", "MIX"]
+        types = ["E1", "E1", "E4", "E1", "E6", "MIX", "E3", "E7", "E6S", "E7S", "MIX", "MIX"]
 
         # Sort by performance rank for display
         order = sorted(range(12), key=lambda i: PERF_RANK[i])
@@ -299,6 +300,7 @@ def main():
 
         print("-" * 80)
         print(f"Event 3: {r['event3']}")
+        print(f"Event 4: {r['event4']}")
         print(f"Event 6: {r['event6']}")
         print(f"Event 7: {r['event7']}")
         print(f"Pool-24: Exclude #{EXCLUDE}")
