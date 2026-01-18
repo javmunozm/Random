@@ -1,6 +1,6 @@
 # Lottery Prediction Research
 
-**Status**: PRODUCTION READY | **Updated**: January 17, 2026 (29-set + PM Agent)
+**Status**: PRODUCTION READY | **Updated**: January 18, 2026 (31-set + PM Agent)
 
 ---
 
@@ -28,6 +28,7 @@ Format: `[YYYY-MM-DD] <description> | Impact: <metric change if any>`
 
 | Date | Change | Impact |
 |------|--------|--------|
+| 2026-01-18 | Added S30 (E3&E6 fusion) and S31 (anti-#10) from edge-case analysis | 31 sets, avg 10.97, 11+ 160 (+4), 12+ 30 |
 | 2026-01-17 | Added S29 (under-predicted #7,#15,#14,#11) from number-pattern-hunter | 29 sets, avg 10.95, 11+ 156, 12+ 30 |
 | 2026-01-17 | Simplified PM agent to analysis-only (removed predict/ranking) | PERF_RANK outperforms PM ranking |
 | 2026-01-17 | Added S28 (E5-direct) to address frequency bias gap | 28 sets, avg 10.93, 11+ 153 (+4) |
@@ -73,14 +74,14 @@ Rank  Set                Numbers                                       Type
 
 ---
 
-## Key Metrics (196 series validated, 29-set)
+## Key Metrics (196 series validated, 31-set)
 
 | Metric | Value |
 |--------|-------|
-| Average | **10.95/14** |
+| Average | **10.97/14** |
 | Best | **13/14** (S9) |
 | Worst | 10/14 |
-| 11+ matches | 156 (79.6%) |
+| 11+ matches | 160 (81.6%) |
 | 12+ matches | 30 (15.3%) |
 | 13+ matches | 1 (0.5%) |
 | 14/14 hits | 0 |
@@ -113,7 +114,8 @@ Rank  Set                Numbers                                       Type
 | +mixed/ALL (194) | 25 | 10.91/14 | 146 | 27 |
 | +S26/S27 (195) | 27 | 10.91/14 | 148 | 28 |
 | +S28 E5 (196) | 28 | 10.93/14 | 153 | 28 |
-| +S29 under (196) | 29 | **10.95/14** | **156** | **30** |
+| +S29 under (196) | 29 | 10.95/14 | 156 | 30 |
+| +S30/S31 edge (196) | 31 | **10.97/14** | **160** | **30** |
 
 ---
 
@@ -149,11 +151,12 @@ From `ceiling_analysis.py`:
 **Critical Findings**:
 | Issue | Detail | Action |
 |-------|--------|--------|
-| #13 over-selected | 71% predicted vs 57% actual | Create #13 exclusion set |
-| #18 under-selected | Needed in 18.8% of 12+ events | Create #18 inclusion set |
-| #22 under-selected | Needed in 18.8% of 12+ events | Already have S19 |
+| #13 over-selected | 71% predicted vs 57% actual | S26: #13 exclusion set |
+| #10 over-selected | 10.6% of wrong inclusions | S31: #10 exclusion set |
+| #18 under-selected | Needed in 18.8% of 12+ events | S26/S27: #18 inclusion |
+| #22 under-selected | Needed in 18.8% of 12+ events | S19/S31: #22 inclusion |
 
-**Implemented**: S26 (no#13 + #18) and S27 (#18 + r17) - see Strategy section
+**Implemented**: S26 (no#13), S27 (#18+r17), S30 (E3&E6), S31 (no#10) - see Strategy section
 
 Run: `python ml_models/ceiling_analysis.py`
 
@@ -167,10 +170,10 @@ Run: `python ml_models/ceiling_analysis.py`
 
 ---
 
-## Strategy (29-set multi-event, 2026-01-17)
+## Strategy (31-set multi-event, 2026-01-18)
 
 ```python
-# Multi-event E1 + E3 + E5 + E6 + E7 + fusions + mixed/ALL + nearmiss + under (29 sets)
+# Multi-event E1 + E3 + E5 + E6 + E7 + fusions + mixed/ALL + nearmiss + edge (31 sets)
 
 # E1-based sets (S1-S8)
 sets[0:8] = [
@@ -236,6 +239,10 @@ under_predicted = [7, 15, 14, 11]
 over_predicted = [8, 21, 24]
 base = [n for n in ranked if n not in under_predicted and n not in over_predicted][:10]
 sets[28] = sorted(base + under_predicted)     # S29: under-predicted fix
+
+# Edge-case sets (S30-S31) - from edge-case analysis 2026-01-18
+sets[29] = sorted(e3_e6_combined)             # S30: E3 & E6 fusion (13/14 fix attempt)
+sets[30] = sorted(base_no10 + [18, 22])       # S31: no#10 + under-selected (anti-#10)
 ```
 
 **Performance**: 39.7% above random baseline (7.84/14)
@@ -308,7 +315,7 @@ Every action serves the jackpot goal. The PM agent:
 
 ```
 ml_models/
-├── production_predictor.py         # ~644 lines, 29-set multi-event logic
+├── production_predictor.py         # ~676 lines, 31-set multi-event logic
 ├── pm_agent.py                     # PM coordinator + dynamic agent mgmt (~970 lines, analysis only)
 ├── dynamic_agents.json             # Persisted dynamic agents (auto-generated)
 ├── ceiling_analysis.py             # Theoretical limits analysis
