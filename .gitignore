@@ -492,3 +492,9 @@ old documents/
 
 # Claude Code
 .claude/
+
+# Temporary analysis files (ml_models)
+ml_models/*_analysis.py
+ml_models/*_report.md
+ml_models/analyze_*.py
+ml_models/test_*.py
