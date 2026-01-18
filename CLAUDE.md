@@ -121,10 +121,10 @@ Rank  Set                Numbers                                       Type
 
 | Test | Value | Interpretation |
 |------|-------|----------------|
-| t-statistic | 70.67 | Extremely high |
-| p-value | 6.59e-141 | Highly significant |
-| Cohen's d | 3.13 | Large effect |
-| 95% CI | [10.84, 11.01] | Tight confidence |
+| t-statistic | 71.46 | Extremely high |
+| p-value | 8.26e-142 | Highly significant |
+| Cohen's d | 3.15 | Large effect |
+| 95% CI | [10.87, 11.04] | Tight confidence |
 | Percentile | 100% | Beats all random |
 
 *Updated 2026-01-17: 10.95/14 avg, +39.7% above 7.84 baseline (10,000 simulations, 196 series, 29-set)*
