@@ -672,7 +672,7 @@ class PMAgent:
         # Add PM commentary
         commentary = {
             "jackpot_status": f"Gap: {self.status.gap_to_jackpot} numbers",
-            "strategy": f"27-set base + {len(pm_sets['sets'])} PM overlay sets",
+            "strategy": f"28-set base + {len(pm_sets['sets'])} PM overlay sets",
             "confidence": self._compute_confidence(),
             "focus_sets": self._identify_focus_sets(),
             "pm_note": self._generate_pm_note(),
@@ -762,13 +762,14 @@ class PMAgent:
                          if evaluate(self.data, sid)]
 
         # Find best performing set types recently
-        set_scores = [0] * 27
+        set_scores = [0] * 28
         for r in recent_results:
             if r:
                 for i, score in enumerate(r["set_bests"]):
-                    set_scores[i] += score
+                    if i < 28:
+                        set_scores[i] += score
 
-        best_sets = sorted(range(27), key=lambda i: -set_scores[i])[:5]
+        best_sets = sorted(range(28), key=lambda i: -set_scores[i])[:5]
 
         return {
             "focus": "set optimization",
@@ -969,7 +970,7 @@ class PMAgent:
                 if hot_count >= 3:
                     reasons.append(f"{hot_count} hot nums")
 
-            set_name = f"S{i+1}" if i < 27 else f"PM-{i-26}"
+            set_name = f"S{i+1}" if i < 28 else f"PM-{i-27}"
             rankings.append({
                 "set": set_name,
                 "score": round(score, 2),
@@ -1252,13 +1253,13 @@ def main():
             print(f"  {name}")
             print(f"    {nums}")
 
-        print(f"\nBASE PREDICTION SETS (27):")
+        print(f"\nBASE PREDICTION SETS (28):")
         for i, s in enumerate(pred["base_sets"], 1):
             nums = " ".join(f"{n:02d}" for n in s)
             print(f"  S{i:02d}: {nums}")
 
         print(f"\n{'='*70}")
-        print(f"TOTAL: {pred['combined_count']} sets (27 base + {len(pred['pm_sets'])} PM overlay)")
+        print(f"TOTAL: {pred['combined_count']} sets (28 base + {len(pred['pm_sets'])} PM overlay)")
         print(f"{'='*70}")
 
     elif cmd == "dispatch":
