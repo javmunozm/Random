@@ -28,6 +28,7 @@ Format: `[YYYY-MM-DD] <description> | Impact: <metric change if any>`
 
 | Date | Change | Impact |
 |------|--------|--------|
+| 2026-01-18 | Replaced number-pattern-hunter with regression-analyst (0 tasks, patterns shift) | Better aligned with L30 monitoring |
 | 2026-01-18 | **PRUNED to 12-set core strategy** (removed 19 dead-weight sets) | 61% fewer sets, L30 avg 10.90 (was 11.00) |
 | 2026-01-18 | Added S30 (E3&E6 fusion) and S31 (anti-#10) from edge-case analysis | 31 sets, avg 10.97, 11+ 160 (+4), 12+ 30 |
 | 2026-01-17 | Added S29 (under-predicted #7,#15,#14,#11) from number-pattern-hunter | 29 sets, avg 10.95, 11+ 156, 12+ 30 |
@@ -246,7 +247,7 @@ Instead:
 | lottery-math-analyst | Propose replacements, not additions |
 | model-analysis-expert | Evaluate L30 performance first |
 | set-optimizer | Optimize existing sets, prune dead weight |
-| number-pattern-hunter | Validate patterns on L30 before proposing |
+| regression-analyst | Detect performance declines, trigger reviews |
 | edge-case-specialist | Edge cases need L30 validation too |
 
 ---
