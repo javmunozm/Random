@@ -28,6 +28,7 @@ Format: `[YYYY-MM-DD] <description> | Impact: <metric change if any>`
 
 | Date | Change | Impact |
 |------|--------|--------|
+| 2026-01-18 | PM Team Analysis: Independence paradox discovered | Theoretical 3 series vs actual 196+ explains gap |
 | 2026-01-18 | **Replaced S3 (rank18) with E4 direct** - L30 validated improvement | L30 avg 10.90→10.97, S3 now 6 wins (tied #1) |
 | 2026-01-18 | Replaced number-pattern-hunter with regression-analyst (0 tasks, patterns shift) | Better aligned with L30 monitoring |
 | 2026-01-18 | **PRUNED to 12-set core strategy** (removed 19 dead-weight sets) | 61% fewer sets, L30 avg 10.90 (was 11.00) |
@@ -198,6 +199,40 @@ ml_models/
 ## Goal
 
 Hit **14/14** at least once.
+
+---
+
+## PM Team Analysis (2026-01-18)
+
+Analysis by stats-math-evaluator, lottery-math-analyst, and model-analysis-expert.
+
+### The Independence Paradox
+
+| Metric | Theoretical | Actual |
+|--------|-------------|--------|
+| Per-number success rate | 68.51% | - |
+| P(14/14) per set | 0.50% | - |
+| Expected series to hit | **2-4** | **196+** |
+
+**Why the gap?** Numbers are CORRELATED within events, not independent.
+
+### Key Findings
+
+| Agent | Finding |
+|-------|---------|
+| stats-math-evaluator | Independence assumption is WRONG |
+| lottery-math-analyst | ~39% event-to-event correlation, uniform distribution |
+| model-analysis-expert | #13 wrong 13x, #15 missing 11x, but swap doesn't improve L30 |
+
+### Error Patterns (L30)
+
+- **Most missed**: #15, #2, #17 (11x each)
+- **Most wrong**: #13 (13x), #21 (9x), #25 (9x)
+- **Best set type**: E4 (avg 9.67)
+
+### Conclusion
+
+The current 12-set strategy is at **local optimum**. The path to 14/14 requires lucky alignment - the "14th number" is often outside our prediction basis (like #16 in series 3061 which was NOT in prior E6).
 
 ---
 
