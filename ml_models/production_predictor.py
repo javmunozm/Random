@@ -11,7 +11,7 @@ Only sets with wins in last 30 series or rising trends are kept.
 Core sets (validated on L30 data 2026-01-18):
 - E1-based: S1 rank16, S2 rank15, S4 r15+r16
 - Multi-event direct: S3 E4, S5 E6 (13/14!), S7 E3, S8 E7
-- Multi-event fusions: S6 E1&E6, S9 E6+hot, S10 E7+hot, S11 E3&E7, S12 E6&E7
+- Multi-event fusions: S6 E1&E6, S9 Anti-E1, S10 E7+hot, S11 E3&E7, S12 E6&E7
 
 Performance: 10.97/14 avg on L30 (improved from 10.90 with E4 replacement).
 """
@@ -68,7 +68,7 @@ def predict(data, series_id):
 
     Multi-event fusions (S6, S9-S12):
     - S6:  E1 & E6 intersection + fill (3 wins L30)
-    - S9:  E6 top-13 + hot outside (1 win L30)
+    - S9:  Anti-E1 Multi - numbers from E2-E7 not in E1 (diversity)
     - S10: E7 top-13 + hot outside (2 wins L30)
     - S11: E3 & E7 fusion (3 wins L30)
     - S12: E6 & E7 fusion (2 wins L30)
@@ -78,8 +78,10 @@ def predict(data, series_id):
         raise ValueError(f"No data for series {int(prior)}")
 
     event1 = set(data[prior][0])
+    event2 = set(data[prior][1])
     event3 = set(data[prior][2])
     event4 = set(data[prior][3])
+    event5 = set(data[prior][4])
     event6 = set(data[prior][5])
     event7 = set(data[prior][6])
 
@@ -101,11 +103,15 @@ def predict(data, series_id):
     e1_e6_remaining = sorted(e1_e6_union - e1_e6_int, key=lambda n: -freq[n])
     s6_numbers = list(e1_e6_int) + e1_e6_remaining[:14 - len(e1_e6_int)]
 
-    # E6 + hot (S9)
-    e6_ranked = sorted(event6, key=lambda n: -freq[n])
-    hot_outside_e6 = sorted([n for n in range(1, TOTAL+1) if n not in event6],
-                            key=lambda n: -recent_freq.get(n, 0))[0]
-    s9_numbers = e6_ranked[:13] + [hot_outside_e6]
+    # Anti-E1 Multi (S9) - prioritizes numbers from E2-E7 that are NOT in E1
+    anti_e1_votes = Counter()
+    for e in [event2, event3, event4, event5, event6, event7]:
+        for n in e:
+            if n not in event1:
+                anti_e1_votes[n] += 2  # Bonus for not in E1
+            else:
+                anti_e1_votes[n] += 1
+    s9_numbers = sorted(anti_e1_votes.keys(), key=lambda n: -anti_e1_votes[n])[:14]
 
     # E7 + hot (S10)
     e7_ranked = sorted(event7, key=lambda n: -freq[n])
@@ -135,7 +141,7 @@ def predict(data, series_id):
         sorted(s6_numbers),                               # S6: E1 & E6 fusion
         sorted(event3),                                   # S7: E3 directly
         sorted(event7),                                   # S8: E7 directly
-        sorted(s9_numbers),                               # S9: E6 + hot
+        sorted(s9_numbers),                               # S9: Anti-E1 Multi
         sorted(s10_numbers),                              # S10: E7 + hot
         sorted(s11_numbers),                              # S11: E3 & E7 fusion
         sorted(s12_numbers),                              # S12: E6 & E7 fusion
@@ -284,12 +290,12 @@ def main():
             "S6 (E1&E6)",     # Fusion
             "S7 (E3)",        # Multi-event direct
             "S8 (E7)",        # Multi-event direct
-            "S9 (E6+hot)",    # Multi-event swap
+            "S9 (Anti-E1)",   # Diversity set
             "S10 (E7+hot)",   # Multi-event swap
             "S11 (E3&E7)",    # Fusion
             "S12 (E6&E7)",    # Fusion
         ]
-        types = ["E1", "E1", "E4", "E1", "E6", "MIX", "E3", "E7", "E6S", "E7S", "MIX", "MIX"]
+        types = ["E1", "E1", "E4", "E1", "E6", "MIX", "E3", "E7", "DIV", "E7S", "MIX", "MIX"]
 
         # Sort by performance rank for display
         order = sorted(range(12), key=lambda i: PERF_RANK[i])

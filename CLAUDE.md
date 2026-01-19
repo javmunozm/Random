@@ -28,6 +28,7 @@ Format: `[YYYY-MM-DD] <description> | Impact: <metric change if any>`
 
 | Date | Change | Impact |
 |------|--------|--------|
+| 2026-01-19 | **Replaced S9 (E6+hot) with Anti-E1 Multi** - diversity improvement | Avg overlap 8.8→8.6, adds #7 coverage |
 | 2026-01-19 | Added series 3177 (best: 12/14, S8 E7 won) | 197 series, avg 10.74, 11+ 130, 12+ 14 |
 | 2026-01-18 | PM Team Analysis: Independence paradox discovered | Theoretical 3 series vs actual 196+ explains gap |
 | 2026-01-18 | **Replaced S3 (rank18) with E4 direct** - L30 validated improvement | L30 avg 10.90→10.97, S3 now 6 wins (tied #1) |
@@ -79,8 +80,8 @@ Rank  Set             Numbers                                       Type
 | Average | **10.74/14** (full), **10.97/14** (L30) |
 | Best | **13/14** (S5 E6) |
 | Worst | 10/14 |
-| 11+ matches | 130 (66%) full, 26 (87%) L30 |
-| 12+ matches | 14 (7%) full, 3 (10%) L30 |
+| 11+ matches | 129 (65%) full, 26 (87%) L30 |
+| 12+ matches | 16 (8%) full, 3 (10%) L30 |
 | 14/14 hits | 0 |
 
 ### Why 12 Sets Instead of 31?
@@ -118,7 +119,7 @@ Rank  Set             Numbers                                       Type
 | #8 | S10 | E7+hot | 1 | STABLE |
 | #9 | S11 | E3&E7 | 4 | RISING |
 | #10 | S12 | E6&E7 | 2 | RISING |
-| #11 | S9 | E6+hot | 0 | FALLING |
+| #11 | S9 | Anti-E1 Multi | 0 | NEW |
 | #12 | S8 | E7 direct | 2 | RISING |
 
 ---
@@ -141,7 +142,7 @@ sets[7] = sorted(event7)                         # S8: E7 (1 win L30)
 
 # Multi-event fusions (S6, S9-S12)
 sets[5] = sorted(e1_e6_fusion)                   # S6: E1 & E6 fusion (2 wins)
-sets[8] = e6_ranked[:13] + [hot_outside_e6]      # S9: E6 + hot (0 wins, monitor)
+sets[8] = anti_e1_multi()                        # S9: Anti-E1 Multi (diversity)
 sets[9] = e7_ranked[:13] + [hot_outside_e7]      # S10: E7 + hot (1 win)
 sets[10] = sorted(e3_e7_fusion)                  # S11: E3 & E7 fusion (4 wins)
 sets[11] = sorted(e6_e7_fusion)                  # S12: E6 & E7 fusion (2 wins)
