@@ -1,6 +1,6 @@
 # Lottery Prediction Research
 
-**Status**: PRODUCTION READY | **Updated**: January 23, 2026
+**Status**: PRODUCTION READY | **Updated**: January 25, 2026
 
 ---
 
@@ -28,6 +28,8 @@ Format: `[YYYY-MM-DD] <description> | Impact: <metric change if any>`
 
 | Date | Change | Impact |
 |------|--------|--------|
+| 2026-01-25 | Updated PERF_RANK to L30 (3150-3179): S3=7, S11=4, S1/S2/S4/S12=3 | Ranking now reflects recent performance |
+| 2026-01-25 | Added series 3179 (best: 10/14, S3/S5/S9 tied) | 199 series, avg 10.75, 11+ 131, 12+ 18 |
 | 2026-01-23 | **ML Analysis**: All ML approaches (XGBoost, frequency, recency, ensemble) perform WORSE than simple event copying | ML cannot help - data is random |
 | 2026-01-23 | **Updated all agents** with ceiling status and ML findings | All agents now reflect system is at maximum |
 | 2026-01-23 | **DELETED pm_overlay_validation.py** - PM predictions 1.5pts worse than base, 0 hits at 12+ in L50 | Removes harmful "smart" predictions |
@@ -55,9 +57,9 @@ Format: `[YYYY-MM-DD] <description> | Impact: <metric change if any>`
 ```bash
 cd ml_models
 python pm_agent.py report                    # PM status report (start here)
-python production_predictor.py predict 3179
-python production_predictor.py find 3178
-python production_predictor.py validate 2981 3178
+python production_predictor.py predict 3180
+python production_predictor.py find 3179
+python production_predictor.py validate 2981 3179
 ```
 
 ---
@@ -78,15 +80,15 @@ Rank  Set             Numbers                                       Type
 
 ---
 
-## Key Metrics (198 series validated, 12-set core)
+## Key Metrics (199 series validated, 12-set core)
 
 | Metric | Value |
 |--------|-------|
-| Average | **10.73/14** (full), **10.94/14** (L30) |
+| Average | **10.75/14** (full), **11.00/14** (L30) |
 | Best | **13/14** (S5 E6) |
-| Worst | 10/14 |
-| 11+ matches | 127 (64%) full, 26 (84%) L30 |
-| 12+ matches | 17 (9%) full, 3 (10%) L30 |
+| Worst | 9/14 |
+| 11+ matches | 131 (66%) full, 26 (87%) L30 |
+| 12+ matches | 18 (9%) full, 4 (13%) L30 |
 | 14/14 hits | 0 |
 
 ### Why 12 Sets Instead of 31?
@@ -110,22 +112,22 @@ Rank  Set             Numbers                                       Type
 | L30 | 31 | 11.00 | 90% |
 | **Gap** | | **-0.03** | **-3%** |
 
-### Core 12 Sets (ranked by L30 wins)
+### Core 12 Sets (ranked by L30 wins, 3150-3179)
 
 | Rank | Set | Strategy | L30 Wins | Trend |
 |------|-----|----------|----------|-------|
-| #1 | S1 | rank16 | 6 | STABLE |
-| #2 | S3 | **E4 direct** | 6 | **NEW** |
-| #3 | S4 | r15+r16 | 3 | RISING |
-| #4 | S2 | rank15 | 2 | RISING |
-| #5 | S5 | E6 direct | 2 | STABLE (13/14!) |
-| #6 | S6 | E1&E6 | 2 | RISING |
-| #7 | S7 | E3 direct | 1 | STABLE |
-| #8 | S10 | E7+hot | 1 | STABLE |
-| #9 | S11 | E3&E7 | 4 | RISING |
-| #10 | S12 | E6&E7 | 2 | RISING |
-| #11 | S9 | Anti-E1 Multi | 0 | NEW |
-| #12 | S8 | E7 direct | 2 | RISING |
+| #1 | S3 | **E4 direct** | 7 | **HOT** |
+| #2 | S11 | E3&E7 | 4 | RISING |
+| #3 | S1 | rank16 | 3 | STABLE |
+| #4 | S2 | rank15 | 3 | RISING |
+| #5 | S4 | r15+r16 | 3 | STABLE |
+| #6 | S12 | E6&E7 | 3 | RISING |
+| #7 | S5 | E6 direct | 2 | STABLE (13/14!) |
+| #8 | S6 | E1&E6 | 2 | STABLE |
+| #9 | S8 | E7 direct | 2 | STABLE |
+| #10 | S10 | E7+hot | 1 | FALLING |
+| #11 | S7 | E3 direct | 0 | COLD |
+| #12 | S9 | Anti-E1 Multi | 0 | COLD |
 
 ---
 
@@ -167,8 +169,8 @@ sets[11] = sorted(e6_e7_fusion)                  # S12: E6 & E7 fusion (2 wins)
 
 ## Data
 
-- **Series**: 198 validated (2981-3178), 199 total (2980-3178)
-- **Latest**: 3178
+- **Series**: 199 validated (2981-3179), 200 total (2980-3179)
+- **Latest**: 3179
 - **File**: `data/full_series_data.json`
 - **Note**: Series 2980 is baseline only (no prior for prediction)
 

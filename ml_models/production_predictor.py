@@ -28,9 +28,9 @@ TOTAL = 25
 PICK = 14
 EXCLUDE = 12
 
-# Performance rank by recent wins (L30 data, 2026-01-18, E4 replacement)
-# S1=6, S3(E4)=6, S4=3, S7=3, S11=3, S5=3, S6=3, S2=2, S10=2, S12=2, S8=1, S9=1
-PERF_RANK = [1, 4, 2, 3, 5, 6, 7, 12, 11, 8, 9, 10]  # 12 sets
+# Performance rank by recent wins (L30 data, 2026-01-25, series 3150-3179)
+# S3=7, S11=4, S1=3, S2=3, S4=3, S12=3, S5=2, S6=2, S8=2, S10=1, S7=0, S9=0
+PERF_RANK = [3, 4, 1, 5, 7, 8, 11, 9, 12, 10, 2, 6]  # 12 sets
 
 
 def load_data():
