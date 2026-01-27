@@ -13,6 +13,23 @@
 - Prioritized task queue
 - Agent assignments
 
+### Agent Deployment Rules
+
+**For adding new data:**
+1. `dataset-reviewer` - Validate data integrity
+2. `model-analysis-expert` - Run validation
+3. `update-enforcer` - Update documentation
+
+**For proposed improvements:**
+- **ALWAYS deploy `stats-math-evaluator` FIRST** to validate claims
+- System is at ceiling - most proposals should be REJECTED
+- Only test replacements (not additions) via `simulation-testing-expert`
+
+**For monitoring:**
+- `regression-analyst` if L30 drops below 10.5
+- `edge-case-specialist` for 13/14 near-misses
+- `model-analysis-expert` for routine checks
+
 ### Change Tracking
 **Log ALL changes** to this project in the Change Log section below. Every modification to:
 - `production_predictor.py` - prediction logic changes
@@ -190,6 +207,92 @@ python pm_agent.py assess     # JSON situation assessment
 
 **Note:** PM agent focuses on analysis and agent management. Predictions use
 `production_predictor.py` with PERF_RANK (historical performance ranking).
+
+---
+
+## Agent Deployment Guide (2026-01-26)
+
+**When to deploy which agent for each function:**
+
+### Adding New Series Data
+
+| Step | Agent | Task |
+|------|-------|------|
+| 1 | **dataset-reviewer** | Validate new data integrity |
+| 2 | **model-analysis-expert** | Run validation, check metrics |
+| 3 | **update-enforcer** | Update CLAUDE.md with new metrics |
+
+```bash
+# After adding data to full_series_data.json:
+python production_predictor.py validate 2981 [latest]
+```
+
+### Validating Proposed Changes
+
+| Proposal Type | Agent | What to Check |
+|---------------|-------|---------------|
+| New prediction strategy | **stats-math-evaluator** | REJECT - all tested, all fail |
+| ML/AI approach | **stats-math-evaluator** | REJECT - ML proven worse |
+| New set addition | **stats-math-evaluator** | REJECT - adding sets = brute force |
+| Set replacement | **simulation-testing-expert** | Test per-set accuracy improvement |
+| Parameter tuning | **lottery-math-analyst** | Validate on L30, not full history |
+
+### Performance Monitoring
+
+| Trigger | Agent | Action |
+|---------|-------|--------|
+| L30 avg < 10.5 | **regression-analyst** | Investigate cause |
+| Variance > 0.5 sustained | **regression-analyst** | Check for data issues |
+| 13/14 near-miss | **edge-case-specialist** | Log for pattern analysis |
+| New 12+ hit | **model-analysis-expert** | Analyze winning set |
+
+### Statistical Validation
+
+| Task | Agent | When |
+|------|-------|------|
+| Verify claims | **stats-math-evaluator** | Any proposed "improvement" |
+| Monte Carlo simulation | **simulation-testing-expert** | Testing new strategies |
+| Probability calculations | **lottery-math-analyst** | P(14/14) estimates |
+| Confidence intervals | **stats-math-evaluator** | Performance comparisons |
+
+### Core Agents (Always Available)
+
+| Agent | Primary Function | Deploy When |
+|-------|------------------|-------------|
+| **lottery-math-analyst** | Pattern analysis, probability | Ceiling validation, probability estimates |
+| **dataset-reviewer** | Data validation | Adding new series, anomaly detection |
+| **simulation-testing-expert** | Monte Carlo, stress testing | Testing replacement strategies |
+| **model-analysis-expert** | Performance tracking | L30 monitoring, error diagnosis |
+| **stats-math-evaluator** | Statistical rigor | Rejecting "improvements", validation |
+| **documentation-enforcer** | Code standards | KISS/YAGNI compliance |
+| **update-enforcer** | Sync documentation | After any code changes |
+
+### Dynamic Agents (Monitoring Only)
+
+| Agent | Status | Purpose |
+|-------|--------|---------|
+| **edge-case-specialist** | Active | Log 13/14 near-misses |
+| **event-correlation-analyst** | Complete | Confirmed 55% uniform correlation |
+| **set-optimizer** | Complete | S9 E1&E7 replacement validated |
+| **regression-analyst** | Active | Monitor for L30 < 10.5 |
+
+### Decision Tree: Which Agent?
+
+```
+User wants to...
+├── Add new series data
+│   └── dataset-reviewer -> model-analysis-expert -> update-enforcer
+├── Propose new strategy
+│   └── stats-math-evaluator (REJECT - ceiling reached)
+├── Check current performance
+│   └── model-analysis-expert (run: python pm_agent.py report)
+├── Understand why 14/14 hasn't happened
+│   └── lottery-math-analyst (answer: random data, expected ~750 series)
+├── Validate a claim
+│   └── stats-math-evaluator (rigorous statistical testing)
+└── Test a replacement strategy
+    └── simulation-testing-expert -> stats-math-evaluator
+```
 
 ---
 
