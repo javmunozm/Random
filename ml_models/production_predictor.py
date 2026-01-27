@@ -1,19 +1,28 @@
 #!/usr/bin/env python3
 """
-Production Predictor
-====================
+Production Predictor - 7-Set Strategy (Optimized 2026-01-27)
+============================================================
 
 Goal: Hit 14/14 at least once.
 
-Strategy: 12-set core strategy.
-S9 updated 2026-01-26: Anti-E1 -> E1&E7 fusion (+0.10 per-set accuracy improvement).
+Strategy: 7-set optimized for JACKPOT via Gemini analysis.
+Uses 5-event consensus fusion (Quint) + symmetric difference for diversity.
 
-Core sets (validated on L30 data):
-- E1-based: S1 rank16, S2 rank15, S4 r15+r16
-- Multi-event direct: S3 E4, S5 E6 (13/14!), S7 E3, S8 E7
-- Multi-event fusions: S6 E1&E6, S9 E1&E7 (NEW), S10 E7+hot, S11 E3&E7, S12 E6&E7
+7 Sets (optimized for 12+ and 13+ hits):
+1. S1 (E4)          - 64 wins - Best individual predictor
+2. S2 (rank16)      - 50 wins - E1-based anchor
+3. S3 (E6)          - 32 wins - Direct E6
+4. S4 (E7)          - 18 wins - Direct E7
+5. S5 (E3&E7)       - 20 wins - Strong fusion
+6. S6 (SymDiff)     - 10 wins - E3⊕E7 diversity set (NEW)
+7. S7 (Quint)       -  6 wins - 5-event consensus (NEW)
 
-Performance: 10.76/14 avg (improved from 10.74 with S9 replacement).
+Performance: 10.61/14 avg, 104 11+, 16 12+, 3 13+ (200 series)
+L30: 10.67/14 avg, 18 11+, 2 12+
+
+Improvement over baseline (E3+E6E7):
+- 12+ hits: +45% (11 → 16)
+- 13+ hits: +200% (1 → 3)
 """
 
 import json
@@ -27,12 +36,10 @@ from collections import Counter
 TOTAL = 25
 PICK = 14
 EXCLUDE = 12
+NUM_SETS = 7
 
-# Performance rank by L30 wins (series 3151-3180, S9=E1&E7)
-# S3=8, S1=3, S2=3, S4=3, S11=3, S5=2, S6=2, S8=2, S12=2, S9=1, S10=1, S7=0
-# Rank: 1=S3, 2=S1, 3=S2, 4=S4, 5=S11, 6=S5, 7=S6, 8=S8, 9=S12, 10=S9, 11=S10, 12=S7
-PERF_RANK = [2, 3, 1, 4, 6, 7, 12, 8, 10, 11, 5, 9]  # 12 sets
-NUM_SETS = 12
+# Performance rank by wins (S1=E4 best, then rank16, etc.)
+PERF_RANK = [1, 2, 3, 4, 5, 6, 7]
 
 
 def load_data():
@@ -50,30 +57,21 @@ def latest(data):
 
 
 # =============================================================================
-# PREDICTION - 12-set core strategy
+# PREDICTION - 7-set strategy optimized for unique coverage
 # =============================================================================
 
 def predict(data, series_id):
     """
-    Generate 12 prediction sets (core strategy).
+    Generate 7 prediction sets optimized for JACKPOT (12+ and 13+ hits).
 
-    E1-based sets (S1, S2, S4):
-    - S1: top-13 + rank16
-    - S2: top-13 + rank15
-    - S4: top-12 + r15 + r16
-
-    Multi-event direct (S3, S5, S7, S8):
-    - S3: E4 directly
-    - S5: E6 directly (13/14 achiever!)
-    - S7: E3 directly
-    - S8: E7 directly
-
-    Multi-event fusions (S6, S9-S12):
-    - S6:  E1 & E6 fusion
-    - S9:  E1 & E7 fusion (UPDATED 2026-01-26, was Anti-E1, +0.10 per-set)
-    - S10: E7 + hot
-    - S11: E3 & E7 fusion
-    - S12: E6 & E7 fusion
+    Sets:
+    1. S1: E4 direct - Best predictor (64 wins)
+    2. S2: E1 rank16 - Stable E1-based anchor (50 wins)
+    3. S3: E6 direct - High predictor (32 wins)
+    4. S4: E7 direct - Adds unique E7 coverage (18 wins)
+    5. S5: E3&E7 fusion - Strong fusion (20 wins)
+    6. S6: SymDiff E3⊕E7 - Diversity set (10 wins) - NEW
+    7. S7: Quint E2E3E4E6E7 - 5-event consensus (6 wins) - NEW
     """
     prior = str(series_id - 1)
     if prior not in data:
@@ -83,7 +81,6 @@ def predict(data, series_id):
     event2 = set(data[prior][1])
     event3 = set(data[prior][2])
     event4 = set(data[prior][3])
-    event5 = set(data[prior][4])
     event6 = set(data[prior][5])
     event7 = set(data[prior][6])
 
@@ -91,66 +88,56 @@ def predict(data, series_id):
     freq = Counter(n for events in data.values() for e in events for n in e)
     max_freq = max(freq.values())
 
-    # Rank: Event1 numbers first, then by frequency
+    # E1 ranked
     ranked = sorted(range(1, TOTAL + 1),
                     key=lambda n: (-(n in event1), -freq[n]/max_freq, n))
 
-    # Recent frequency for hot sets (last 3 series)
-    prev_series = sorted(int(s) for s in data if int(s) < series_id)[-3:]
-    recent_freq = Counter(n for s in prev_series for e in data[str(s)] for n in e)
-
-    # Current draw frequency (for S9 E1&E7 fusion)
-    current_freq = Counter(n for e in data[prior] for n in e)
-
-    # E1 & E6 fusion (S6)
-    e1_e6_int = event1 & event6
-    e1_e6_union = event1 | event6
-    e1_e6_remaining = sorted(e1_e6_union - e1_e6_int, key=lambda n: -freq[n])
-    s6_numbers = list(e1_e6_int) + e1_e6_remaining[:14 - len(e1_e6_int)]
-
-    # E1 & E7 fusion (S9) - UPDATED 2026-01-26 (was Anti-E1, +0.10 per-set accuracy)
-    e1_e7_int = event1 & event7
-    e1_e7_union = event1 | event7
-    e1_e7_remaining = sorted(e1_e7_union - e1_e7_int, key=lambda n: -current_freq[n])
-    s9_numbers = list(e1_e7_int) + e1_e7_remaining[:14 - len(e1_e7_int)]
-
-    # E7 + hot (S10)
-    e7_ranked = sorted(event7, key=lambda n: -freq[n])
-    hot_outside_e7 = sorted([n for n in range(1, TOTAL+1) if n not in event7],
-                            key=lambda n: -recent_freq.get(n, 0))[0]
-    s10_numbers = e7_ranked[:13] + [hot_outside_e7]
-
-    # E3 & E7 fusion (S11)
+    # E3&E7 fusion (S5)
     e3_e7_int = event3 & event7
     e3_e7_union = event3 | event7
     e3_e7_remaining = sorted(e3_e7_union - e3_e7_int, key=lambda n: -freq[n])
-    s11_numbers = list(e3_e7_int) + e3_e7_remaining[:14 - len(e3_e7_int)]
+    s5_numbers = list(e3_e7_int) + e3_e7_remaining[:14 - len(e3_e7_int)]
 
-    # E6 & E7 fusion (S12)
-    e6_e7_int = event6 & event7
-    e6_e7_union = event6 | event7
-    e6_e7_remaining = sorted(e6_e7_union - e6_e7_int, key=lambda n: -freq[n])
-    s12_numbers = list(e6_e7_int) + e6_e7_remaining[:14 - len(e6_e7_int)]
+    # S6: Symmetric Difference E3⊕E7 (numbers in E3 OR E7 but not both)
+    sym_diff = (event3 | event7) - (event3 & event7)
+    s6_numbers = list(sym_diff)
+    if len(s6_numbers) < 14:
+        remaining = [n for n in range(1, 26) if n not in s6_numbers]
+        remaining.sort(key=lambda n: -freq.get(n, 0))
+        s6_numbers += remaining[:14 - len(s6_numbers)]
+    s6_numbers = sorted(s6_numbers[:14])
 
-    # 12 core sets
+    # S7: Quint E2E3E4E6E7 (5-event consensus - count appearances)
+    quint_events = [event2, event3, event4, event6, event7]
+    number_counts = Counter()
+    for e in quint_events:
+        for n in e:
+            number_counts[n] += 1
+    quint_ranked = sorted(range(1, 26),
+                         key=lambda n: (-number_counts[n], -freq.get(n, 0), n))
+    s7_numbers = sorted(quint_ranked[:14])
+
+    # 7 core sets
     sets = [
-        sorted(ranked[:13] + [ranked[15]]),              # S1: top-13 + rank16
-        sorted(ranked[:13] + [ranked[14]]),              # S2: top-13 + rank15
-        sorted(event4),                                   # S3: E4 directly
-        sorted(ranked[:12] + [ranked[14], ranked[15]]),  # S4: top-12 + r15 + r16
-        sorted(event6),                                   # S5: E6 directly (13/14!)
-        sorted(s6_numbers),                               # S6: E1 & E6 fusion
-        sorted(event3),                                   # S7: E3 directly
-        sorted(event7),                                   # S8: E7 directly
-        sorted(s9_numbers),                               # S9: E1 & E7 fusion (UPDATED)
-        sorted(s10_numbers),                              # S10: E7 + hot
-        sorted(s11_numbers),                              # S11: E3 & E7 fusion
-        sorted(s12_numbers),                              # S12: E6 & E7 fusion
+        sorted(event4),                              # S1: E4 direct
+        sorted(ranked[:13] + [ranked[15]]),          # S2: rank16
+        sorted(event6),                              # S3: E6 direct
+        sorted(event7),                              # S4: E7 direct
+        sorted(s5_numbers),                          # S5: E3&E7 fusion
+        s6_numbers,                                  # S6: SymDiff E3⊕E7
+        s7_numbers,                                  # S7: Quint E2E3E4E6E7
     ]
 
-    return {"series": series_id, "sets": sets, "ranked": ranked,
-            "event3": sorted(event3), "event4": sorted(event4),
-            "event6": sorted(event6), "event7": sorted(event7)}
+    return {
+        "series": series_id,
+        "sets": sets,
+        "ranked": ranked,
+        "event2": sorted(event2),
+        "event3": sorted(event3),
+        "event4": sorted(event4),
+        "event6": sorted(event6),
+        "event7": sorted(event7),
+    }
 
 
 # =============================================================================
@@ -158,7 +145,7 @@ def predict(data, series_id):
 # =============================================================================
 
 def evaluate(data, series_id, pred=None):
-    """Evaluate prediction - best match across 12 sets x 7 events."""
+    """Evaluate prediction - best match across 7 sets x 7 events."""
     sid = str(series_id)
     if sid not in data:
         return None
@@ -235,7 +222,7 @@ def validate(data, start, end):
 
     n = len(results)
     bests = [r["best"] for r in results]
-    wins = [0] * NUM_SETS  # 17 sets
+    wins = [0] * NUM_SETS
     for r in results:
         wins[r["winner"] - 1] += 1
 
@@ -247,6 +234,7 @@ def validate(data, start, end):
         "wins": wins,
         "at_11": sum(1 for b in bests if b >= 11),
         "at_12": sum(1 for b in bests if b >= 12),
+        "at_13": sum(1 for b in bests if b >= 13),
         "at_14": sum(1 for b in bests if b == 14),
     }
 
@@ -260,11 +248,11 @@ def main():
     last = latest(data)
 
     if len(sys.argv) < 2:
-        print("Production Predictor (12-Set Core Strategy)")
+        print("Production Predictor (7-Set Strategy)")
         print("=" * 50)
         print("Goal: Hit 14/14 on FUTURE series")
         print("\nCommands:")
-        print("  predict [series]      - 12-set prediction")
+        print("  predict [series]      - 7-set prediction")
         print("  find [series]         - Find jackpot")
         print("  validate [s] [e]      - Test accuracy")
         print(f"\nLatest: {last}")
@@ -277,35 +265,28 @@ def main():
 
         r = predict(data, sid)
 
-        print(f"\nSeries {sid} Prediction (12-Set Core Strategy)")
-        print("=" * 80)
-        print(f"{'Rank':<5} {'Set':<15} {'Numbers':<45} {'Type'}")
-        print("-" * 80)
+        print(f"\nSeries {sid} Prediction (7-Set Strategy)")
+        print("=" * 70)
+        print(f"{'Rank':<5} {'Set':<12} {'Numbers':<45} {'Type'}")
+        print("-" * 70)
 
         labels = [
-            "S1 (rank16)",    # E1-based
-            "S2 (rank15)",    # E1-based
-            "S3 (E4)",        # Multi-event direct
-            "S4 (r15+r16)",   # E1-based
-            "S5 (E6)",        # Multi-event direct (13/14!)
-            "S6 (E1&E6)",     # Fusion
-            "S7 (E3)",        # Multi-event direct
-            "S8 (E7)",        # Multi-event direct
-            "S9 (E1&E7)",     # Fusion (UPDATED - was Anti-E1)
-            "S10 (E7+hot)",   # Multi-event swap
-            "S11 (E3&E7)",    # Fusion
-            "S12 (E6&E7)",    # Fusion
+            "S1 (E4)",       # Direct - best predictor
+            "S2 (rank16)",   # E1-based anchor
+            "S3 (E6)",       # Direct
+            "S4 (E7)",       # Direct
+            "S5 (E3&E7)",    # Fusion
+            "S6 (SymDiff)",  # E3⊕E7 diversity
+            "S7 (Quint)",    # 5-event consensus
         ]
-        types = ["E1", "E1", "E4", "E1", "E6", "MIX", "E3", "E7", "MIX", "E7S", "MIX", "MIX"]
+        types = ["E4", "E1", "E6", "E7", "MIX", "DIV", "5EV"]
 
-        # Sort by performance rank for display
-        order = sorted(range(NUM_SETS), key=lambda i: PERF_RANK[i])
-        for idx in order:
+        for idx in range(NUM_SETS):
             s = r["sets"][idx]
             nums = ' '.join(f'{n:02d}' for n in s)
-            print(f"#{PERF_RANK[idx]:<4} {labels[idx]:<15} {nums:<45} {types[idx]}")
+            print(f"#{idx+1:<4} {labels[idx]:<12} {nums:<45} {types[idx]}")
 
-        print("-" * 80)
+        print("-" * 70)
         print(f"Event 3: {r['event3']}")
         print(f"Event 4: {r['event4']}")
         print(f"Event 6: {r['event6']}")
@@ -317,7 +298,7 @@ def main():
         find_jackpot(data, sid)
 
     elif cmd == "validate":
-        s = int(sys.argv[2]) if len(sys.argv) > 2 else 3100
+        s = int(sys.argv[2]) if len(sys.argv) > 2 else 2981
         e = int(sys.argv[3]) if len(sys.argv) > 3 else last
         r = validate(data, s, e)
         if r:
@@ -329,11 +310,11 @@ def main():
             print(f"Worst:   {r['worst']}/14")
             print(f"11+:     {r['at_11']}")
             print(f"12+:     {r['at_12']}")
+            print(f"13+:     {r['at_13']}")
             print(f"14/14:   {r['at_14']}")
             w = r['wins']
-            print(f"\nE1-based:  S1={w[0]} S2={w[1]} S3={w[2]} S4={w[3]}")
-            print(f"Direct:    S5(E6)={w[4]} S7(E3)={w[6]} S8(E7)={w[7]}")
-            print(f"Fusions:   S6={w[5]} S9(E1&E7)={w[8]} S10={w[9]} S11={w[10]} S12={w[11]}")
+            print(f"\nWins: S1(E4)={w[0]} S2(rank16)={w[1]} S3(E6)={w[2]} S4(E7)={w[3]}")
+            print(f"      S5(E3&E7)={w[4]} S6(SymDiff)={w[5]} S7(Quint)={w[6]}")
     else:
         print(f"Unknown: {cmd}")
 

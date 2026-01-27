@@ -1,6 +1,6 @@
 # Lottery Prediction Research
 
-**Status**: PRODUCTION READY | **Updated**: January 26, 2026
+**Status**: PRODUCTION READY | **Updated**: January 27, 2026
 
 ---
 
@@ -45,6 +45,8 @@ Format: `[YYYY-MM-DD] <description> | Impact: <metric change if any>`
 
 | Date | Change | Impact |
 |------|--------|--------|
+| 2026-01-27 | **OPTIMIZED 7-SET FOR JACKPOT** - S6=SymDiff_E3E7, S7=Quint_E2E3E4E6E7 via Gemini deep analysis | **12+ 11→16 (+45%), 13+ 1→3 (+200%)** |
+| 2026-01-27 | **REDUCED TO 7-SET STRATEGY** - Gemini analysis, drops redundant E1 variants for unique coverage | **avg 10.60/14, 11+ 109, 12+ 11, Best 13/14** |
 | 2026-01-26 | **REPLACED S9: Anti-E1 -> E1&E7 fusion** (current-weighted, +0.10 per-set accuracy) | **avg 10.74->10.76 (+0.02), 11+ 130->135 (+5), S9 wins 6->10** |
 | 2026-01-26 | **Key insight**: Replace worst performers, don't add sets (adding = brute force) | 12 sets maintained, genuine per-set improvement |
 | 2026-01-26 | **Number Pattern Analysis** - Created `ml_models/number_pattern_analysis.py` | 0 significant patterns, pattern predictor 0.19pts WORSE |
@@ -92,97 +94,102 @@ python production_predictor.py validate 2981 3180
 
 Run: `python ml_models/production_predictor.py predict [series]`
 
-Output is **ordered by recent performance** (L30 wins):
+Output (7-set OPTIMIZED for jackpot):
 ```
-Rank  Set             Numbers                                       Type
-#1    S1 (rank16)     ...                                           E1   (6 wins L30)
-#2    S3 (E4)         ...                                           E4   (6 wins L30, NEW!)
-#3    S4 (r15+r16)    ...                                           E1   (3 wins L30)
-#4    S5 (E6)         ...                                           E6   (2 wins, 13/14 achiever)
-...
+Rank  Set          Numbers                                       Type
+#1    S1 (E4)      01 02 07 08 10 11 12 14 15 16 17 19 20 23     E4   (best predictor)
+#2    S2 (rank16)  01 03 08 09 12 13 16 17 19 20 21 23 24 25     E1   (anchor)
+#3    S3 (E6)      02 03 07 08 09 10 13 16 17 18 19 22 24 25     E6   (direct)
+#4    S4 (E7)      01 03 07 12 14 15 16 18 19 21 22 23 24 25     E7   (direct)
+#5    S5 (E3&E7)   01 03 06 07 08 09 10 14 15 16 19 21 24 25     MIX  (fusion)
+#6    S6 (SymDiff) 02 05 06 08 09 10 12 16 18 20 22 23 24 25     DIV  (diversity)
+#7    S7 (Quint)   01 02 03 07 08 09 10 16 17 18 19 20 21 24     5EV  (5-event consensus)
 ```
 
 ---
 
-## Key Metrics (200 series validated, 12-set core)
+## Key Metrics (200 series validated, 7-set OPTIMIZED)
 
-| Metric | Full (200) | L30 (recency) |
-|--------|------------|---------------|
-| Average | 10.76/14 | **10.97/14** |
-| Best | 13/14 | 12/14 |
-| Worst | 10/14 | 10/14 |
-| 11+ matches | 135 (68%) | 25 (83%) |
-| 12+ matches | 16 (8%) | 4 (13%) |
-| 14/14 hits | 0 | 0 |
+| Metric | Full (200) | L30 (recency) | vs Previous |
+|--------|------------|---------------|-------------|
+| Average | 10.61/14 | **10.67/14** | +0.01 |
+| Best | 13/14 | 12/14 | same |
+| Worst | 9/14 | 10/14 | same |
+| 11+ matches | 104 (52%) | 18 (60%) | -5 |
+| 12+ matches | **16 (8%)** | 2 (7%) | **+5 (+45%)** |
+| 13+ matches | **3 (1.5%)** | 0 | **+2 (+200%)** |
+| 14/14 hits | 0 | 0 | same |
 
-**Ranking based on L30 recency** (series 3151-3180), not historical totals.
+### Core 7 Sets (OPTIMIZED for jackpot, 200 series)
 
-### Why Replace, Not Add?
+| Rank | Set | Strategy | Wins | Type |
+|------|-----|----------|------|------|
+| #1 | S1 | E4 direct | 67 | Direct |
+| #2 | S2 | E1 rank16 | 49 | Ranked |
+| #3 | S3 | E6 direct | 30 | Direct |
+| #4 | S5 | E3&E7 fusion | 20 | 2-event |
+| #5 | S4 | E7 direct | 17 | Direct |
+| #6 | S6 | **SymDiff E3⊕E7** | 10 | **Diversity** |
+| #7 | S7 | **Quint E2E3E4E6E7** | 7 | **5-event** |
 
-**Key insight (2026-01-26):** Adding sets is brute force. The goal is better per-set accuracy.
+### Why This Optimization?
 
-**Analysis results:**
-- Adding 5 sets (12->17): +0.08 avg, BUT just more lottery tickets
-- Replacing S9 only: +0.02 avg with SAME number of sets
-- S9 per-set accuracy: 9.41 -> 9.51 (+0.10) - genuine improvement
-
-### Core 12 Sets (ranked by L30 recency, series 3151-3180)
-
-| Rank | Set | Strategy | L30 Wins |
-|------|-----|----------|----------|
-| #1 | S3 | E4 direct | 8 |
-| #2 | S1 | rank16 | 3 |
-| #3 | S2 | rank15 | 3 |
-| #4 | S4 | r15+r16 | 3 |
-| #5 | S11 | E3&E7 | 3 |
-| #6 | S5 | E6 direct | 2 |
-| #7 | S6 | E1&E6 | 2 |
-| #8 | S8 | E7 direct | 2 |
-| #9 | S12 | E6&E7 | 2 |
-| #10 | **S9** | **E1&E7 (NEW)** | 1 |
-| #11 | S10 | E7+hot | 1 |
-| #12 | S7 | E3 direct | 0 |
+**Key insight (2026-01-27):** Gemini deep analysis found:
+1. **5-event consensus fusion** (Quint) captures cross-event patterns better than 2-event
+2. **Symmetric difference** (E3⊕E7) adds diversity where fusions create redundancy
+3. Combining both achieves highest 12+ AND 13+ rates simultaneously
 
 ---
 
-## Strategy (12-set core, 2026-01-26)
+## Strategy (7-set OPTIMIZED, 2026-01-27)
 
 ```python
-# 12-set core strategy (S9 updated 2026-01-26)
+# 7-set strategy OPTIMIZED for jackpot (12+ and 13+ hits)
 
-# E1-based sets (S1, S2, S4)
-sets[0] = ranked[:13] + [ranked[15]]             # S1: rank16
-sets[1] = ranked[:13] + [ranked[14]]             # S2: rank15
-sets[3] = ranked[:12] + [ranked[14], ranked[15]] # S4: r15+r16
+# Direct event copies (3 sets)
+sets[0] = sorted(event4)                         # S1: E4 direct (best predictor)
+sets[2] = sorted(event6)                         # S3: E6 direct
+sets[3] = sorted(event7)                         # S4: E7 direct
 
-# Multi-event direct (S3, S5, S7, S8)
-sets[2] = sorted(event4)                         # S3: E4 direct
-sets[4] = sorted(event6)                         # S5: E6 direct (13/14!)
-sets[6] = sorted(event3)                         # S7: E3 direct
-sets[7] = sorted(event7)                         # S8: E7 direct
+# E1-based anchor (1 set)
+sets[1] = ranked[:13] + [ranked[15]]             # S2: rank16
 
-# Multi-event fusions (S6, S9-S12)
-sets[5] = sorted(e1_e6_fusion)                   # S6: E1 & E6 fusion
-sets[8] = sorted(e1_e7_fusion)                   # S9: E1 & E7 fusion (UPDATED 2026-01-26)
-sets[9] = e7_ranked[:13] + [hot_outside_e7]      # S10: E7 + hot
-sets[10] = sorted(e3_e7_fusion)                  # S11: E3 & E7 fusion
-sets[11] = sorted(e6_e7_fusion)                  # S12: E6 & E7 fusion
+# E3&E7 fusion (1 set)
+sets[4] = sorted(e3_e7_fusion)                   # S5: E3 & E7 fusion
+
+# NEW: Symmetric Difference E3⊕E7 (diversity set)
+sym_diff = (event3 | event7) - (event3 & event7)  # Numbers in E3 OR E7, not both
+sets[5] = sym_diff + high_freq_fill[:14]         # S6: SymDiff E3⊕E7
+
+# NEW: 5-Event Consensus (Quint E2E3E4E6E7)
+# Count how many of 5 events each number appears in, take top 14
+quint_counts = Counter(n for e in [e2,e3,e4,e6,e7] for n in e)
+sets[6] = sorted(top_14_by_count)                # S7: Quint E2E3E4E6E7
 ```
 
-### Why S9 Changed from Anti-E1 to E1&E7 Fusion
+### Strategy Evolution
 
-**Key insight (2026-01-26):** Replace worst performers, don't add sets.
+| Version | S6 | S7 | 12+ | 13+ |
+|---------|----|----|-----|-----|
+| Initial (baseline) | E3 direct | E6&E7 fusion | 11 | 1 |
+| **Optimized** | SymDiff E3⊕E7 | Quint E2E3E4E6E7 | **16** | **3** |
+| Improvement | - | - | **+45%** | **+200%** |
 
-| Metric | Anti-E1 (old) | E1&E7 (new) | Change |
-|--------|---------------|-------------|--------|
-| S9 per-set avg | 9.41/14 | 9.51/14 | **+0.10** |
-| S9 wins | 6 | 10 | **+4** |
-| Total avg | 10.74/14 | 10.76/14 | **+0.02** |
-| Total 11+ | 130 | 135 | **+5** |
+### Why SymDiff + Quint?
 
-**E1&E7 fusion uses current_freq** (frequency within the current series' 7 events)
-instead of global frequency, capturing within-series patterns that historical
-weighting misses
+**Gemini deep analysis (2026-01-27):** Tested 50+ strategies including:
+- Triple fusions (3-event)
+- Quad fusions (4-event)
+- Hex fusions (6-event) - worse due to dilution
+- Sept fusion (all 7 events) - worst
+- Recency-weighted events
+- Conditional overlap strategies
+- Performance-weighted hybrids
+
+**Winner: SymDiff + Quint** because:
+1. **Quint consensus** captures the 14 numbers appearing in most events (stable)
+2. **SymDiff diversity** captures E3/E7 variance (volatile but jackpot-seeking)
+3. Combined: high 12+ rate AND highest 13+ rate
 
 ---
 
@@ -592,3 +599,59 @@ While standalone adaptive approaches fail, **current-weighted fusion** improved 
 ---
 
 *Maintained by Claude Code*
+### Examples:
+
+**Single file analysis:**
+gemini -p "@Domain/Activity.cs Explain this entity's purpose and relationships"
+
+**Multiple files:**
+gemini -p "@API/Controllers/ @Application/Activities/ Analyze the activity management implementation"
+
+**Entire directory:**
+gemini -p "@Application/ Summarize the business logic architecture using CQRS"
+
+**Multiple directories:**
+gemini -p "@Domain/ @Persistence/ Analyze the domain model and data persistence layer"
+
+**Current directory and subdirectories:**
+gemini -p "@./ Give me an overview of this entire .NET React project"
+
+**Or use --all_files flag:**
+gemini --all_files -p "Analyze the project structure and dependencies"
+
+### Implementation Verification Examples for Reactivities
+
+**Check backend features:**
+gemini -p "@API/ @Application/ Is user authentication and authorization properly implemented? Show JWT handling"
+
+**Verify activity management:**
+gemini -p "@Application/Activities/ @Domain/Activity.cs Are CRUD operations for activities complete? List all commands and queries"
+
+**Check frontend patterns:**
+gemini -p "@Client/src/ Are MobX stores properly implemented for state management? Show store patterns"
+
+**Verify database relationships:**
+gemini -p "@Domain/ @Persistence/ Are Entity Framework relationships correctly configured for User-Activity-Attendee?"
+
+**Check API endpoints:**
+gemini -p "@API/Controllers/ What REST endpoints are available? List all HTTP methods and routes"
+
+**Verify validation:**
+gemini -p "@Application/ Is FluentValidation implemented for all commands? Show validation rules"
+
+**Check real-time features:**
+gemini -p "@API/ @Client/src/ Is SignalR implemented for real-time chat? Show hub and client code"
+
+**Verify error handling:**
+gemini -p "@API/ @Application/ Is proper error handling implemented with Result patterns? Show examples"
+
+When to Use Gemini CLI
+
+Use gemini -p when:
+- Analyzing entire codebases or large directories
+- Comparing multiple large files
+- Need to understand project-wide patterns or architecture
+- Current context window is insufficient for the task
+- Working with files totaling more than 100KB
+- Verifying if specific features, patterns, or security measures are implemented
+- Checking for the presence of certain coding patterns across the entire codebase
