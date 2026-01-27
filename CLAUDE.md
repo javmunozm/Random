@@ -81,7 +81,7 @@ Format: `[YYYY-MM-DD] <description> | Impact: <metric change if any>`
 ```bash
 cd ml_models
 python pm_agent.py report                    # PM status report (start here)
-python production_predictor.py predict 3181
+python production_predictor.py predict      # Next series prediction
 python production_predictor.py find 3180
 python production_predictor.py validate 2981 3180
 ```
@@ -106,14 +106,16 @@ Rank  Set             Numbers                                       Type
 
 ## Key Metrics (200 series validated, 12-set core)
 
-| Metric | Before (S9=Anti-E1) | After (S9=E1&E7) | Improvement |
-|--------|---------------------|------------------|-------------|
-| Average | 10.74/14 | **10.76/14** | **+0.02** |
-| Best | 13/14 | 13/14 | -- |
-| Worst | 10/14 | 10/14 | -- |
-| 11+ matches | 130 (65%) | **135 (68%)** | **+5** |
-| 12+ matches | 18 (9%) | 16 (8%) | -2 |
-| 14/14 hits | 0 | 0 | -- |
+| Metric | Full (200) | L30 (recency) |
+|--------|------------|---------------|
+| Average | 10.76/14 | **10.97/14** |
+| Best | 13/14 | 12/14 |
+| Worst | 10/14 | 10/14 |
+| 11+ matches | 135 (68%) | 25 (83%) |
+| 12+ matches | 16 (8%) | 4 (13%) |
+| 14/14 hits | 0 | 0 |
+
+**Ranking based on L30 recency** (series 3151-3180), not historical totals.
 
 ### Why Replace, Not Add?
 
@@ -124,22 +126,22 @@ Rank  Set             Numbers                                       Type
 - Replacing S9 only: +0.02 avg with SAME number of sets
 - S9 per-set accuracy: 9.41 -> 9.51 (+0.10) - genuine improvement
 
-### Core 12 Sets (S1-S12)
+### Core 12 Sets (ranked by L30 recency, series 3151-3180)
 
-| Set | Strategy | Wins (200 series) |
-|-----|----------|-------------------|
-| S1 | rank16 | 46 |
-| S3 | E4 direct | 41 |
-| S5 | E6 direct | 19 |
-| S2 | rank15 | 14 |
-| S4 | r15+r16 | 13 |
-| S11 | E3&E7 | 13 |
-| S6 | E1&E6 | 12 |
-| S8 | E7 direct | 10 |
-| **S9** | **E1&E7 (UPDATED)** | **10** |
-| S7 | E3 direct | 9 |
-| S12 | E6&E7 | 7 |
-| S10 | E7+hot | 6 |
+| Rank | Set | Strategy | L30 Wins |
+|------|-----|----------|----------|
+| #1 | S3 | E4 direct | 8 |
+| #2 | S1 | rank16 | 3 |
+| #3 | S2 | rank15 | 3 |
+| #4 | S4 | r15+r16 | 3 |
+| #5 | S11 | E3&E7 | 3 |
+| #6 | S5 | E6 direct | 2 |
+| #7 | S6 | E1&E6 | 2 |
+| #8 | S8 | E7 direct | 2 |
+| #9 | S12 | E6&E7 | 2 |
+| #10 | **S9** | **E1&E7 (NEW)** | 1 |
+| #11 | S10 | E7+hot | 1 |
+| #12 | S7 | E3 direct | 0 |
 
 ---
 

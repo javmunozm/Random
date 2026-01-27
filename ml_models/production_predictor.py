@@ -28,9 +28,10 @@ TOTAL = 25
 PICK = 14
 EXCLUDE = 12
 
-# Performance rank by recent wins (L30 data, 2026-01-26, series 3151-3180)
-# S3=7, S11=4, S1=3, S2=3, S4=3, S12=3, S5=2, S6=2, S8=2, S9=2 (NEW), S10=1, S7=0
-PERF_RANK = [3, 4, 1, 5, 7, 8, 11, 2, 12, 10, 9, 6]  # 12 sets
+# Performance rank by L30 wins (series 3151-3180, S9=E1&E7)
+# S3=8, S1=3, S2=3, S4=3, S11=3, S5=2, S6=2, S8=2, S12=2, S9=1, S10=1, S7=0
+# Rank: 1=S3, 2=S1, 3=S2, 4=S4, 5=S11, 6=S5, 7=S6, 8=S8, 9=S12, 10=S9, 11=S10, 12=S7
+PERF_RANK = [2, 3, 1, 4, 6, 7, 12, 8, 10, 11, 5, 9]  # 12 sets
 NUM_SETS = 12
 
 
