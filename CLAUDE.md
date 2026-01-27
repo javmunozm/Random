@@ -219,9 +219,18 @@ python pm_agent.py assess     # JSON situation assessment
 
 ---
 
-## Agent Deployment Guide (2026-01-26)
+## Agent Deployment Guide (2026-01-27 - UPDATED for Gemini Workflow)
 
-**When to deploy which agent for each function:**
+**Pivoted from defensive maintenance to proactive Gemini-based optimization.**
+
+### The Gemini Optimization Loop
+
+```
+1. MONITOR: model-analysis-expert + edge-case-specialist gather data
+2. ANALYZE: gemini-strategy-coordinator launches Gemini deep analysis
+3. VALIDATE: stats-math-evaluator + simulation-testing-expert test results
+4. DEPLOY: If validated, update production and repeat
+```
 
 ### Adding New Series Data
 
@@ -236,54 +245,43 @@ python pm_agent.py assess     # JSON situation assessment
 python production_predictor.py validate 2981 [latest]
 ```
 
-### Validating Proposed Changes
+### Validating Gemini-Proposed Changes
 
 | Proposal Type | Agent | What to Check |
 |---------------|-------|---------------|
-| New prediction strategy | **stats-math-evaluator** | REJECT - all tested, all fail |
-| ML/AI approach | **stats-math-evaluator** | REJECT - ML proven worse |
-| New set addition | **stats-math-evaluator** | REJECT - adding sets = brute force |
-| Set replacement | **simulation-testing-expert** | Test per-set accuracy improvement |
-| Parameter tuning | **lottery-math-analyst** | Validate on L30, not full history |
+| Gemini strategy proposal | **stats-math-evaluator** | Validate metrics, statistical significance |
+| New fusion type | **simulation-testing-expert** | Full 200-series backtest |
+| Parameter change | **lottery-math-analyst** | Validate on L30, explain math principle |
 
 ### Performance Monitoring
 
 | Trigger | Agent | Action |
 |---------|-------|--------|
 | L30 avg < 10.5 | **regression-analyst** | Investigate cause |
-| Variance > 0.5 sustained | **regression-analyst** | Check for data issues |
-| 13/14 near-miss | **edge-case-specialist** | Log for pattern analysis |
-| New 12+ hit | **model-analysis-expert** | Analyze winning set |
+| 13/14 near-miss | **edge-case-specialist** | Log for Gemini analysis input |
+| New 12+ or 13+ hit | **model-analysis-expert** | Analyze which set/strategy won |
+| 10+ series without 12+ | **gemini-strategy-coordinator** | Trigger new Gemini analysis |
 
-### Statistical Validation
-
-| Task | Agent | When |
-|------|-------|------|
-| Verify claims | **stats-math-evaluator** | Any proposed "improvement" |
-| Monte Carlo simulation | **simulation-testing-expert** | Testing new strategies |
-| Probability calculations | **lottery-math-analyst** | P(14/14) estimates |
-| Confidence intervals | **stats-math-evaluator** | Performance comparisons |
-
-### Core Agents (Always Available)
+### Core Agents (Updated Roles)
 
 | Agent | Primary Function | Deploy When |
 |-------|------------------|-------------|
-| **lottery-math-analyst** | Pattern analysis, probability | Ceiling validation, probability estimates |
-| **dataset-reviewer** | Data validation | Adding new series, anomaly detection |
-| **simulation-testing-expert** | Monte Carlo, stress testing | Testing replacement strategies |
-| **model-analysis-expert** | Performance tracking | L30 monitoring, error diagnosis |
-| **stats-math-evaluator** | Statistical rigor | Rejecting "improvements", validation |
+| **gemini-strategy-coordinator** | Orchestrate Gemini optimization workflow | Any optimization cycle |
+| **stats-math-evaluator** | Validate Gemini insights statistically | Gemini proposes new strategy |
+| **lottery-math-analyst** | Interpret WHY Gemini strategies work | After successful optimization |
+| **edge-case-specialist** | Primary input for optimization (13+ logs) | Every 13+ near-miss |
+| **model-analysis-expert** | Performance tracking, trend detection | Continuous monitoring |
+| **dataset-reviewer** | Data validation | Adding new series |
+| **simulation-testing-expert** | Monte Carlo, backtesting | Testing Gemini proposals |
 | **documentation-enforcer** | Code standards | KISS/YAGNI compliance |
 | **update-enforcer** | Sync documentation | After any code changes |
 
-### Dynamic Agents (Monitoring Only)
+### Removed Agents
 
-| Agent | Status | Purpose |
-|-------|--------|---------|
-| **edge-case-specialist** | Active | Log 13/14 near-misses |
-| **event-correlation-analyst** | Complete | Confirmed 55% uniform correlation |
-| **set-optimizer** | Complete | S9 E1&E7 replacement validated |
-| **regression-analyst** | Active | Monitor for L30 < 10.5 |
+| Agent | Reason |
+|-------|--------|
+| ~~set-optimizer~~ | Superseded by Gemini analysis process |
+| ~~event-correlation-analyst~~ | One-time analysis complete, findings historical |
 
 ### Decision Tree: Which Agent?
 
@@ -291,16 +289,36 @@ python production_predictor.py validate 2981 [latest]
 User wants to...
 ├── Add new series data
 │   └── dataset-reviewer -> model-analysis-expert -> update-enforcer
-├── Propose new strategy
-│   └── stats-math-evaluator (REJECT - ceiling reached)
+├── Optimize the 7-set strategy
+│   └── gemini-strategy-coordinator -> Gemini CLI -> stats-math-evaluator
+├── Understand why a strategy works
+│   └── lottery-math-analyst (explain math principles)
 ├── Check current performance
 │   └── model-analysis-expert (run: python pm_agent.py report)
-├── Understand why 14/14 hasn't happened
-│   └── lottery-math-analyst (answer: random data, expected ~750 series)
-├── Validate a claim
-│   └── stats-math-evaluator (rigorous statistical testing)
-└── Test a replacement strategy
+├── Investigate 13/14 near-miss
+│   └── edge-case-specialist -> gemini-strategy-coordinator
+├── Validate Gemini's proposal
+│   └── stats-math-evaluator -> simulation-testing-expert
+└── Test a specific strategy
     └── simulation-testing-expert -> stats-math-evaluator
+```
+
+### Gemini Strategy Coordinator Workflow
+
+```bash
+# 1. Collect near-miss data
+python production_predictor.py validate 3151 3180  # L30 performance
+
+# 2. Launch Gemini analysis
+gemini -p "@CLAUDE.md @ml_models/production_predictor.py [specific question]"
+
+# 3. Test proposed strategy
+python ml_models/[test_file].py  # Run backtest
+
+# 4. Validate with stats-math-evaluator
+# Check: 12+ improvement, 13+ improvement, L30 stability
+
+# 5. If validated, update production_predictor.py
 ```
 
 ---
@@ -309,13 +327,15 @@ User wants to...
 
 ```
 ml_models/
-├── production_predictor.py         # ~330 lines, 12-set core strategy
+├── production_predictor.py         # 7-set OPTIMIZED (SymDiff + Quint)
 ├── pm_agent.py                     # PM coordinator + dynamic agent mgmt
 ├── dynamic_agents.json             # Persisted dynamic agents
-├── ceiling_analysis.py             # Theoretical limits analysis
-├── monte_carlo_validation.py       # Statistical validation
-├── bandit_predictor.py             # RL/bandit analysis (all worse than 12-set)
-└── number_pattern_analysis.py      # Number-level pattern analysis (none found)
+├── gemini_strategy_test.py         # Triple fusion tests
+├── gemini_deep_test.py             # Extended strategy tests (50+)
+├── hex_fusion_test.py              # 5/6/7 event fusion comparison
+├── optimal_7set_test.py            # Full combinatorial search
+├── final_7set_test.py              # Final optimization validation
+└── [historical analysis files]     # ceiling, bandit, pattern analysis
 ```
 
 ---
