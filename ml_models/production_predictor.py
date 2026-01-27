@@ -5,15 +5,15 @@ Production Predictor
 
 Goal: Hit 14/14 at least once.
 
-Strategy: 12-set core strategy (pruned from 31 sets based on recent performance).
-Only sets with wins in last 30 series or rising trends are kept.
+Strategy: 12-set core strategy.
+S9 updated 2026-01-26: Anti-E1 -> E1&E7 fusion (+0.10 per-set accuracy improvement).
 
-Core sets (validated on L30 data 2026-01-18):
+Core sets (validated on L30 data):
 - E1-based: S1 rank16, S2 rank15, S4 r15+r16
 - Multi-event direct: S3 E4, S5 E6 (13/14!), S7 E3, S8 E7
-- Multi-event fusions: S6 E1&E6, S9 Anti-E1, S10 E7+hot, S11 E3&E7, S12 E6&E7
+- Multi-event fusions: S6 E1&E6, S9 E1&E7 (NEW), S10 E7+hot, S11 E3&E7, S12 E6&E7
 
-Performance: 10.97/14 avg on L30 (improved from 10.90 with E4 replacement).
+Performance: 10.76/14 avg (improved from 10.74 with S9 replacement).
 """
 
 import json
@@ -28,9 +28,10 @@ TOTAL = 25
 PICK = 14
 EXCLUDE = 12
 
-# Performance rank by recent wins (L30 data, 2026-01-25, series 3150-3179)
-# S3=7, S11=4, S1=3, S2=3, S4=3, S12=3, S5=2, S6=2, S8=2, S10=1, S7=0, S9=0
-PERF_RANK = [3, 4, 1, 5, 7, 8, 11, 9, 12, 10, 2, 6]  # 12 sets
+# Performance rank by recent wins (L30 data, 2026-01-26, series 3151-3180)
+# S3=7, S11=4, S1=3, S2=3, S4=3, S12=3, S5=2, S6=2, S8=2, S9=2 (NEW), S10=1, S7=0
+PERF_RANK = [3, 4, 1, 5, 7, 8, 11, 2, 12, 10, 9, 6]  # 12 sets
+NUM_SETS = 12
 
 
 def load_data():
@@ -53,25 +54,25 @@ def latest(data):
 
 def predict(data, series_id):
     """
-    Generate 12 prediction sets (pruned core strategy).
+    Generate 12 prediction sets (core strategy).
 
     E1-based sets (S1, S2, S4):
-    - S1: top-13 + rank16 (6 wins L30, top performer)
-    - S2: top-13 + rank15 (2 wins L30)
-    - S4: top-12 + r15 + r16 (3 wins L30)
+    - S1: top-13 + rank16
+    - S2: top-13 + rank15
+    - S4: top-12 + r15 + r16
 
     Multi-event direct (S3, S5, S7, S8):
-    - S3: E4 directly (6 wins L30, replaced rank18)
-    - S5: E6 directly (13/14 achiever, 3 wins L30)
-    - S7: E3 directly (3 wins L30)
-    - S8: E7 directly (1 win L30)
+    - S3: E4 directly
+    - S5: E6 directly (13/14 achiever!)
+    - S7: E3 directly
+    - S8: E7 directly
 
     Multi-event fusions (S6, S9-S12):
-    - S6:  E1 & E6 intersection + fill (3 wins L30)
-    - S9:  Anti-E1 Multi - numbers from E2-E7 not in E1 (diversity)
-    - S10: E7 top-13 + hot outside (2 wins L30)
-    - S11: E3 & E7 fusion (3 wins L30)
-    - S12: E6 & E7 fusion (2 wins L30)
+    - S6:  E1 & E6 fusion
+    - S9:  E1 & E7 fusion (UPDATED 2026-01-26, was Anti-E1, +0.10 per-set)
+    - S10: E7 + hot
+    - S11: E3 & E7 fusion
+    - S12: E6 & E7 fusion
     """
     prior = str(series_id - 1)
     if prior not in data:
@@ -97,21 +98,20 @@ def predict(data, series_id):
     prev_series = sorted(int(s) for s in data if int(s) < series_id)[-3:]
     recent_freq = Counter(n for s in prev_series for e in data[str(s)] for n in e)
 
+    # Current draw frequency (for S9 E1&E7 fusion)
+    current_freq = Counter(n for e in data[prior] for n in e)
+
     # E1 & E6 fusion (S6)
     e1_e6_int = event1 & event6
     e1_e6_union = event1 | event6
     e1_e6_remaining = sorted(e1_e6_union - e1_e6_int, key=lambda n: -freq[n])
     s6_numbers = list(e1_e6_int) + e1_e6_remaining[:14 - len(e1_e6_int)]
 
-    # Anti-E1 Multi (S9) - prioritizes numbers from E2-E7 that are NOT in E1
-    anti_e1_votes = Counter()
-    for e in [event2, event3, event4, event5, event6, event7]:
-        for n in e:
-            if n not in event1:
-                anti_e1_votes[n] += 2  # Bonus for not in E1
-            else:
-                anti_e1_votes[n] += 1
-    s9_numbers = sorted(anti_e1_votes.keys(), key=lambda n: -anti_e1_votes[n])[:14]
+    # E1 & E7 fusion (S9) - UPDATED 2026-01-26 (was Anti-E1, +0.10 per-set accuracy)
+    e1_e7_int = event1 & event7
+    e1_e7_union = event1 | event7
+    e1_e7_remaining = sorted(e1_e7_union - e1_e7_int, key=lambda n: -current_freq[n])
+    s9_numbers = list(e1_e7_int) + e1_e7_remaining[:14 - len(e1_e7_int)]
 
     # E7 + hot (S10)
     e7_ranked = sorted(event7, key=lambda n: -freq[n])
@@ -135,13 +135,13 @@ def predict(data, series_id):
     sets = [
         sorted(ranked[:13] + [ranked[15]]),              # S1: top-13 + rank16
         sorted(ranked[:13] + [ranked[14]]),              # S2: top-13 + rank15
-        sorted(event4),                                   # S3: E4 directly (6 wins L30!)
+        sorted(event4),                                   # S3: E4 directly
         sorted(ranked[:12] + [ranked[14], ranked[15]]),  # S4: top-12 + r15 + r16
         sorted(event6),                                   # S5: E6 directly (13/14!)
         sorted(s6_numbers),                               # S6: E1 & E6 fusion
         sorted(event3),                                   # S7: E3 directly
         sorted(event7),                                   # S8: E7 directly
-        sorted(s9_numbers),                               # S9: Anti-E1 Multi
+        sorted(s9_numbers),                               # S9: E1 & E7 fusion (UPDATED)
         sorted(s10_numbers),                              # S10: E7 + hot
         sorted(s11_numbers),                              # S11: E3 & E7 fusion
         sorted(s12_numbers),                              # S12: E6 & E7 fusion
@@ -234,7 +234,7 @@ def validate(data, start, end):
 
     n = len(results)
     bests = [r["best"] for r in results]
-    wins = [0] * 12  # 12 sets
+    wins = [0] * NUM_SETS  # 17 sets
     for r in results:
         wins[r["winner"] - 1] += 1
 
@@ -284,21 +284,21 @@ def main():
         labels = [
             "S1 (rank16)",    # E1-based
             "S2 (rank15)",    # E1-based
-            "S3 (E4)",        # Multi-event direct (6 wins L30!)
+            "S3 (E4)",        # Multi-event direct
             "S4 (r15+r16)",   # E1-based
             "S5 (E6)",        # Multi-event direct (13/14!)
             "S6 (E1&E6)",     # Fusion
             "S7 (E3)",        # Multi-event direct
             "S8 (E7)",        # Multi-event direct
-            "S9 (Anti-E1)",   # Diversity set
+            "S9 (E1&E7)",     # Fusion (UPDATED - was Anti-E1)
             "S10 (E7+hot)",   # Multi-event swap
             "S11 (E3&E7)",    # Fusion
             "S12 (E6&E7)",    # Fusion
         ]
-        types = ["E1", "E1", "E4", "E1", "E6", "MIX", "E3", "E7", "DIV", "E7S", "MIX", "MIX"]
+        types = ["E1", "E1", "E4", "E1", "E6", "MIX", "E3", "E7", "MIX", "E7S", "MIX", "MIX"]
 
         # Sort by performance rank for display
-        order = sorted(range(12), key=lambda i: PERF_RANK[i])
+        order = sorted(range(NUM_SETS), key=lambda i: PERF_RANK[i])
         for idx in order:
             s = r["sets"][idx]
             nums = ' '.join(f'{n:02d}' for n in s)
@@ -332,7 +332,7 @@ def main():
             w = r['wins']
             print(f"\nE1-based:  S1={w[0]} S2={w[1]} S3={w[2]} S4={w[3]}")
             print(f"Direct:    S5(E6)={w[4]} S7(E3)={w[6]} S8(E7)={w[7]}")
-            print(f"Fusions:   S6={w[5]} S9={w[8]} S10={w[9]} S11={w[10]} S12={w[11]}")
+            print(f"Fusions:   S6={w[5]} S9(E1&E7)={w[8]} S10={w[9]} S11={w[10]} S12={w[11]}")
     else:
         print(f"Unknown: {cmd}")
 

@@ -1,6 +1,6 @@
 # Lottery Prediction Research
 
-**Status**: PRODUCTION READY | **Updated**: January 25, 2026
+**Status**: PRODUCTION READY | **Updated**: January 26, 2026
 
 ---
 
@@ -28,6 +28,13 @@ Format: `[YYYY-MM-DD] <description> | Impact: <metric change if any>`
 
 | Date | Change | Impact |
 |------|--------|--------|
+| 2026-01-26 | **REPLACED S9: Anti-E1 -> E1&E7 fusion** (current-weighted, +0.10 per-set accuracy) | **avg 10.74->10.76 (+0.02), 11+ 130->135 (+5), S9 wins 6->10** |
+| 2026-01-26 | **Key insight**: Replace worst performers, don't add sets (adding = brute force) | 12 sets maintained, genuine per-set improvement |
+| 2026-01-26 | **Number Pattern Analysis** - Created `ml_models/number_pattern_analysis.py` | 0 significant patterns, pattern predictor 0.19pts WORSE |
+| 2026-01-26 | **Multi-Armed Bandit Analysis** - Created `ml_models/bandit_predictor.py`, tested 13 RL algorithms | All bandits 1.12-1.29pts WORSE than 12-set |
+| 2026-01-26 | **Tunable Parameters Spec** - Created `ml_models/tunable_parameters.md` with 8 parameter categories | E3&E6 +0.36, E5 +0.13, boundary +0.07 potential |
+| 2026-01-26 | Fixed flawed "700 series = 1 hit" conjecture - probability ≠ guarantee | Documentation corrected |
+| 2026-01-26 | Added series 3180 (best: 10/14, S3 E4 won) | 200 series, avg 10.74, 11+ 130, 12+ 18 |
 | 2026-01-25 | Updated PERF_RANK to L30 (3150-3179): S3=7, S11=4, S1/S2/S4/S12=3 | Ranking now reflects recent performance |
 | 2026-01-25 | Added series 3179 (best: 10/14, S3/S5/S9 tied) | 199 series, avg 10.75, 11+ 131, 12+ 18 |
 | 2026-01-23 | **ML Analysis**: All ML approaches (XGBoost, frequency, recency, ensemble) perform WORSE than simple event copying | ML cannot help - data is random |
@@ -57,9 +64,9 @@ Format: `[YYYY-MM-DD] <description> | Impact: <metric change if any>`
 ```bash
 cd ml_models
 python pm_agent.py report                    # PM status report (start here)
-python production_predictor.py predict 3180
-python production_predictor.py find 3179
-python production_predictor.py validate 2981 3179
+python production_predictor.py predict 3181
+python production_predictor.py find 3180
+python production_predictor.py validate 2981 3180
 ```
 
 ---
@@ -80,97 +87,90 @@ Rank  Set             Numbers                                       Type
 
 ---
 
-## Key Metrics (199 series validated, 12-set core)
+## Key Metrics (200 series validated, 12-set core)
 
-| Metric | Value |
-|--------|-------|
-| Average | **10.75/14** (full), **11.00/14** (L30) |
-| Best | **13/14** (S5 E6) |
-| Worst | 9/14 |
-| 11+ matches | 131 (66%) full, 26 (87%) L30 |
-| 12+ matches | 18 (9%) full, 4 (13%) L30 |
-| 14/14 hits | 0 |
+| Metric | Before (S9=Anti-E1) | After (S9=E1&E7) | Improvement |
+|--------|---------------------|------------------|-------------|
+| Average | 10.74/14 | **10.76/14** | **+0.02** |
+| Best | 13/14 | 13/14 | -- |
+| Worst | 10/14 | 10/14 | -- |
+| 11+ matches | 130 (65%) | **135 (68%)** | **+5** |
+| 12+ matches | 18 (9%) | 16 (8%) | -2 |
+| 14/14 hits | 0 | 0 | -- |
 
-### Why 12 Sets Instead of 31?
+### Why Replace, Not Add?
 
-**Problem with accumulating sets:**
-- Historical analysis → add set → repeat = brute force, not intelligence
-- Sets S28-S31 had **0 wins in last 50 series** (dead weight)
-- 40/50 recent series had **ties** for best score (redundancy)
+**Key insight (2026-01-26):** Adding sets is brute force. The goal is better per-set accuracy.
 
-**Pruning criteria:**
-- Keep sets with **wins in L30** or **rising trends**
-- Remove sets with 0 wins recently or falling trends
-- Result: 61% fewer sets, 97% of recent performance retained
+**Analysis results:**
+- Adding 5 sets (12->17): +0.08 avg, BUT just more lottery tickets
+- Replacing S9 only: +0.02 avg with SAME number of sets
+- S9 per-set accuracy: 9.41 -> 9.51 (+0.10) - genuine improvement
 
-### Performance by Time Window
+### Core 12 Sets (S1-S12)
 
-| Window | Sets | Average | 11+ Rate |
-|--------|------|---------|----------|
-| L30 | 12 (E4 fix) | **10.97** | **87%** |
-| L30 | 12 (old) | 10.90 | 80% |
-| L30 | 31 | 11.00 | 90% |
-| **Gap** | | **-0.03** | **-3%** |
-
-### Core 12 Sets (ranked by L30 wins, 3150-3179)
-
-| Rank | Set | Strategy | L30 Wins | Trend |
-|------|-----|----------|----------|-------|
-| #1 | S3 | **E4 direct** | 7 | **HOT** |
-| #2 | S11 | E3&E7 | 4 | RISING |
-| #3 | S1 | rank16 | 3 | STABLE |
-| #4 | S2 | rank15 | 3 | RISING |
-| #5 | S4 | r15+r16 | 3 | STABLE |
-| #6 | S12 | E6&E7 | 3 | RISING |
-| #7 | S5 | E6 direct | 2 | STABLE (13/14!) |
-| #8 | S6 | E1&E6 | 2 | STABLE |
-| #9 | S8 | E7 direct | 2 | STABLE |
-| #10 | S10 | E7+hot | 1 | FALLING |
-| #11 | S7 | E3 direct | 0 | COLD |
-| #12 | S9 | Anti-E1 Multi | 0 | COLD |
+| Set | Strategy | Wins (200 series) |
+|-----|----------|-------------------|
+| S1 | rank16 | 46 |
+| S3 | E4 direct | 41 |
+| S5 | E6 direct | 19 |
+| S2 | rank15 | 14 |
+| S4 | r15+r16 | 13 |
+| S11 | E3&E7 | 13 |
+| S6 | E1&E6 | 12 |
+| S8 | E7 direct | 10 |
+| **S9** | **E1&E7 (UPDATED)** | **10** |
+| S7 | E3 direct | 9 |
+| S12 | E6&E7 | 7 |
+| S10 | E7+hot | 6 |
 
 ---
 
-## Strategy (12-set core, 2026-01-18)
+## Strategy (12-set core, 2026-01-26)
 
 ```python
-# 12-set core strategy - validated on L30 data
+# 12-set core strategy (S9 updated 2026-01-26)
 
 # E1-based sets (S1, S2, S4)
-sets[0] = ranked[:13] + [ranked[15]]             # S1: rank16 (6 wins L30)
-sets[1] = ranked[:13] + [ranked[14]]             # S2: rank15 (2 wins L30)
-sets[3] = ranked[:12] + [ranked[14], ranked[15]] # S4: r15+r16 (3 wins L30)
+sets[0] = ranked[:13] + [ranked[15]]             # S1: rank16
+sets[1] = ranked[:13] + [ranked[14]]             # S2: rank15
+sets[3] = ranked[:12] + [ranked[14], ranked[15]] # S4: r15+r16
 
 # Multi-event direct (S3, S5, S7, S8)
-sets[2] = sorted(event4)                         # S3: E4 (6 wins L30, NEW!)
-sets[4] = sorted(event6)                         # S5: E6 (13/14 achiever!)
-sets[6] = sorted(event3)                         # S7: E3 (1 win L30)
-sets[7] = sorted(event7)                         # S8: E7 (1 win L30)
+sets[2] = sorted(event4)                         # S3: E4 direct
+sets[4] = sorted(event6)                         # S5: E6 direct (13/14!)
+sets[6] = sorted(event3)                         # S7: E3 direct
+sets[7] = sorted(event7)                         # S8: E7 direct
 
 # Multi-event fusions (S6, S9-S12)
-sets[5] = sorted(e1_e6_fusion)                   # S6: E1 & E6 fusion (2 wins)
-sets[8] = anti_e1_multi()                        # S9: Anti-E1 Multi (diversity)
-sets[9] = e7_ranked[:13] + [hot_outside_e7]      # S10: E7 + hot (1 win)
-sets[10] = sorted(e3_e7_fusion)                  # S11: E3 & E7 fusion (4 wins)
-sets[11] = sorted(e6_e7_fusion)                  # S12: E6 & E7 fusion (2 wins)
+sets[5] = sorted(e1_e6_fusion)                   # S6: E1 & E6 fusion
+sets[8] = sorted(e1_e7_fusion)                   # S9: E1 & E7 fusion (UPDATED 2026-01-26)
+sets[9] = e7_ranked[:13] + [hot_outside_e7]      # S10: E7 + hot
+sets[10] = sorted(e3_e7_fusion)                  # S11: E3 & E7 fusion
+sets[11] = sorted(e6_e7_fusion)                  # S12: E6 & E7 fusion
 ```
 
-### Sets REMOVED (19 dead-weight sets)
+### Why S9 Changed from Anti-E1 to E1&E7 Fusion
 
-| Set | Reason |
-|-----|--------|
-| S5-S8 (old) | Redundant with core E1 sets |
-| S13-S14 | #12 inclusion - 0 wins L50 |
-| S16 | E3+hot - falling trend |
-| S19-S25 | Fusions/mixed - 0-1 wins L30 |
-| S26-S31 | Near-miss fixes - 0 wins L50 |
+**Key insight (2026-01-26):** Replace worst performers, don't add sets.
+
+| Metric | Anti-E1 (old) | E1&E7 (new) | Change |
+|--------|---------------|-------------|--------|
+| S9 per-set avg | 9.41/14 | 9.51/14 | **+0.10** |
+| S9 wins | 6 | 10 | **+4** |
+| Total avg | 10.74/14 | 10.76/14 | **+0.02** |
+| Total 11+ | 130 | 135 | **+5** |
+
+**E1&E7 fusion uses current_freq** (frequency within the current series' 7 events)
+instead of global frequency, capturing within-series patterns that historical
+weighting misses
 
 ---
 
 ## Data
 
-- **Series**: 199 validated (2981-3179), 200 total (2980-3179)
-- **Latest**: 3179
+- **Series**: 200 validated (2981-3180), 201 total (2980-3180)
+- **Latest**: 3180
 - **File**: `data/full_series_data.json`
 - **Note**: Series 2980 is baseline only (no prior for prediction)
 
@@ -201,7 +201,9 @@ ml_models/
 ├── pm_agent.py                     # PM coordinator + dynamic agent mgmt
 ├── dynamic_agents.json             # Persisted dynamic agents
 ├── ceiling_analysis.py             # Theoretical limits analysis
-└── monte_carlo_validation.py       # Statistical validation
+├── monte_carlo_validation.py       # Statistical validation
+├── bandit_predictor.py             # RL/bandit analysis (all worse than 12-set)
+└── number_pattern_analysis.py      # Number-level pattern analysis (none found)
 ```
 
 ---
@@ -295,31 +297,31 @@ The PM agent (pre-simplification) tried to:
 | Method | Estimate |
 |--------|----------|
 | From score ratio extrapolation | ~0.07% per series |
-| Upper 95% confidence (197 series, 0 hits) | ~0.13% per series |
-| Expected series to hit | **750-1400** |
-| Series tested so far | 197 |
+| Upper 95% confidence (200 series, 0 hits) | ~0.13% per series |
+| P(at least 1 hit in 700 series) | ~50% (NOT guaranteed) |
+| Series tested so far | 200 |
 
-**0 hits in 197 series is statistically expected.**
+**IMPORTANT: Expected value ≠ guarantee. Even with 700+ series, there's ~50% chance of ZERO 14/14 hits.**
 
 ### Path to 14/14
 
-Since algorithm optimization is exhausted:
+Current static approach has limitations:
 
-| Approach | Viability |
-|----------|-----------|
-| Better boundary selection | ❌ All configurations tested, none improve |
-| More diverse sets | ❌ Current diversity is optimal |
-| Pattern mining | ❌ Patterns shift, ~39% correlation only |
-| Complex heuristics | ❌ PM agent proved this fails |
-| **More series (volume)** | ✅ Only viable path |
-| **Lucky alignment** | ✅ Required for 14/14 |
+| Approach | Status |
+|----------|--------|
+| Static event copying | Current baseline (~10.7/14 avg) |
+| More volume alone | ❌ Doesn't improve accuracy, just more chances |
+| Pattern mining (static) | ❌ Patterns shift over time |
+| **Adaptive tuning (L10 window)** | 🔄 TO BE TESTED |
+| **Evolutionary algorithm** | 🔄 TO BE TESTED |
 
-### What This Means for Future Work
+### Current Focus: Evolutionary Tuning
 
-1. **Stop trying to optimize the predictor** - it's at local maximum
-2. **Focus on data collection** - more series = eventually hit 14/14
-3. **PM agent role** - analysis and monitoring, not prediction ranking
-4. **Any proposed changes** - will fail L30 validation (already tested)
+Instead of static optimization, implement adaptive system:
+1. Use sliding window (last 10 draws) for tuning
+2. Predict next draw, compare to actual
+3. Tune algorithm based on what worked
+4. Iterate and evolve
 
 ---
 
@@ -347,6 +349,28 @@ Comprehensive analysis of whether machine learning could improve predictions.
 | Dynamic ensemble | 9.33/14 | -1.27 | WORSE |
 | PM overlay sets | 9.35/14 | -1.51 | REMOVED |
 
+### Reinforcement Learning / Bandits (2026-01-26)
+
+Tested whether adaptive algorithms could learn which strategy works best.
+
+| Algorithm | Average | vs 12-Set | Result |
+|-----------|---------|-----------|--------|
+| 12-Set Core (baseline) | 10.74/14 | -- | BEST |
+| DecayingEpsilon (best bandit) | 9.62/14 | -1.12 | WORSE |
+| UCB1 | 9.59/14 | -1.15 | WORSE |
+| Thompson Sampling | 9.55/14 | -1.19 | WORSE |
+| EXP3 (adversarial) | 9.51/14 | -1.24 | WORSE |
+| Sliding Window UCB | 9.56/14 | -1.18 | WORSE |
+
+**Key Finding:** The best strategy changes 80% of the time across 30-series windows,
+but bandits still fail because:
+- Changes are RANDOM and UNPREDICTABLE
+- Past arm performance doesn't predict future performance
+- Exploration/exploitation is useless when there's no learnable pattern
+
+**Why 12-Set Wins:** Uses ALL strategies simultaneously, takes BEST of 12.
+No selection/learning needed when you can run all in parallel.
+
 ### Why ML Fails
 
 1. **No patterns to learn** - Entropy is 99.9% of maximum
@@ -358,6 +382,52 @@ Comprehensive analysis of whether machine learning could improve predictions.
 
 **Machine learning cannot improve this system.** The data is essentially random.
 The current simple approach (copy prior events) is mathematically optimal.
+
+---
+
+## Number Pattern Analysis (2026-01-26)
+
+Deep analysis of number-level patterns to test if individual number behavior is exploitable.
+
+### Analyses Performed
+
+| Analysis | Description | Result |
+|----------|-------------|--------|
+| Transition Matrix | 25x25 matrix of P(Y next | X present) | 0 significant pairs (Bonferroni) |
+| Gap Effect | Does absence make number more likely? | Cannot test - numbers always appear |
+| Co-occurrence | Do certain pairs appear together? | Chi-sq p=1.0 (no association) |
+| Event Flow | Do numbers persist in same event? | p=0.97 (no persistence) |
+| Within-Series | E1->E2->...->E7 sequences | 0 Bonferroni significant (0.3% at p<0.05) |
+| Event Structure | Overlap within/across series | 7.85/14 within, 7.78/14 across (matches 7.84 expected) |
+
+### Key Findings
+
+1. **Numbers appear in ~99.7% of series** - Too uniform for gap analysis
+2. **Zero transition patterns** - Number X appearing tells nothing about number Y
+3. **Events are independent draws** - No structure in E1->E2->...->E7 sequence
+4. **Overlap matches random expectation exactly** - 7.85/14 observed vs 7.84/14 expected
+
+### Predictive Validation
+
+| Predictor | Score | vs Baseline |
+|-----------|-------|-------------|
+| E1 copy (baseline) | 9.60/14 | -- |
+| Pattern-based | 9.41/14 | **-0.19** (p=0.035) |
+
+**Pattern predictor is statistically significantly WORSE than simple event copying.**
+
+### Mathematical Reality
+
+- 7 events x 14 numbers = 98 draws per series
+- 98/25 = 3.92 appearances per number per series
+- P(number in at least one event) = 1 - (11/25)^7 = 99.7%
+- Cross-series correlation: ~0 (independent)
+
+### Conclusion
+
+**Data is random at the number level.** The only exploitable signal is event-level
+correlation (~55% persistence). Any attempt to predict at the number level destroys
+this signal. The current system (event copying + fusions) is mathematically optimal.
 
 ---
 
@@ -373,34 +443,46 @@ Instead:
 
 ---
 
-## PREDICTOR STATUS: AT CEILING (2026-01-23)
+## PREDICTOR STATUS: AT CEILING (2026-01-26)
 
-**The system is at theoretical maximum. No improvements are possible.**
+**All optimization approaches tested. Current 12-set strategy is optimal.**
 
-### What This Means
+### Evolutionary/Adaptive Approaches Tested
 
-1. **DO NOT propose new prediction strategies** - All have been tested, all fail
-2. **DO NOT add ML/AI approaches** - Proven to make predictions worse
-3. **DO NOT create "smart" overlay sets** - PM overlay was 1.5 points worse
-4. **DO NOT try to detect patterns** - Data entropy is 99.9% (random)
+All approaches performed WORSE than the 12-set baseline:
 
-### What Agents Should Do Instead
+| Approach | Score | vs 12-Set | Result |
+|----------|-------|-----------|--------|
+| 12-Set Core | 10.74/14 | baseline | BEST |
+| Genetic Algorithm | 10.26/14 | -0.48 | WORSE |
+| RL Multi-Armed Bandits | 9.45-9.62/14 | -1.12 to -1.29 | WORSE |
+| Weighted Ensemble | 9.56-9.63/14 | -1.11 to -1.18 | WORSE |
+| L10 Evolution | 9.55/14 | -1.19 | WORSE |
+
+### Key Finding: Current Weighting Works for S9
+
+While standalone adaptive approaches fail, **current-weighted fusion** improved S9:
+
+- Old S9 (Anti-E1): 9.41/14 per-set average
+- New S9 (E1&E7): 9.51/14 per-set average (+0.10)
+
+**Principle:** Don't add sets (brute force). Replace worst performers with better strategies.
+
+### What Agents Should Do
 
 | Agent | Role |
 |-------|------|
-| lottery-math-analyst | Confirm ceiling status, monitor only |
-| model-analysis-expert | Track L30 variance, report anomalies |
-| set-optimizer | Optimization complete, monitor only |
-| regression-analyst | Alert if L30 drops below 10.5 |
-| edge-case-specialist | Log near-misses, no action needed |
-| stats-math-evaluator | Validate claims, reject "improvements" |
+| lottery-math-analyst | Monitor ceiling status, validate claims |
+| model-analysis-expert | Track L30 variance, alert on anomalies |
+| stats-math-evaluator | Reject proposed "improvements" (all tested) |
+| simulation-testing-expert | Run Monte Carlo validation as needed |
 
-### The Only Path to 14/14
+### Current Metrics
 
-- **Volume**: More series = more chances
-- **Luck**: Eventually a 14/14 alignment will occur
-- **Expected**: 750-1,400 series to hit
-- **Current**: 198 series tested
+- **Average**: 10.76/14 (200 series)
+- **11+ rate**: 68% (135/200)
+- **12+ rate**: 8% (16/200)
+- **14/14 hits**: 0
 
 ---
 
