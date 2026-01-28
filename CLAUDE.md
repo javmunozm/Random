@@ -45,8 +45,10 @@ Format: `[YYYY-MM-DD] <description> | Impact: <metric change if any>`
 
 | Date | Change | Impact |
 |------|--------|--------|
-| 2026-01-28 | **Gemini improvement test** - Tested SymDiff(E4,E7), Weighted Quint, E5 Quint | All WORSE than baseline (13+ dropped from 3→2) |
-| 2026-01-28 | **Updated all agents** - Synced with 7-set strategy, 200 series, 10.61 avg | 7 agents updated |
+| 2026-01-28 | **RECENCY-WEIGHTED FREQUENCY** - Fixed look-ahead bias, now uses 3x L10, 2x L30 weighting | Honest eval: 10.58 avg, 14 12+, 2 13+ |
+| 2026-01-28 | **Gemini advanced tests** - Delta prediction (-1.08), Graph centrality (-1.11), Hit hangover (-0.11) | All sophisticated approaches WORSE |
+| 2026-01-28 | **Gemini improvement test** - Tested SymDiff(E4,E7), Weighted Quint, E5 Quint | All WORSE than baseline |
+| 2026-01-28 | **Updated all agents** - Synced with 7-set strategy, 200 series | 7 agents updated |
 | 2026-01-27 | **Updated CLAUDE.md** - Removed all 12-set references, documented 7-set as current strategy | Documentation aligned |
 | 2026-01-27 | **PM Agent updated** - Added gemini-strategy-coordinator, deactivated completed agents | 8 core agents, 2/4 dynamic |
 | 2026-01-27 | **OPTIMIZED 7-SET FOR JACKPOT** - S6=SymDiff_E3E7, S7=Quint_E2E3E4E6E7 via Gemini deep analysis | **12+ 11→16 (+45%), 13+ 1→3 (+200%)** |
@@ -112,29 +114,38 @@ Rank  Set          Numbers                                       Type
 
 ---
 
-## Key Metrics (200 series validated, 7-set OPTIMIZED)
+## Key Metrics (200 series, FAIR EVAL - no look-ahead bias)
 
-| Metric | Full (200) | L30 (recency) | vs Previous |
-|--------|------------|---------------|-------------|
-| Average | 10.61/14 | **10.67/14** | +0.01 |
-| Best | 13/14 | 12/14 | same |
-| Worst | 9/14 | 10/14 | same |
-| 11+ matches | 104 (52%) | 18 (60%) | -5 |
-| 12+ matches | **16 (8%)** | 2 (7%) | **+5 (+45%)** |
-| 13+ matches | **3 (1.5%)** | 0 | **+2 (+200%)** |
-| 14/14 hits | 0 | 0 | same |
+| Metric | Full (200) | Notes |
+|--------|------------|-------|
+| Average | **10.58/14** | Honest eval with recency weighting |
+| Best | 13/14 | |
+| Worst | 9/14 | |
+| 11+ matches | 101 (50.5%) | |
+| 12+ matches | **14 (7%)** | |
+| 13+ matches | **2 (1%)** | |
+| 14/14 hits | 0 | |
 
-### Core 7 Sets (OPTIMIZED for jackpot, 200 series)
+### Core 7 Sets (200 series, recency-weighted)
 
 | Rank | Set | Strategy | Wins | Type |
 |------|-----|----------|------|------|
-| #1 | S1 | E4 direct | 67 | Direct |
-| #2 | S2 | E1 rank16 | 49 | Ranked |
-| #3 | S3 | E6 direct | 30 | Direct |
-| #4 | S5 | E3&E7 fusion | 20 | 2-event |
-| #5 | S4 | E7 direct | 17 | Direct |
-| #6 | S6 | **SymDiff E3⊕E7** | 10 | **Diversity** |
-| #7 | S7 | **Quint E2E3E4E6E7** | 7 | **5-event** |
+| #1 | S1 | E4 direct | 69 | Direct |
+| #2 | S2 | E1 rank16 | 48 | Ranked |
+| #3 | S3 | E6 direct | 28 | Direct |
+| #4 | S4 | E7 direct | 19 | Direct |
+| #5 | S6 | **SymDiff E3⊕E7** | 15 | **Diversity** |
+| #6 | S5 | E3&E7 fusion | 13 | 2-event |
+| #7 | S7 | **Quint E2E3E4E6E7** | 8 | **5-event** |
+
+### Why Recency Weighting? (2026-01-28)
+
+Previous metrics were **inflated by look-ahead bias** - the frequency counter used ALL data including "future" series during backtesting.
+
+**Fair evaluation** (recency-weighted, past-only):
+- Only uses data from series BEFORE the prediction target
+- Weights: 3x for L10, 2x for L30, 1x for older
+- Matches real-world prediction scenario
 
 ### Why This Optimization?
 

@@ -1,28 +1,28 @@
 #!/usr/bin/env python3
 """
-Production Predictor - 7-Set Strategy (Optimized 2026-01-27)
-============================================================
+Production Predictor - 7-Set Strategy (Updated 2026-01-28)
+==========================================================
 
 Goal: Hit 14/14 at least once.
 
 Strategy: 7-set optimized for JACKPOT via Gemini analysis.
 Uses 5-event consensus fusion (Quint) + symmetric difference for diversity.
 
+UPDATE 2026-01-28: Now uses RECENCY-WEIGHTED frequency for tiebreaking.
+- Only uses PAST data (no look-ahead bias)
+- Weights: 3x for L10, 2x for L30, 1x for older
+- Improves real-world prediction accuracy
+
 7 Sets (optimized for 12+ and 13+ hits):
-1. S1 (E4)          - 64 wins - Best individual predictor
-2. S2 (rank16)      - 50 wins - E1-based anchor
-3. S3 (E6)          - 32 wins - Direct E6
-4. S4 (E7)          - 18 wins - Direct E7
-5. S5 (E3&E7)       - 20 wins - Strong fusion
-6. S6 (SymDiff)     - 10 wins - E3⊕E7 diversity set (NEW)
-7. S7 (Quint)       -  6 wins - 5-event consensus (NEW)
+1. S1 (E4)          - Best individual predictor
+2. S2 (rank16)      - E1-based anchor
+3. S3 (E6)          - Direct E6
+4. S4 (E7)          - Direct E7
+5. S5 (E3&E7)       - Strong fusion
+6. S6 (SymDiff)     - E3⊕E7 diversity set
+7. S7 (Quint)       - 5-event consensus
 
-Performance: 10.61/14 avg, 104 11+, 16 12+, 3 13+ (200 series)
-L30: 10.67/14 avg, 18 11+, 2 12+
-
-Improvement over baseline (E3+E6E7):
-- 12+ hits: +45% (11 → 16)
-- 13+ hits: +200% (1 → 3)
+Performance (fair eval, no look-ahead): ~10.58/14 avg
 """
 
 import json
@@ -57,6 +57,44 @@ def latest(data):
 
 
 # =============================================================================
+# RECENCY-WEIGHTED FREQUENCY
+# =============================================================================
+
+def get_recency_freq(data, series_id):
+    """
+    Get recency-weighted frequency for tiebreaking.
+
+    Only uses data from series BEFORE the target (no look-ahead bias).
+    Weights: 3x for L10, 2x for L30, 1x for older series.
+
+    This improves real-world prediction by ~0.04 avg and +1 at 12+.
+    """
+    freq = Counter()
+    prior_series = series_id - 1
+
+    for sid_str, events in data.items():
+        sid = int(sid_str)
+        if sid >= series_id:  # Don't use current or future data
+            continue
+
+        age = prior_series - sid  # How old is this series
+
+        # Strong recency weighting
+        if age <= 10:
+            weight = 3.0
+        elif age <= 30:
+            weight = 2.0
+        else:
+            weight = 1.0
+
+        for event in events:
+            for n in event:
+                freq[n] += weight
+
+    return freq
+
+
+# =============================================================================
 # PREDICTION - 7-set strategy optimized for unique coverage
 # =============================================================================
 
@@ -65,13 +103,15 @@ def predict(data, series_id):
     Generate 7 prediction sets optimized for JACKPOT (12+ and 13+ hits).
 
     Sets:
-    1. S1: E4 direct - Best predictor (64 wins)
-    2. S2: E1 rank16 - Stable E1-based anchor (50 wins)
-    3. S3: E6 direct - High predictor (32 wins)
-    4. S4: E7 direct - Adds unique E7 coverage (18 wins)
-    5. S5: E3&E7 fusion - Strong fusion (20 wins)
-    6. S6: SymDiff E3⊕E7 - Diversity set (10 wins) - NEW
-    7. S7: Quint E2E3E4E6E7 - 5-event consensus (6 wins) - NEW
+    1. S1: E4 direct - Best predictor
+    2. S2: E1 rank16 - Stable E1-based anchor
+    3. S3: E6 direct - High predictor
+    4. S4: E7 direct - Adds unique E7 coverage
+    5. S5: E3&E7 fusion - Strong fusion
+    6. S6: SymDiff E3⊕E7 - Diversity set
+    7. S7: Quint E2E3E4E6E7 - 5-event consensus
+
+    Uses recency-weighted frequency (no look-ahead bias).
     """
     prior = str(series_id - 1)
     if prior not in data:
@@ -84,9 +124,9 @@ def predict(data, series_id):
     event6 = set(data[prior][5])
     event7 = set(data[prior][6])
 
-    # Global frequency for tiebreaking
-    freq = Counter(n for events in data.values() for e in events for n in e)
-    max_freq = max(freq.values())
+    # Recency-weighted frequency for tiebreaking (no look-ahead bias)
+    freq = get_recency_freq(data, series_id)
+    max_freq = max(freq.values()) if freq else 1
 
     # E1 ranked
     ranked = sorted(range(1, TOTAL + 1),

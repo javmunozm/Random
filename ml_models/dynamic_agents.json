@@ -58,8 +58,8 @@
   },
   "regression-analyst": {
     "name": "regression-analyst",
-    "focus": "Monitor for performance regressions; current baseline 10.61/14",
-    "description": "[DYNAMIC] Regression monitoring - alert if L30 drops below 10.5 (2026-01-28)",
+    "focus": "Monitor for performance regressions; current baseline 10.58/14 (fair eval)",
+    "description": "[DYNAMIC] Regression monitoring - alert if avg drops below 10.4 (2026-01-28)",
     "tools": [
       "Read",
       "Bash",
