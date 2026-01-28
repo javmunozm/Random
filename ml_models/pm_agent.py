@@ -5,30 +5,32 @@ PM Agent - Project Manager for Jackpot Pursuit (Analysis Only)
 
 PRIMARY GOAL: Hit 14/14 on a FUTURE series prediction.
 
-STATUS (2026-01-26): System at ceiling. S9 replaced with E1&E7 fusion (+0.10 per-set).
-All optimization approaches tested - current 12-set strategy is optimal.
+STATUS (2026-01-27): 7-set OPTIMIZED via Gemini deep analysis.
+S6=SymDiff_E3E7, S7=Quint_E2E3E4E6E7 - highest 12+ and 13+ rates.
 
-STRATEGY: 12-set core strategy with S9=E1&E7 fusion (updated 2026-01-26).
-- E1-based: S1 rank16, S2 rank15, S4 r15+r16
-- Direct events: S3 E4, S5 E6 (13/14!), S7 E3, S8 E7
-- Fusions: S6 E1&E6, S9 E1&E7 (NEW), S10 E7+hot, S11 E3&E7, S12 E6&E7
+STRATEGY: 7-set optimized for jackpot (updated 2026-01-27).
+- Direct events: S1 E4, S3 E6, S4 E7
+- E1-based: S2 rank16
+- Fusions: S5 E3&E7, S6 SymDiff_E3E7 (NEW), S7 Quint_E2E3E4E6E7 (NEW)
 
-METRICS: avg 10.76/14, 11+ 68% (135/200), 12+ 8% (16/200)
+METRICS: avg 10.61/14, 12+ 8% (16/200), 13+ 1.5% (3/200)
+
+WORKFLOW: Gemini-based optimization loop
+1. MONITOR: model-analysis-expert + edge-case-specialist gather data
+2. ANALYZE: gemini-strategy-coordinator -> Gemini CLI deep analysis
+3. VALIDATE: stats-math-evaluator + simulation-testing-expert test
+4. DEPLOY: Update production, repeat cycle
 
 CORE AGENTS (when to deploy):
-- lottery-math-analyst: Validate ceiling status, reject proposed "improvements"
+- gemini-strategy-coordinator: Orchestrate Gemini optimization workflow
+- stats-math-evaluator: Validate Gemini insights statistically
+- lottery-math-analyst: Interpret WHY strategies work
+- edge-case-specialist: Primary input for optimization (13+ logs)
+- model-analysis-expert: Performance tracking, trend detection
 - dataset-reviewer: Data validation when adding new series
-- simulation-testing-expert: Monte Carlo validation, stress testing
-- model-analysis-expert: Track L30 variance, alert on anomalies
-- stats-math-evaluator: Statistical validation of any claims
+- simulation-testing-expert: Monte Carlo validation, backtesting
 
-DYNAMIC AGENTS (monitoring only - optimization complete):
-- edge-case-specialist: Log 13/14 near-misses
-- event-correlation-analyst: Confirmed 55% uniform correlation
-- set-optimizer: Optimization complete, monitor only
-- regression-analyst: Alert if L30 drops below 10.5
-
-KEY INSIGHT: Replace worst performers, don't add sets (brute force).
+KEY INSIGHT: Gemini analysis found SymDiff + Quint achieves both highest 12+ AND 13+ rates.
 """
 
 import json
@@ -107,6 +109,7 @@ class PMAgent:
 
     # Core agents (built-in)
     CORE_AGENTS = {
+        "gemini-strategy-coordinator": "Orchestrate Gemini CLI for deep analysis and optimization",
         "lottery-math-analyst": "Pattern analysis, prediction algorithms, probability",
         "dataset-reviewer": "Data validation, integrity checks, anomaly detection",
         "simulation-testing-expert": "Monte Carlo simulations, statistical validation",
@@ -117,16 +120,14 @@ class PMAgent:
     }
 
     # Agent templates for dynamic creation
+    # NOTE: event-correlation-analyst and set-optimizer DEPRECATED (2026-01-27)
+    # - event-correlation-analyst: Completed - confirmed 55% uniform correlation
+    # - set-optimizer: Completed - Gemini analysis now handles optimization
     AGENT_TEMPLATES = {
         "number-pattern-hunter": {
             "focus": "Identify recurring number patterns and sequences",
             "tools": ["Grep", "Read", "Bash"],
             "triggers": ["12+ rate drops", "specific numbers consistently missing"],
-        },
-        "event-correlation-analyst": {
-            "focus": "Analyze correlations between different events (E1-E7)",
-            "tools": ["Read", "Bash", "Glob"],
-            "triggers": ["event fusion underperforming", "new event combinations needed"],
         },
         "hot-cold-tracker": {
             "focus": "Track hot/cold number streaks and momentum shifts",
@@ -137,11 +138,6 @@ class PMAgent:
             "focus": "Analyze edge cases and near-misses for breakthrough opportunities",
             "tools": ["Read", "Bash", "Grep"],
             "triggers": ["13/14 near-miss", "consistent 1-number gap"],
-        },
-        "set-optimizer": {
-            "focus": "Optimize existing sets and propose new set strategies",
-            "tools": ["Read", "Edit", "Bash"],
-            "triggers": ["set underperforming", "new strategy opportunity"],
         },
         "regression-analyst": {
             "focus": "Detect and analyze performance regressions",
@@ -227,15 +223,7 @@ class PMAgent:
                 "priority": 2,
             })
 
-        # Condition 4: Event fusion opportunity
-        if s.current_best < 14 and "event-correlation-analyst" not in self.dynamic_agents:
-            recommendations.append({
-                "template": "event-correlation-analyst",
-                "reason": "Event fusion strategies may unlock breakthrough",
-                "priority": 2,
-            })
-
-        # Condition 5: Hot streak changes need tracking
+        # Condition 4: Hot streak changes need tracking
         if s.hot_streak_set != s.best_performing_set:
             if "hot-cold-tracker" not in self.dynamic_agents:
                 recommendations.append({
@@ -244,13 +232,8 @@ class PMAgent:
                     "priority": 3,
                 })
 
-        # Condition 6: Set optimization opportunity
-        if s.average > 10.5 and "set-optimizer" not in self.dynamic_agents:
-            recommendations.append({
-                "template": "set-optimizer",
-                "reason": "Strong base performance - optimization could push to jackpot",
-                "priority": 3,
-            })
+        # NOTE: event-correlation-analyst and set-optimizer removed (2026-01-27)
+        # Gemini-based optimization via gemini-strategy-coordinator now handles these
 
         # Sort by priority and limit to available slots
         recommendations.sort(key=lambda x: x.get("priority", 99))
@@ -392,7 +375,7 @@ class PMAgent:
         # Track recent hot streak (last 10 series)
         recent_start = max(start, end - 10)
         recent = validate(self.data, recent_start, end)
-        recent_wins = recent["wins"] if recent else [0] * 12  # 12 sets
+        recent_wins = recent["wins"] if recent else [0] * 7  # 7 sets
         hot_streak_set = recent_wins.index(max(recent_wins)) + 1 if recent else None
 
         return JackpotStatus(

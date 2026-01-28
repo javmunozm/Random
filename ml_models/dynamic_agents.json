@@ -33,7 +33,7 @@
     ],
     "created_at": "2026-01-16T13:43:13.537409",
     "created_by": "pm-agent",
-    "status": "active",
+    "status": "inactive",
     "tasks_completed": 7,
     "last_used": "2026-01-26T12:00:00.000000"
   },
@@ -52,7 +52,7 @@
     ],
     "created_at": "2026-01-16T13:43:13.537709",
     "created_by": "pm-agent",
-    "status": "active",
+    "status": "inactive",
     "tasks_completed": 8,
     "last_used": "2026-01-26T12:00:00.000000"
   },
