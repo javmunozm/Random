@@ -1,8 +1,8 @@
 {
   "edge-case-specialist": {
     "name": "edge-case-specialist",
-    "focus": "Log 13/14 near-misses for pattern analysis; no optimization possible",
-    "description": "[DYNAMIC] Monitor edge cases - system at ceiling, S9 replaced with E1&E7 (2026-01-26)",
+    "focus": "Log 13/14 near-misses for Gemini analysis input",
+    "description": "[DYNAMIC] Primary input for Gemini optimization - log near-misses (2026-01-28)",
     "tools": [
       "Read",
       "Bash",
@@ -10,18 +10,18 @@
     ],
     "trigger_conditions": [
       "13/14 near-miss occurred",
-      "logging only - no improvements possible"
+      "input for gemini-strategy-coordinator"
     ],
     "created_at": "2026-01-16T13:43:13.536897",
     "created_by": "pm-agent",
     "status": "active",
     "tasks_completed": 7,
-    "last_used": "2026-01-26T12:00:00.000000"
+    "last_used": "2026-01-28T14:59:00.000000"
   },
   "event-correlation-analyst": {
     "name": "event-correlation-analyst",
     "focus": "Analysis complete: all events have ~55% uniform correlation",
-    "description": "[DYNAMIC] Event correlation confirmed uniform - S9 E1&E7 fusion is optimal (2026-01-26)",
+    "description": "[DYNAMIC] COMPLETED - Gemini now handles event analysis (2026-01-27)",
     "tools": [
       "Read",
       "Bash",
@@ -29,7 +29,7 @@
     ],
     "trigger_conditions": [
       "analysis complete",
-      "monitoring only - E1&E7 fusion validated"
+      "superseded by Gemini workflow"
     ],
     "created_at": "2026-01-16T13:43:13.537409",
     "created_by": "pm-agent",
@@ -39,8 +39,8 @@
   },
   "set-optimizer": {
     "name": "set-optimizer",
-    "focus": "Optimization complete: S9 replaced Anti-E1 with E1&E7 (+0.10 per-set)",
-    "description": "[DYNAMIC] Set optimization complete - 12-set core with S9=E1&E7 is optimal (2026-01-26)",
+    "focus": "Optimization complete: 7-set with SymDiff+Quint via Gemini",
+    "description": "[DYNAMIC] COMPLETED - Gemini now handles optimization (2026-01-27)",
     "tools": [
       "Read",
       "Edit",
@@ -48,18 +48,18 @@
     ],
     "trigger_conditions": [
       "optimization complete",
-      "S9 replacement validated +0.10 per-set accuracy"
+      "superseded by Gemini workflow"
     ],
     "created_at": "2026-01-16T13:43:13.537709",
     "created_by": "pm-agent",
     "status": "inactive",
     "tasks_completed": 8,
-    "last_used": "2026-01-26T12:00:00.000000"
+    "last_used": "2026-01-27T12:00:00.000000"
   },
   "regression-analyst": {
     "name": "regression-analyst",
-    "focus": "Monitor for performance regressions; current baseline 10.76/14",
-    "description": "[DYNAMIC] Regression monitoring - alert if L30 drops below 10.5 (2026-01-26)",
+    "focus": "Monitor for performance regressions; current baseline 10.61/14",
+    "description": "[DYNAMIC] Regression monitoring - alert if L30 drops below 10.5 (2026-01-28)",
     "tools": [
       "Read",
       "Bash",
@@ -73,6 +73,6 @@
     "created_by": "pm-agent",
     "status": "active",
     "tasks_completed": 2,
-    "last_used": "2026-01-26T12:00:00.000000"
+    "last_used": "2026-01-28T14:59:00.000000"
   }
 }
