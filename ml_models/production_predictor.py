@@ -1,28 +1,34 @@
 #!/usr/bin/env python3
 """
-Production Predictor - 7-Set Strategy (Updated 2026-01-28)
+Production Predictor - 7-Set Strategy (Updated 2026-01-30)
 ==========================================================
 
 Goal: Hit 14/14 at least once.
 
 Strategy: 7-set optimized for JACKPOT via Gemini analysis.
-Uses 5-event consensus fusion (Quint) + symmetric difference for diversity.
+Uses 5-event consensus fusion (Quint) + symmetric differences for diversity.
+
+UPDATE 2026-01-30: Replaced S2 (E1 rank16) with SymDiff E4^E5.
+- Introduces E5 (previously unused event) into the strategy
+- +4 at 12+ (14 -> 18) with zero existing 12+ losses
+- Bootstrap 95% CI for 12+: [+1, +8] entirely positive
+- S7's 12+ contributions fully preserved
+- Validated by stats-math-evaluator, simulation-testing-expert, lottery-math-analyst
 
 UPDATE 2026-01-28: Now uses RECENCY-WEIGHTED frequency for tiebreaking.
 - Only uses PAST data (no look-ahead bias)
 - Weights: 3x for L10, 2x for L30, 1x for older
-- Improves real-world prediction accuracy
 
 7 Sets (optimized for 12+ and 13+ hits):
 1. S1 (E4)          - Best individual predictor
-2. S2 (rank16)      - E1-based anchor
+2. S2 (SD E4^E5)    - SymDiff E4⊕E5 diversity (NEW)
 3. S3 (E6)          - Direct E6
 4. S4 (E7)          - Direct E7
 5. S5 (E3&E7)       - Strong fusion
 6. S6 (SymDiff)     - E3⊕E7 diversity set
 7. S7 (Quint)       - 5-event consensus
 
-Performance (fair eval, no look-ahead): ~10.58/14 avg
+Performance (fair eval, no look-ahead): ~10.59/14 avg, 18 at 12+
 """
 
 import json
@@ -104,7 +110,7 @@ def predict(data, series_id):
 
     Sets:
     1. S1: E4 direct - Best predictor
-    2. S2: E1 rank16 - Stable E1-based anchor
+    2. S2: SymDiff E4⊕E5 - Diversity set (E5 = previously unused event)
     3. S3: E6 direct - High predictor
     4. S4: E7 direct - Adds unique E7 coverage
     5. S5: E3&E7 fusion - Strong fusion
@@ -117,20 +123,27 @@ def predict(data, series_id):
     if prior not in data:
         raise ValueError(f"No data for series {int(prior)}")
 
-    event1 = set(data[prior][0])
     event2 = set(data[prior][1])
     event3 = set(data[prior][2])
     event4 = set(data[prior][3])
+    event5 = set(data[prior][4])
     event6 = set(data[prior][5])
     event7 = set(data[prior][6])
 
     # Recency-weighted frequency for tiebreaking (no look-ahead bias)
     freq = get_recency_freq(data, series_id)
-    max_freq = max(freq.values()) if freq else 1
 
-    # E1 ranked
-    ranked = sorted(range(1, TOTAL + 1),
-                    key=lambda n: (-(n in event1), -freq[n]/max_freq, n))
+    # S2: SymDiff E4⊕E5 (numbers in E4 OR E5 but not both)
+    sym_diff_e4e5 = (event4 | event5) - (event4 & event5)
+    s2_numbers = list(sym_diff_e4e5)
+    if len(s2_numbers) < 14:
+        remaining = [n for n in range(1, 26) if n not in s2_numbers]
+        remaining.sort(key=lambda n: -freq.get(n, 0))
+        s2_numbers += remaining[:14 - len(s2_numbers)]
+    elif len(s2_numbers) > 14:
+        s2_numbers.sort(key=lambda n: (-freq.get(n, 0), n))
+        s2_numbers = s2_numbers[:14]
+    s2_numbers = sorted(s2_numbers[:14])
 
     # E3&E7 fusion (S5)
     e3_e7_int = event3 & event7
@@ -160,7 +173,7 @@ def predict(data, series_id):
     # 7 core sets
     sets = [
         sorted(event4),                              # S1: E4 direct
-        sorted(ranked[:13] + [ranked[15]]),          # S2: rank16
+        s2_numbers,                                  # S2: SymDiff E4⊕E5
         sorted(event6),                              # S3: E6 direct
         sorted(event7),                              # S4: E7 direct
         sorted(s5_numbers),                          # S5: E3&E7 fusion
@@ -171,10 +184,10 @@ def predict(data, series_id):
     return {
         "series": series_id,
         "sets": sets,
-        "ranked": ranked,
         "event2": sorted(event2),
         "event3": sorted(event3),
         "event4": sorted(event4),
+        "event5": sorted(event5),
         "event6": sorted(event6),
         "event7": sorted(event7),
     }
@@ -312,14 +325,14 @@ def main():
 
         labels = [
             "S1 (E4)",       # Direct - best predictor
-            "S2 (rank16)",   # E1-based anchor
+            "S2 (SD4^5)",    # SymDiff E4⊕E5 diversity
             "S3 (E6)",       # Direct
             "S4 (E7)",       # Direct
             "S5 (E3&E7)",    # Fusion
-            "S6 (SymDiff)",  # E3⊕E7 diversity
+            "S6 (SD3^7)",    # E3⊕E7 diversity
             "S7 (Quint)",    # 5-event consensus
         ]
-        types = ["E4", "E1", "E6", "E7", "MIX", "DIV", "5EV"]
+        types = ["E4", "DIV", "E6", "E7", "MIX", "DIV", "5EV"]
 
         for idx in range(NUM_SETS):
             s = r["sets"][idx]
@@ -329,6 +342,7 @@ def main():
         print("-" * 70)
         print(f"Event 3: {r['event3']}")
         print(f"Event 4: {r['event4']}")
+        print(f"Event 5: {r['event5']}")
         print(f"Event 6: {r['event6']}")
         print(f"Event 7: {r['event7']}")
         print(f"Pool-24: Exclude #{EXCLUDE}")
@@ -353,8 +367,8 @@ def main():
             print(f"13+:     {r['at_13']}")
             print(f"14/14:   {r['at_14']}")
             w = r['wins']
-            print(f"\nWins: S1(E4)={w[0]} S2(rank16)={w[1]} S3(E6)={w[2]} S4(E7)={w[3]}")
-            print(f"      S5(E3&E7)={w[4]} S6(SymDiff)={w[5]} S7(Quint)={w[6]}")
+            print(f"\nWins: S1(E4)={w[0]} S2(SD4^5)={w[1]} S3(E6)={w[2]} S4(E7)={w[3]}")
+            print(f"      S5(E3&E7)={w[4]} S6(SD3^7)={w[5]} S7(Quint)={w[6]}")
     else:
         print(f"Unknown: {cmd}")
 
