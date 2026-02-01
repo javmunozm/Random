@@ -28,7 +28,7 @@ UPDATE 2026-01-28: Now uses RECENCY-WEIGHTED frequency for tiebreaking.
 6. S6 (SymDiff)     - E3⊕E7 diversity set
 7. S7 (Quint)       - 5-event consensus
 
-Performance (fair eval, no look-ahead): ~10.59/14 avg, 18 at 12+
+Performance (fair eval, no look-ahead): ~10.58/14 avg, 18 at 12+ (202 series)
 """
 
 import json
